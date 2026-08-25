@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+:root {
+  /* Deep navy — primary brand color, header/footer/buttons */
+  --color-navy-950: #0b1b2b;
+  --color-navy-900: #102a43;
+  --color-navy-800: #16395c;
+  --color-navy-700: #1d4e75;
+
+  /* Forest green — secondary accent, links, active states */
+  --color-forest-900: #123524;
+  --color-forest-700: #1e5c3a;
+  --color-forest-600: #257048;
+  --color-forest-500: #2e8557;
+
+  /* Warm gold — sparing accent (badges, highlights) */
+  --color-gold-600: #b9812f;
+  --color-gold-500: #cc9a42;
+
+  --background: #ffffff;
+  --foreground: #16211b;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-navy-950: var(--color-navy-950);
+  --color-navy-900: var(--color-navy-900);
+  --color-navy-800: var(--color-navy-800);
+  --color-navy-700: var(--color-navy-700);
+
+  --color-forest-900: var(--color-forest-900);
+  --color-forest-700: var(--color-forest-700);
+  --color-forest-600: var(--color-forest-600);
+  --color-forest-500: var(--color-forest-500);
+
+  --color-gold-600: var(--color-gold-600);
+  --color-gold-500: var(--color-gold-500);
+
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
