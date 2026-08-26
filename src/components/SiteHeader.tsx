@@ -28,7 +28,7 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4">
         <Link href="/" className="flex items-center gap-3" onClick={() => setMenuOpen(false)}>
           <Image
             src="/brand/town-seal.png"
@@ -39,12 +39,14 @@ export function SiteHeader() {
             priority
           />
           <span className="leading-tight">
-            <span className="block font-display text-lg text-blue-900 sm:text-xl">{townInfo.name}</span>
-            <span className="block body-xs text-slate-500">{townInfo.tagline}</span>
+            <span className="block font-display text-lg whitespace-nowrap text-blue-900">
+              {townInfo.name}
+            </span>
+            <span className="hidden body-xs text-slate-500 sm:block">{townInfo.tagline}</span>
           </span>
         </Link>
 
-        <nav className="hidden lg:block" aria-label="Primary">
+        <nav className="hidden xl:block" aria-label="Primary">
           <ul className="flex items-center gap-1">
             {primaryNav.map((item) => {
               const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
@@ -54,7 +56,7 @@ export function SiteHeader() {
                     href={item.href}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "block rounded-2xl px-3 py-2 body-sm font-medium transition-colors",
+                      "block rounded-2xl px-2.5 py-2 body-sm font-medium whitespace-nowrap transition-colors",
                       active ? "bg-blue-900 text-cream-50" : "text-blue-900 hover:bg-blue-900/5",
                     )}
                   >
@@ -68,7 +70,7 @@ export function SiteHeader() {
 
         <button
           type="button"
-          className="inline-flex items-center justify-center rounded-2xl border border-blue-900/20 p-2 text-blue-900 lg:hidden"
+          className="inline-flex items-center justify-center rounded-2xl border border-blue-900/20 p-2 text-blue-900 xl:hidden"
           aria-expanded={menuOpen}
           aria-controls="mobile-nav"
           onClick={() => setMenuOpen((open) => !open)}
@@ -79,7 +81,7 @@ export function SiteHeader() {
       </div>
 
       {menuOpen && (
-        <nav id="mobile-nav" aria-label="Primary" className="border-t border-blue-900/10 lg:hidden">
+        <nav id="mobile-nav" aria-label="Primary" className="border-t border-blue-900/10 xl:hidden">
           <ul className="mx-auto max-w-6xl px-6 py-2">
             {primaryNav.map((item) => {
               const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);

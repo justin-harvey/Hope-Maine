@@ -8,14 +8,17 @@ export const primaryNav: NavItem[] = [
   { label: "Town Government", href: "/government" },
   { label: "Departments & Services", href: "/departments" },
   { label: "Meetings & Agendas", href: "/meetings" },
-  { label: "News & Events", href: "/news" },
+  { label: "News", href: "/news" },
   { label: "Documents & Forms", href: "/documents" },
+  { label: "How Do I...?", href: "/how-do-i" },
+  { label: "About Hope", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
 
-// Address/phone/email below are from public search listings for the Town of
-// Hope, not a screenshot of hopemaine.org itself — worth a quick confirm
-// against the real site. Office hours are still unverified PLACEHOLDER.
+// Address, phone, and fax are real (hopemaine.org content export,
+// 2026-08-26). Office hours below come from the General Assistance FAQ,
+// which states the Town Office's "regular business hours" — worth
+// confirming they apply to all services, not just General Assistance.
 export const townInfo = {
   name: "Town of Hope, Maine",
   shortName: "Hope, Maine",
@@ -24,10 +27,11 @@ export const townInfo = {
   addressLine2: "441 Camden Rd",
   cityStateZip: "Hope, ME 04847",
   phone: "(207) 763-4199",
-  fax: "PLACEHOLDER — not yet confirmed",
+  fax: "(207) 763-4195",
   email: "admin@hopemaine.org",
   officeHours: [
-    { days: "Monday – Thursday", hours: "PLACEHOLDER — 8:00 AM – 4:00 PM" },
-    { days: "Friday", hours: "PLACEHOLDER — By appointment" },
+    { days: "Tuesday, Wednesday & Friday", hours: "8:30 AM – 4:30 PM" },
+    { days: "Thursday", hours: "12:00 PM – 6:00 PM" },
+    { days: "Monday", hours: "Closed" },
   ],
 };

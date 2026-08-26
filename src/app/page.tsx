@@ -7,15 +7,17 @@ import { SurfaceCard } from "@/components/ui/surface-card";
 import { OnlineServicesGrid } from "@/components/OnlineServicesGrid";
 import { Section } from "@/components/Section";
 import { townInfo } from "@/lib/nav";
+import { hopeIntro } from "@/data/about";
 import { upcomingMeetings } from "@/data/meetings";
-import { newsPosts, upcomingEvents } from "@/data/news";
+import { newsPosts } from "@/data/news";
 
+// Mirrors the quick links on the current hopemaine.org home page.
 const quickLinks = [
-  { label: "Pay Property Taxes", href: "/departments" },
-  { label: "Meeting Agendas", href: "/meetings" },
-  { label: "Permits & Forms", href: "/documents" },
+  { label: "How Do I...?", href: "/how-do-i" },
+  { label: "Public Hearing & Town Meeting", href: "/news" },
   { label: "Town Reports", href: "/documents" },
-  { label: "Boards & Committees", href: "/government" },
+  { label: "Meetings & Agendas", href: "/meetings" },
+  { label: "Permits & Forms", href: "/documents" },
   { label: "Contact the Town Office", href: "/contact" },
 ];
 
@@ -39,16 +41,13 @@ export default function HomePage() {
             <h1 className="mt-3 font-display text-4xl text-cream-50 sm:text-5xl">
               Welcome to the Town of Hope
             </h1>
-            <p className="mt-5 max-w-xl body-lg text-cream-50/80">
-              Find town services, meeting schedules, news, and resources for residents
-              and visitors of Hope, Maine.
-            </p>
+            <p className="mt-5 max-w-xl body-lg text-cream-50/80">{hopeIntro}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <LinkButton href="/departments" tone="gold">
                 Town Services
               </LinkButton>
-              <LinkButton href="/meetings" variant="outline" tone="slate">
-                Meetings &amp; Agendas
+              <LinkButton href="/about" variant="outline" tone="slate">
+                Learn More About Hope
               </LinkButton>
             </div>
           </div>
@@ -99,7 +98,7 @@ export default function HomePage() {
 
       <Section title="Latest News" description="Announcements from the Town of Hope.">
         <div className="grid gap-6 md:grid-cols-3">
-          {newsPosts.map((post) => (
+          {newsPosts.slice(0, 3).map((post) => (
             <SurfaceCard key={post.title} density="standard">
               <p className="captions text-blue-700">{post.date}</p>
               <h3 className="mt-2 font-display text-lg text-blue-900">{post.title}</h3>
@@ -112,7 +111,7 @@ export default function HomePage() {
         </div>
         <div className="mt-6">
           <LinkButton href="/news" variant="outline">
-            View All News &amp; Events
+            View All News
           </LinkButton>
         </div>
       </Section>
@@ -149,17 +148,6 @@ export default function HomePage() {
         </Section>
       </div>
 
-      <Section title="Community Events">
-        <ul className="grid gap-4 sm:grid-cols-3">
-          {upcomingEvents.map((event) => (
-            <li key={event.title} className="rounded-2xl border border-blue-900/10 bg-cream-50 p-5">
-              <p className="captions text-gold-600">{event.date}</p>
-              <p className="mt-1 font-display text-base text-blue-900">{event.title}</p>
-              <p className="mt-1 body-sm text-slate-500">{event.location}</p>
-            </li>
-          ))}
-        </ul>
-      </Section>
     </>
   );
 }

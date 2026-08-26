@@ -1,9 +1,7 @@
-// Town Office staff below are real — sourced from the current hopemaine.org
-// staff directory (screenshot provided 2026-08-26). A full site crawl
-// (provided 2026-08-26) confirmed the real committee list — Select Board,
-// Planning Board, School Committee, Cemetery Committee, Budget Committee,
-// and Board of Appeals — but only captured page titles/headings, not the
-// actual member rosters, so names below are still PLACEHOLDER.
+// Town Office staff are real — from the hopemaine.org staff directory
+// screenshot plus the "How Do I" page content export (both 2026-08-26).
+// The committee list is real (confirmed by a full site crawl), but member
+// rosters live on pages not yet exported, so those stay PLACEHOLDER.
 
 export const selectBoard = [
   { name: "PLACEHOLDER — Board Chair Name", role: "Chair", termEnds: "2027" },
@@ -19,7 +17,7 @@ export const townOfficials = [
     email: "clerk@hopemaine.org",
   },
   {
-    name: "PLACEHOLDER — name not visible in submitted screenshot",
+    name: "Sarah Chapman",
     role: "Deputy Town Clerk",
     otherRoles: ["Deputy Tax Collector", "Deputy Treasurer", "Deputy Registrar of Voters"],
     email: "deputyclerk@hopemaine.org",
@@ -33,7 +31,7 @@ export const townOfficials = [
       "General Assistance Administrator",
       "Deputy Code Enforcement Officer",
     ],
-    email: "PLACEHOLDER — admin@hopemaine.org",
+    email: "admin@hopemaine.org",
   },
   {
     name: "Shani Dennison",
