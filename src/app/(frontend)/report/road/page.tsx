@@ -52,31 +52,6 @@ export default function ReportRoadPage() {
         <RoadReportForm />
       </div>
 
-      {/*
-        Netlify discovers forms by parsing the deployed HTML at build time.
-        The interactive form above is React state, so it is invisible to that
-        parser — this static copy declares the field names. It is hidden from
-        users and from assistive tech; the real submission is a urlencoded
-        POST from the component.
-      */}
-      <form
-        name="road-report"
-        data-netlify="true"
-        netlify-honeypot="bot-field"
-        hidden
-        aria-hidden="true"
-      >
-        <input type="hidden" name="form-name" value="road-report" />
-        <input type="text" name="bot-field" />
-        <input type="text" name="location" />
-        <input type="text" name="landmark" />
-        <input type="text" name="problem" />
-        <input type="text" name="severity" />
-        <textarea name="description" />
-        <input type="text" name="name" />
-        <input type="email" name="email" />
-        <input type="tel" name="phone" />
-      </form>
     </div>
   );
 }

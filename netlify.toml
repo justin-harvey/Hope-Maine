@@ -1,0 +1,19 @@
+# Deploy configuration, in the repo rather than only in the Netlify UI.
+#
+# The build that had been failing reported "No config file was defined" and
+# ran a build command set in the dashboard. That command was `next build`,
+# which had drifted out of step with package.json — it skipped the import map
+# generation the admin panel needs. Settings here take precedence over the
+# dashboard, so the two cannot diverge again.
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  # Payload 3 and Next 16 both want a current Node. Pinning it keeps the
+  # deploy on the same major version as local development.
+  NODE_VERSION = "22"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

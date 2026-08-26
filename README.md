@@ -107,10 +107,8 @@ The primitives live in `src/components/forms/` and are reusable for the
 other paper forms the town still hands out (complaints, committee
 service, General Assistance).
 
-**Submission depends on Netlify Forms.** The page carries a hidden static
-form so Netlify's build-time parser can discover the fields; the React
-component POSTs urlencoded data to `/`. Two things are required for this
-to actually deliver:
+**Submission depends on Netlify Forms.** Two things are required for it to
+actually deliver:
 
 1. Enable **Forms** for the site in the Netlify dashboard.
 2. Add a notification address under **Forms → Form notifications**, or
@@ -119,6 +117,50 @@ to actually deliver:
 Until Forms is enabled the POST fails and the form says so plainly rather
 than showing a false confirmation. The free tier allows 100 submissions a
 month, which is ample for a town of 1,698.
+
+**The field declarations live in `public/__forms.html`, and must stay
+there.** Netlify discovers forms by parsing deployed HTML at build time, and
+the real form is React state, so it is invisible to that parser — the static
+file declares the field names on its behalf.
+
+The obvious place for that declaration is a hidden `<form data-netlify>`
+inside the page, and that is where it used to be. It does not merely stop
+working under `@netlify/plugin-nextjs` v5: it **fails the deploy**, at
+`Failed assembling prerendered content for upload`. Every deploy broke that
+way for a day before anyone connected the failing builds to the form. Posting
+to `/` is the same story — v5 serves `/` from the Next runtime rather than as
+a form endpoint, so the component posts to `/__forms.html`.
+
+Keep the inputs in that file in step with the fields in
+`road-report-form.tsx`. A field missing there is silently dropped from the
+submission Netlify records.
+
+*Once Supabase is connected, this is worth replacing with a Payload
+collection: submissions would land in the same `/admin` staff already use,
+with no 100-a-month cap and no Netlify-specific coupling.*
+
+### Deploying
+
+`netlify.toml` holds the build configuration. It is in the repo rather than
+only in the Netlify dashboard because the dashboard's build command had
+drifted to a bare `next build`, which skips the import map generation the
+admin panel needs — and a build configured in two places will eventually
+disagree. Settings in the file take precedence.
+
+Set these in **Site configuration → Environment variables**:
+
+| Variable | Needed for |
+| --- | --- |
+| `PAYLOAD_SECRET` | Signing admin login cookies. Required. |
+| `DATABASE_URI` | The Supabase Postgres connection string. |
+| `NEXT_PUBLIC_SITE_URL` | The site's real URL. |
+| `S3_*` (five) | File uploads — see *File storage*. |
+
+The public site builds and serves correctly with none of them: the loaders
+fall back to the static content in `src/data/` when the database is
+unreachable, which is what makes a missing or misconfigured `DATABASE_URI` a
+degraded deploy rather than a failed one. The admin panel is the part that
+needs them.
 
 ### Accessibility audit
 

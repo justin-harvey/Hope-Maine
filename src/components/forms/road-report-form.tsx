@@ -169,13 +169,14 @@ export function RoadReportForm() {
     setSubmitting(true);
     setSubmitFailed(false);
 
-    // Netlify Forms accepts a urlencoded POST to any path on the site, keyed
-    // by form-name. The matching static form in the page lets Netlify's
-    // build step discover the fields.
+    // Keyed by form-name, and posted to the static file that declares the
+    // fields — see public/__forms.html. Posting to "/" is the older Netlify
+    // pattern and no longer works under @netlify/plugin-nextjs v5, which
+    // serves "/" from the Next runtime rather than as a form endpoint.
     const body = new URLSearchParams({ "form-name": NETLIFY_FORM_NAME, ...data });
 
     try {
-      const res = await fetch("/", {
+      const res = await fetch("/__forms.html", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: body.toString(),

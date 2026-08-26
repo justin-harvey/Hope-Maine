@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Form definitions</title>
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    <!--
+      Netlify Forms field definitions. Not a page anyone visits.
+
+      Netlify discovers forms by parsing deployed HTML at build time, and the
+      real form is React state, so it is invisible to that parser. This file
+      declares the field names on its behalf.
+
+      It has to live here, as a plain static file, rather than as a hidden
+      form inside the React page. @netlify/plugin-nextjs v5 dropped support
+      for form detection inside prerendered Next output — a `data-netlify`
+      form in a rendered page does not merely get ignored, it fails the
+      deploy outright at "assembling prerendered content for upload". That is
+      what had every deploy failing.
+
+      Keep these inputs in step with the fields in
+      src/components/forms/road-report-form.tsx. A field missing here is
+      silently dropped from the submission Netlify records.
+    -->
+    <form name="road-report" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="road-report" />
+      <input type="text" name="bot-field" />
+      <input type="text" name="location" />
+      <input type="text" name="landmark" />
+      <input type="text" name="problem" />
+      <input type="text" name="severity" />
+      <textarea name="description"></textarea>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="tel" name="phone" />
+    </form>
+  </body>
+</html>
