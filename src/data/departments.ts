@@ -1,6 +1,8 @@
 // Department/service list is real — sourced from the current hopemaine.org
 // "Town Services" page (screenshot provided 2026-08-26). Contact details and
-// hours weren't shown on that page and are still PLACEHOLDER.
+// hours weren't shown on that page and are still PLACEHOLDER. The `website`
+// links below are real, confirmed via a full site crawl (provided
+// 2026-08-26) that captured the outbound links those department pages use.
 
 export type Department = {
   name: string;
@@ -10,6 +12,8 @@ export type Department = {
   hours: string;
   /** Present when the department has a dedicated page at /departments/[slug]. */
   slug?: string;
+  /** An external resource the department page links out to. */
+  website?: { label: string; href: string };
 };
 
 export const departments: Department[] = [
@@ -34,6 +38,7 @@ export const departments: Department[] = [
     phone: "PLACEHOLDER",
     email: "PLACEHOLDER",
     hours: "PLACEHOLDER",
+    website: { label: "PAWS Animal Adoption Center", href: "https://www.pawsadoption.org/" },
   },
   {
     name: "Fire Department",
@@ -64,6 +69,7 @@ export const departments: Department[] = [
     phone: "PLACEHOLDER",
     email: "PLACEHOLDER",
     hours: "PLACEHOLDER",
+    website: { label: "Midcoast Solid Waste Corp.", href: "http://www.midcoastsolidwaste.org/" },
   },
   {
     name: "General Assistance",
@@ -85,5 +91,6 @@ export const departments: Department[] = [
     phone: "PLACEHOLDER",
     email: "PLACEHOLDER",
     hours: "PLACEHOLDER",
+    website: { label: "Knox County Sheriff's Office", href: "http://www.knoxso.com/" },
   },
 ];

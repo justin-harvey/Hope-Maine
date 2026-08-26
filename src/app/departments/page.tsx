@@ -3,10 +3,10 @@ import Link from "next/link";
 
 import { Icon } from "@/components/ui/icon";
 import { SurfaceCard } from "@/components/ui/surface-card";
+import { OnlineServicesGrid } from "@/components/OnlineServicesGrid";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { departments } from "@/data/departments";
-import { onlineServices } from "@/data/online-services";
 
 export const metadata: Metadata = {
   title: "Departments & Services",
@@ -42,33 +42,37 @@ export default function DepartmentsPage() {
                   <dd>{dept.hours}</dd>
                 </div>
               </dl>
-              {dept.slug && (
-                <Link
-                  href={`/departments/${dept.slug}`}
-                  className="mt-4 inline-flex items-center gap-1 body-sm font-semibold text-blue-700 hover:text-blue-900"
-                >
-                  Learn more <Icon name="chevron-right" size="xs" />
-                </Link>
-              )}
+              <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
+                {dept.slug && (
+                  <Link
+                    href={`/departments/${dept.slug}`}
+                    className="inline-flex items-center gap-1 body-sm font-semibold text-blue-700 hover:text-blue-900"
+                  >
+                    Learn more <Icon name="chevron-right" size="xs" />
+                  </Link>
+                )}
+                {dept.website && (
+                  <a
+                    href={dept.website.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 body-sm font-semibold text-blue-700 hover:text-blue-900"
+                  >
+                    {dept.website.label} <Icon name="external-link" size="xs" />
+                  </a>
+                )}
+              </div>
             </SurfaceCard>
           ))}
         </div>
       </Section>
 
       <div className="bg-cream-200">
-        <Section title="Online Services" description="Common tasks residents can complete online.">
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {onlineServices.map((service) => (
-              <a
-                key={service.label}
-                href={service.href}
-                className="flex items-center gap-2 rounded-2xl border border-blue-900/10 bg-cream-50 px-4 py-3 body-sm font-medium text-blue-900 shadow-sm transition-colors hover:border-blue-700 hover:text-blue-700"
-              >
-                <Icon name="chevron-right" size="xs" className="shrink-0 text-blue-700" />
-                {service.label}
-              </a>
-            ))}
-          </div>
+        <Section
+          title="Online Services"
+          description="Common tasks residents can complete online — most link directly to the relevant State of Maine system."
+        >
+          <OnlineServicesGrid />
         </Section>
       </div>
     </>

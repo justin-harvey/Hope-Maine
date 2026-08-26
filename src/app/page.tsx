@@ -4,11 +4,11 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Icon } from "@/components/ui/icon";
 import { LinkButton } from "@/components/ui/link-button";
 import { SurfaceCard } from "@/components/ui/surface-card";
+import { OnlineServicesGrid } from "@/components/OnlineServicesGrid";
 import { Section } from "@/components/Section";
 import { townInfo } from "@/lib/nav";
 import { upcomingMeetings } from "@/data/meetings";
 import { newsPosts, upcomingEvents } from "@/data/news";
-import { onlineServices } from "@/data/online-services";
 
 const quickLinks = [
   { label: "Pay Property Taxes", href: "/departments" },
@@ -93,18 +93,7 @@ export default function HomePage() {
 
       <div className="bg-cream-200">
         <Section title="Online Services" description="Common tasks residents can complete online.">
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {onlineServices.map((service) => (
-              <a
-                key={service.label}
-                href={service.href}
-                className="flex items-center gap-2 rounded-2xl border border-blue-900/10 bg-cream-50 px-4 py-3 body-sm font-medium text-blue-900 shadow-sm transition-colors hover:border-blue-700 hover:text-blue-700"
-              >
-                <Icon name="chevron-right" size="xs" className="shrink-0 text-blue-700" />
-                {service.label}
-              </a>
-            ))}
-          </div>
+          <OnlineServicesGrid />
         </Section>
       </div>
 
