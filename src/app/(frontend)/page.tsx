@@ -10,20 +10,25 @@ import { townInfo } from "@/lib/nav";
 import { faqHref } from "@/lib/utils";
 
 // Task-first routing: the page opens with what residents actually come
-// here to do, not with a welcome message. Hrefs are generated from the
-// actual FAQ question text via faqHref, so a link never points at a
-// question that got reworded out from under it, and the answer arrives
-// already open — no JavaScript required.
+// here to do, not with a welcome message.
+//
+// Every link lands on a page that answers exactly that question. This used
+// to point into a single long accordion with the right row opened by a
+// query parameter, which technically worked and still left people scrolled
+// deep into a stack of closed rows, hunting for the one that had opened.
+//
+// Hrefs come from faqHref rather than being written out, so a link can
+// never point at a slug that drifted from its question's wording.
 const popularTasks: Task[] = [
   {
     label: "Pay your property taxes",
     href: faqHref("How do I pay my property taxes?"),
-    detail: "Due dates, payment methods, and online payment",
+    detail: "Due dates, what the Town Office accepts, and paying online",
   },
   {
     label: "Register a vehicle",
     href: faqHref("How do I register a car?"),
-    detail: "What to bring for new registrations and renewals",
+    detail: "What to bring, and what it costs",
   },
   {
     label: "Get a building or plumbing permit",
@@ -38,7 +43,7 @@ const popularTasks: Task[] = [
   {
     label: "License your dog",
     href: faqHref("How do I license my dog?"),
-    detail: "Fees, rabies certificate, and the renewal deadline",
+    detail: "Fees, the rabies certificate, and the 31 December deadline",
   },
   {
     label: "Apply for General Assistance",
@@ -63,9 +68,19 @@ export default async function HomePage() {
         title="What do you need to do?"
         headingId="popular-tasks"
         level={1}
-        description="The services residents ask about most often."
+        description="The services residents ask about most often. Each one opens a page with the whole answer on it."
       >
         <TaskList tasks={popularTasks} />
+        {/* Six tasks is not the whole town. Without this, anyone whose
+            errand is not listed has nowhere obvious to go next. */}
+        <p className="mt-5">
+          <Link
+            href="/how-do-i"
+            className="inline-flex min-h-[var(--tap-min)] items-center body font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+          >
+            Every question the Town Office is asked
+          </Link>
+        </p>
       </Section>
 
       <div className="band">

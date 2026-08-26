@@ -37,23 +37,31 @@ accessibility, and institutional trust.
 Icons are a small inline-SVG set in `src/components/ui/icon.tsx` — add a
 path there rather than pulling in an icon font.
 
-### Linking to a single FAQ answer
+### One answer, one page
 
-Use `faqHref(question)` from `src/lib/utils.ts`. It emits
-`/how-do-i?q=<slug>#<slug>` — the slug appears twice on purpose:
+Every "How Do I…?" answer has its own route, `/how-do-i/<slug>`, generated
+from `src/data/faqs.ts` by `generateStaticParams`. `/how-do-i` is a plain
+index of links to them.
 
-- **`?q=`** is read on the server, which renders that `<details>` already
-  open. This is what makes the link work with **JavaScript blocked** —
-  Brave and similar browsers block scripts by default, and an earlier
-  JS-only implementation left the page scrolled to a question that was
-  still shut.
-- **`#`** is the anchor the browser scrolls to, also without script.
+Link to one with `faqHref(question)` from `src/lib/utils.ts` rather than
+writing the path by hand, so a link can never point at a slug that drifted
+from its question's wording.
 
-Because it reads `searchParams`, `/how-do-i` renders per request rather
-than statically. That is the deliberate cost of the no-JS guarantee.
+**This shape was arrived at the hard way, and it is worth not undoing.**
+The answers originally lived in a single accordion that task links pointed
+into, with the right row opened on arrival — first by JavaScript reading
+the hash, then, when that failed with scripts blocked, by a `?q=` parameter
+read on the server. The second version worked. It was still the wrong
+shape: arriving meant landing eighteen hundred pixels down a page of
+twenty-five collapsed rows and working out which one had opened.
 
-Generate hrefs with `faqHref` rather than writing them by hand, so a link
-can never point at a slug that drifted from its question's wording.
+A page with one answer on it has no open state to get wrong, nothing to
+scroll past, a heading that states the question, and a URL worth sharing.
+It also made `/how-do-i` static again, since there is no longer a parameter
+to read — the no-JS guarantee now costs nothing per request.
+
+If a future change puts these answers back behind a disclosure control, it
+will reintroduce a class of bug that took three attempts to leave behind.
 
 ### The online services carousel
 

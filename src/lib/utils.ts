@@ -12,26 +12,27 @@ export function slugify(value: string) {
     .replace(/(^-|-$)/g, "");
 }
 
-// A short, readable anchor for an FAQ question — "How do I pay my property
+// A short, readable slug for a question — "How do I pay my property
 // taxes?" becomes "pay-my-property-taxes" rather than repeating "how-do-i"
-// in every link that points at one.
+// in every URL that points at one.
 export function faqSlug(question: string) {
   return slugify(question.replace(/^how do i\s*/i, "").replace(/\?$/, ""));
 }
 
 /**
- * Link to a single FAQ answer, opened.
+ * Link to a single answer.
  *
- * Carries the slug twice on purpose, and neither copy is redundant:
- *   ?q=  is read on the server, which renders that <details> already open —
- *        so the answer is open in the delivered HTML, with no JavaScript.
- *   #    is the anchor the browser itself scrolls to, also without script.
+ * Each answer has its own page. The earlier design sent every task link to
+ * one long accordion and relied on the right row being open when you
+ * arrived — first through JavaScript, then through a `?q=` parameter read on
+ * the server. Both *worked*, and both were still the wrong shape: you landed
+ * eighteen hundred pixels down a page of twenty-five collapsed rows, and one
+ * open row among them is easy to miss. A page with one answer on it has no
+ * open state to get wrong, nothing to scroll past, and a URL worth sharing.
  *
- * Doing this in JavaScript alone was the earlier bug: with scripts blocked
- * (Brave and similar block by default) the page scrolled to the question
- * and left it shut.
+ * Generate hrefs with this rather than writing them by hand, so a link can
+ * never point at a slug that drifted from its question's wording.
  */
 export function faqHref(question: string) {
-  const slug = faqSlug(question);
-  return `/how-do-i?q=${slug}#${slug}`;
+  return `/how-do-i/${faqSlug(question)}`;
 }

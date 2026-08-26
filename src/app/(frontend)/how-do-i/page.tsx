@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
-import { FaqAccordion } from "@/components/FaqAccordion";
+import { Icon } from "@/components/ui/icon";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
-import { faqs, faqCategories } from "@/data/faqs";
+import { categoryAnchors, faqsByCategory } from "@/lib/faqs";
 
 export const metadata: Metadata = {
   title: "How Do I...?",
@@ -11,21 +12,20 @@ export const metadata: Metadata = {
     "Answers to common questions for Town of Hope, Maine residents — vehicle registration, licenses, vital records, permits, property taxes, voting, and town services.",
 };
 
-// Stable anchors so other pages can link straight to a topic.
-const categoryAnchors: Record<string, string> = {
-  "Vehicles & Registration": "vehicles",
-  "Licenses & Vital Records": "licenses",
-  "Property & Permits": "property-taxes",
-  "Town Government": "town-government",
-  "Community Services": "community-services",
-};
-
-// Reading ?q= makes this page render per-request, which is the price of
-// having the linked answer arrive already open without relying on script.
-// For a town of 1,698 that trade is not close.
-export default async function HowDoIPage(props: PageProps<"/how-do-i">) {
-  const { q } = await props.searchParams;
-  const openSlug = typeof q === "string" ? q : undefined;
+/**
+ * An index, not an accordion.
+ *
+ * This page used to hold all twenty-five answers in collapsed rows, with
+ * the right one opened by a `?q=` parameter when arriving from a task link.
+ * It was static, then dynamic, then correct — and still left people looking
+ * at a stack of closed rows trying to work out which had opened.
+ *
+ * Now every question is a link to its own page, so it is a directory:
+ * scannable in full, nothing hidden behind a control, and no state to be
+ * wrong about. It is also static again, since there is no parameter to read.
+ */
+export default function HowDoIPage() {
+  const groups = faqsByCategory();
 
   return (
     <>
@@ -41,13 +41,13 @@ export default async function HowDoIPage(props: PageProps<"/how-do-i">) {
             Jump to a topic
           </h2>
           <ul className="mt-3 grid gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
-            {faqCategories.map((category) => (
-              <li key={category}>
+            {groups.map((group) => (
+              <li key={group.category}>
                 <a
-                  href={`#${categoryAnchors[category]}`}
+                  href={`#${categoryAnchors[group.category]}`}
                   className="flex min-h-[var(--tap-min)] items-center body-sm text-blue-link underline underline-offset-2 hover:decoration-[3px]"
                 >
-                  {category}
+                  {group.category} ({group.entries.length})
                 </a>
               </li>
             ))}
@@ -55,24 +55,28 @@ export default async function HowDoIPage(props: PageProps<"/how-do-i">) {
         </nav>
 
         <div className="mt-10 grid gap-12">
-          {faqCategories.map((category) => {
-            const items = faqs.filter((faq) => faq.category === category);
-            if (items.length === 0) return null;
-
-            return (
-              <section key={category} aria-labelledby={categoryAnchors[category]}>
-                <h2
-                  id={categoryAnchors[category]}
-                  className="scroll-mt-6 border-b-2 border-line-strong pb-2 heading-lg text-ink"
-                >
-                  {category}
-                </h2>
-                <div className="mt-4">
-                  <FaqAccordion items={items} openSlug={openSlug} />
-                </div>
-              </section>
-            );
-          })}
+          {groups.map((group) => (
+            <section key={group.category} aria-labelledby={categoryAnchors[group.category]}>
+              <h2
+                id={categoryAnchors[group.category]}
+                className="scroll-mt-6 border-b-2 border-line-strong pb-2 heading-lg text-ink"
+              >
+                {group.category}
+              </h2>
+              <ul className="mt-4 task-list">
+                {group.entries.map((entry) => (
+                  <li key={entry.slug}>
+                    <Link href={`/how-do-i/${entry.slug}`} className="task-row body">
+                      <span className="min-w-0">
+                        <span className="block font-semibold">{entry.question}</span>
+                      </span>
+                      <Icon name="chevron-right" size="sm" className="shrink-0" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
         </div>
       </Section>
     </>
