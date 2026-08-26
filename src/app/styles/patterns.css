@@ -192,3 +192,96 @@
 .rich-text strong {
   font-weight: 700;
 }
+
+/* ── Carousel ─────────────────────────────────────────────────
+   A scroller first, a carousel second. The viewport is a real
+   scroll container with snap points, so it works by touch,
+   trackpad, and keyboard before any script loads — the buttons
+   only automate what the container already does.
+
+   Everything stays square and ruled: no shadow, no rounding, no
+   translucent overlay. The carousel is a different arrangement of
+   the same tiles, not a different design language. */
+
+.carousel {
+  display: grid;
+  gap: 1rem;
+}
+
+.carousel-viewport {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  /* Room for the focus ring, which sits outside the element box. */
+  padding: var(--focus-width);
+  margin: calc(var(--focus-width) * -1);
+  scrollbar-width: thin;
+}
+
+/* The list itself is the flex track. Laying the slides out with
+   `display: contents` on the <ul> would have been shorter and would have
+   cost the list its semantics in several screen readers, which is a poor
+   trade for one element. */
+.carousel-track {
+  display: flex;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The scrollbar is the only honest affordance for "there is more to the
+   right" before the buttons appear, so it stays visible rather than being
+   hidden for tidiness. */
+.carousel-viewport::-webkit-scrollbar {
+  height: 10px;
+}
+
+.carousel-viewport::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+}
+
+.carousel-viewport::-webkit-scrollbar-track {
+  background: var(--surface-2);
+}
+
+.carousel-slide {
+  flex: 0 0 auto;
+  width: min(20rem, 78vw);
+  scroll-snap-align: start;
+}
+
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.carousel-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Oversized targets are a house rule, and these are the controls most
+     likely to be pressed on a phone in one hand. */
+  min-width: var(--tap-min);
+  min-height: var(--tap-min);
+  border: var(--line-width) solid var(--line-strong);
+  background: var(--surface-1);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.carousel-button:hover {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--ink-inverse);
+}
+
+.carousel-status {
+  margin-left: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-viewport {
+    scroll-behavior: auto;
+  }
+}

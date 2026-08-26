@@ -282,10 +282,20 @@ async function seed() {
   console.log(`News: ${created} created, ${skipped} already present.`);
 
   await seedMeetings(payload);
-  process.exit(0);
+
+  /**
+   * Close the database and let the process end on its own.
+   *
+   * `process.exit()` here was a real bug, and a quiet one: it truncates
+   * pending writes to a pipe, so running `npm run seed | tail` lost the
+   * output *and* cut the run short — leaving a zero-byte database that only
+   * failed later, when the admin panel could not find its own users table.
+   * Anything that ends the process before its I/O has drained will do this.
+   */
+  await payload.destroy();
 }
 
 seed().catch((error) => {
   console.error(error);
-  process.exit(1);
+  process.exitCode = 1;
 });

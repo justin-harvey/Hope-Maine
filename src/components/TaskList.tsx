@@ -58,6 +58,11 @@ export function TaskList({ tasks }: { tasks: Task[] }) {
   );
 }
 
+/** A single boxed destination. Used by the grid and by the carousel. */
+export function TaskTile({ task }: { task: Task }) {
+  return <TaskAnchor task={task} className="task-tile body-sm h-full" />;
+}
+
 /** Boxed variant for a multi-column grid of shorter destinations. */
 export function TaskGrid({ tasks, columns = 3 }: { tasks: Task[]; columns?: 2 | 3 }) {
   return (
@@ -70,7 +75,7 @@ export function TaskGrid({ tasks, columns = 3 }: { tasks: Task[]; columns?: 2 | 
     >
       {tasks.map((task) => (
         <li key={task.label}>
-          <TaskAnchor task={task} className="task-tile body-sm h-full" />
+          <TaskTile task={task} />
         </li>
       ))}
     </ul>

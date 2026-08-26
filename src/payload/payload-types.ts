@@ -199,6 +199,7 @@ export interface Document {
    * Open the PDF and try to select a sentence with your cursor. If nothing highlights, it is a scan and needs OCR before it can be posted as accessible.
    */
   textQuality: 'text' | 'scan' | 'unchecked';
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -293,6 +294,7 @@ export interface Media {
    * Photographer or source, if one needs crediting.
    */
   credit?: string | null;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -500,6 +502,7 @@ export interface DocumentsSelect<T extends boolean = true> {
   category?: T;
   adoptedOn?: T;
   textQuality?: T;
+  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -519,6 +522,7 @@ export interface DocumentsSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   credit?: T;
+  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;

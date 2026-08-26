@@ -12,6 +12,7 @@ import { Media } from "@/payload/collections/Media";
 import { News } from "@/payload/collections/News";
 import { Users } from "@/payload/collections/Users";
 import { buildDatabaseAdapter } from "@/payload/db";
+import { buildStoragePlugin } from "@/payload/storage";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -29,6 +30,7 @@ export default buildConfig({
   collections: [News, Meetings, Boards, Documents, Media, Users],
   editor: lexicalEditor(),
   db: buildDatabaseAdapter(),
+  plugins: [buildStoragePlugin()],
   // Used to sign login cookies. A deployed site must set this; a changed
   // value logs everyone out, which is the intended behaviour if it leaks.
   secret: process.env.PAYLOAD_SECRET ?? "hope-maine-development-secret",

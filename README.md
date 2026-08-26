@@ -55,6 +55,38 @@ than statically. That is the deliberate cost of the no-JS guarantee.
 Generate hrefs with `faqHref` rather than writing them by hand, so a link
 can never point at a slug that drifted from its question's wording.
 
+### The online services carousel
+
+`/`'s online services are a carousel, in the pattern of the Town of Warren
+site — previous, next, and an explicit pause/play.
+
+It is worth being honest that a carousel is a worse directory than a grid;
+GOV.UK dropped theirs because people rarely reach past the first panel, and
+this is the list of things residents actually came to do. What keeps that
+from being a real loss is that **nothing is hidden**: the element underneath
+is a native scroll container with CSS snap points, so all twelve services
+stay in the page, in order, reachable by touch, trackpad, keyboard, and
+screen reader whether or not the script runs. The buttons only automate what
+the container already does, and they render after hydration so nobody is
+shown a control with nothing behind it.
+
+- **WCAG 2.2.2 (Pause, Stop, Hide).** Anything moving on its own for more
+  than five seconds needs a pause control. Auto-advance also stops on hover,
+  on focus anywhere inside, and when the tab is hidden.
+- **`prefers-reduced-motion`** disables auto-advance and switches button
+  scrolling from smooth to instant. It is read as a subscription, so
+  changing the OS setting stops a running carousel immediately. An explicit
+  press of play still wins — asking for less motion should not take the
+  control away from someone who then wants it.
+- **Real `<button>` elements.** The reference markup uses
+  `<span role="button" tabindex="0">`, which needs hand-written Enter and
+  Space handling to work at all; the hand-written version is usually missing
+  one of them.
+- The live region is `off` while rotating and `polite` once stopped.
+- The list is the flex track. Laying the slides out with `display: contents`
+  on the `<ul>` would be shorter and would cost the list its semantics in
+  several screen readers.
+
 ### Online forms
 
 `/report/road` is a multi-step service flow built on the GOV.UK form
@@ -165,6 +197,49 @@ August and UTC-5 in January, so every winter meeting published an hour
 early — the Planning Board's 6:30 PM January agenda read 5:30 PM. See
 `zonedTime()` in `scripts/seed.ts`.
 
+### File storage
+
+Uploads go to `public/uploads` until the S3 variables are set — fine
+locally, fatal on a deployed site, because that filesystem is rebuilt on
+every deploy. `src/payload/storage.ts` switches on the environment alone
+and warns loudly in a production build when it is not configured.
+
+Supabase Storage speaks S3, so the same adapter covers it, Cloudflare R2,
+and AWS. Take the values from **Project Settings → Storage → S3
+connection**, create the bucket first under **Storage**, and set
+`S3_ENDPOINT`, `S3_REGION`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, and
+`S3_SECRET_ACCESS_KEY`. `forcePathStyle` is on because Supabase addresses
+buckets by path.
+
+Verify the wiring without a reachable bucket:
+
+```bash
+npm run check:storage                       # local disk
+S3_BUCKET=… S3_ENDPOINT=… npm run check:storage   # S3
+```
+
+The field lists it prints must be identical in both modes. That is not
+free: `alwaysInsertFields` does not deliver it on its own in
+plugin-cloud-storage 3.88.0, whose *enabled* branch calls `getFields`
+without the flag — so the option only takes effect while the plugin is
+off, the exact inverse of its purpose. Each collection therefore sets an
+explicit `prefix`, which satisfies the other half of that condition and
+namespaces objects in the bucket as well.
+
+**Documents redirect rather than stream.** `/api/documents/file/<name>`
+stays the public URL, so links survive a change of storage provider and the
+front end never labels the town's own ordinance "Opens on another website" —
+but the route 302s to a signed URL and the bytes come straight from
+Supabase. Some tax maps are tens of megabytes, and streaming those through
+a serverless function finds the timeout and the egress bill together.
+Images keep the stable streamed path, since they want long-lived cacheable
+URLs.
+
+**Adding any plugin means regenerating the admin import map.** Forgetting
+produces a blank admin panel that still returns HTTP 200 with no
+client-side error, which is a genuinely hard thing to diagnose from the
+symptom. `npm run build` now does it, so it cannot drift.
+
 ### Accessibility guardrails
 
 A rich-text editor is a machine for undoing accessibility work, and the site
@@ -244,11 +319,9 @@ Four things are required, and the site is not launchable without them:
    to a Postgres connection string — Neon and Supabase both have free tiers
    that fit this site — and `src/payload/db.ts` switches adapter on the URI
    alone.
-2. **File storage.** Uploads currently write to `public/uploads`, which is
-   the same ephemeral filesystem. A deployed site needs
-   `@payloadcms/storage-s3` pointed at Cloudflare R2 or similar (about $0/mo
-   at this volume). **Until this is done, an uploaded PDF disappears on the
-   next deploy.**
+2. **File storage.** Set the five `S3_*` variables — see *File storage*
+   above. **Until this is done, an uploaded PDF disappears on the next
+   deploy.**
 3. **An email adapter.** Payload logs a warning at startup because there
    isn't one. Without it, "I forgot my password" has no answer but an
    administrator resetting it by hand — install `@payloadcms/email-nodemailer`
@@ -339,3 +412,6 @@ address to embed.
   boards, and known meetings
 - `npm run generate:types` — regenerate `src/payload/payload-types.ts`
 - `npm run generate:importmap` — regenerate the admin's component import map
+  (`npm run build` already does this)
+- `npm run check:storage` — show whether uploads go to disk or S3, and
+  confirm the schema matches in both
