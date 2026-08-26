@@ -87,14 +87,151 @@ the scratchpad checks every page for contrast failures, sub-44px touch
 targets, and focus visibility. The current state is **0 AA failures and 0
 under-AAA pairs**. Re-run it after any change to tokens or components.
 
+## Editing the site (Payload CMS)
+
+Town staff sign in at **`/admin`** with an email address and a password.
+No GitHub account, and nothing to install.
+
+That is the whole reason this runs [Payload](https://payloadcms.com)
+(MIT-licensed, `payloadcms/payload`) rather than a Git-backed CMS like
+Keystatic or Sveltia. Those are lighter to operate, but they commit as a
+GitHub user — and "you need a GitHub account to post the agenda" is not a
+workable instruction for a town office of five people.
+
+### What is editable, and what is not
+
+Deliberately, only the content that actually changes:
+
+| Collection | What it holds | Changes |
+| --- | --- | --- |
+| **News and notices** | Hearings, warrants, announcements | Monthly |
+| **Documents** | Ordinances, reports, forms, maps, agendas, minutes | Weekly |
+| **Media** | Photographs | Rarely |
+| **Users** | Staff accounts | Rarely |
+
+Everything else — department contacts, the Select Board roster, the 25
+"How Do I…?" answers, meeting schedules — stays in `src/data/`. Those change
+once or twice a year, and a pull request is a better record of *who changed
+the Code Enforcement Officer's hours and when* than a database row is.
+
+### Roles
+
+- **Editor** — writes content and uploads files. Nothing else.
+- **Administrator** — the above, plus managing accounts.
+
+An editor may open and update their own record, so they can change their own
+name or password; the `role` field has its own field-level access control so
+they cannot promote themselves while doing it (`src/payload/access.ts`).
+
+### Accessibility guardrails
+
+A rich-text editor is a machine for undoing accessibility work, and the site
+currently passes at **0 AA failures and 0 pairs below AAA**. With ADA Title
+II putting Hope under WCAG 2.1 AA by **26 April 2027**, the guardrails are
+enforced by the schema rather than by a style guide nobody reads:
+
+- **Alt text is required** on every image (`Media.alt`). Not encouraged —
+  required, at the schema level.
+- **The editor offers only** paragraphs, h2/h3, bold, italic, lists, and
+  links. No colour, no font size, no raw HTML paste. Heading levels stop at
+  h2 because the post title is the page's h1.
+- **Every PDF upload must declare its text quality.** A scanned PDF is a
+  picture of a document and a screen reader finds nothing in it. "Not checked
+  yet" is an option so nobody has to guess.
+
+Adding a feature to the Lexical editor in `src/payload/collections/News.ts`
+means adding a matching rule to `.rich-text` in `patterns.css` — otherwise it
+renders unstyled on the public page.
+
+### How the site stays static
+
+Reading content from a database would normally make every page render per
+request. It does not here: pages are prerendered at build time, and each
+collection's `afterChange` hook calls `revalidatePath` for the pages that
+display it, so pressing **Publish** rebuilds exactly those pages.
+
+`npm run build` confirms this — `/`, `/news`, and `/documents` are marked
+`○ (Static)` despite reading Payload.
+
+The path list in each collection's hook is the part that goes wrong silently:
+if a page reads a collection and is missing from that list, the edit saves,
+the admin reports success, and the public page keeps serving the previous
+build. Add the path when you add the read.
+
+### Migrating the PDFs incrementally
+
+All 155 document links still point at the files on hopemaine.org via
+`LEGACY_DOC_BASE`. Uploading a document to the CMS under the same title
+**supersedes** the legacy link rather than appearing beside it
+(`src/lib/town-documents.ts`), and the notice at the top of `/documents`
+counts down how many are left.
+
+So the migration is one ordinance at a time, and the page is correct at every
+point in between — rather than a flag day where all 114 files are copied,
+`LEGACY_DOC_BASE` is flipped, and everyone hopes nothing was missed.
+
+### Running it locally
+
+```bash
+npm install
+npm run seed     # first admin account + the 12 existing news posts
+npm run dev      # site at /, admin at /admin
+```
+
+The seed is idempotent — it matches on title, so running it twice creates
+nothing new and never overwrites a post someone has since edited. It prints
+the first account's credentials; change that password immediately.
+
+**Seed before you build.** The build reads the database to prerender
+`/news` and `/documents`; against an empty database those pages fall back to
+the static content in `src/data/` and stay that way until the next build.
+
+After changing a collection, regenerate the types the front end reads:
+
+```bash
+npm run generate:types
+```
+
+### Before this goes live
+
+Four things are required, and the site is not launchable without them:
+
+1. **Postgres.** Local development uses a SQLite file. Netlify and Vercel
+   rebuild the filesystem on every deploy, so a SQLite file on those hosts
+   would quietly discard everything the town had written. Set `DATABASE_URI`
+   to a Postgres connection string — Neon and Supabase both have free tiers
+   that fit this site — and `src/payload/db.ts` switches adapter on the URI
+   alone.
+2. **File storage.** Uploads currently write to `public/uploads`, which is
+   the same ephemeral filesystem. A deployed site needs
+   `@payloadcms/storage-s3` pointed at Cloudflare R2 or similar (about $0/mo
+   at this volume). **Until this is done, an uploaded PDF disappears on the
+   next deploy.**
+3. **An email adapter.** Payload logs a warning at startup because there
+   isn't one. Without it, "I forgot my password" has no answer but an
+   administrator resetting it by hand — install `@payloadcms/email-nodemailer`
+   or `@payloadcms/email-resend`.
+4. **`PAYLOAD_SECRET`.** Generate a fresh one per environment
+   (`openssl rand -hex 32`). It signs the login cookies; the committed
+   development default must not reach production.
+
+See `.env.example` for the full list.
+
 ## Project structure
 
-- `src/app/` — one route per page (`/`, `/government`, `/departments`,
-  `/meetings`, `/news`, `/documents`, `/contact`).
+- `src/app/(frontend)/` — one route per public page (`/`, `/government`,
+  `/departments`, `/meetings`, `/news`, `/documents`, `/contact`). This is a
+  route group with its own root layout; the town-facing site had to move
+  into it so the CMS admin could have a second root layout of its own.
+- `src/app/(payload)/` — the CMS admin at `/admin` and its REST/GraphQL
+  routes. Mostly generated; `layout.tsx` and `custom.scss` are hand-edited.
+- `src/payload/` — collections, access rules, and hooks. `payload-types.ts`
+  is generated by `npm run generate:types`, so do not edit it.
 - `src/components/` — site header/footer, page hero, section wrapper, contact form.
 - `src/components/ui/` — design system primitives (see above).
-- `src/data/` — all page content lives here as plain data objects, kept
-  separate from layout/JSX.
+- `src/data/` — the page content that is *not* CMS-managed, as plain data
+  objects kept separate from layout/JSX. Also the fallback the front end
+  serves when the database is unreachable.
 - `src/lib/nav.ts` — site navigation and town contact info used in the
   header/footer.
 
@@ -124,12 +261,13 @@ content exports):
 
 **Still placeholder:**
 
-- **Document hosting.** All 155 document links now resolve, but they point
-  at the files on hopemaine.org via `LEGACY_DOC_BASE` in
-  `src/lib/documents.ts`. The PDFs still need to be copied onto this site;
-  when they are, change that one constant. These URLs were derived from the
-  page exports and could not be verified from the build environment, which
-  has no outbound access to hopemaine.org — spot-check before launch.
+- **Document hosting.** All 155 document links resolve, but they point at
+  the files on hopemaine.org via `LEGACY_DOC_BASE` in
+  `src/lib/documents.ts`. Staff can now replace them one at a time by
+  uploading to the CMS — see *Migrating the PDFs incrementally* above — but
+  that needs object storage configured first. These URLs were derived from
+  the page exports and could not be verified from the build environment,
+  which has no outbound access to hopemaine.org — spot-check before launch.
 - **Four committees.** Board of Appeals, Budget, School, and Cemetery
   Committee have no roster or meeting schedule yet.
 - **Some department contacts.** Animal Control and the Sheriff's
@@ -153,3 +291,6 @@ address to embed.
 - `npm run dev` — start the dev server
 - `npm run build` — production build
 - `npm run lint` — run ESLint
+- `npm run seed` — create the first admin account and import the news posts
+- `npm run generate:types` — regenerate `src/payload/payload-types.ts`
+- `npm run generate:importmap` — regenerate the admin's component import map

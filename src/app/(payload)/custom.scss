@@ -1,0 +1,24 @@
+/* Ties the admin to the site it edits, so staff moving between the two do
+   not feel like they have left the town's website.
+
+   These rules are deliberately unlayered. Payload ships its own styles
+   inside `@layer payload-default`, and unlayered CSS outranks every layered
+   rule regardless of specificity — which makes this the whole override
+   mechanism, not a specificity fight. */
+
+:root {
+  /* Set from next/font in layout.tsx so the admin uses the same Public Sans
+     as the front end rather than a second typeface. */
+  --font-body: var(--font-admin-body), system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Payload sets the rich text editor in Georgia. The published page is
+     Public Sans, and an editor that shows a different typeface than the
+     visitor sees is not really WYSIWYG — so the editor gets the site's
+     face too, and line lengths and wrapping match what gets published. */
+  --font-serif: var(--font-admin-body), system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* The site's own status colours, so a success or error message in the
+     admin reads the same as one on the public site. */
+  --theme-success-500: #005c31;
+  --theme-error-500: #a10808;
+}

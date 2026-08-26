@@ -25,3 +25,33 @@ export function doc(path: string): string {
     .join("/");
   return `${LEGACY_DOC_BASE}/${encoded}`;
 }
+
+/**
+ * Rewrites a Payload upload URL to a same-origin path.
+ *
+ * Payload builds absolute URLs from `serverURL`, which bakes the hostname
+ * into every document link at render time. Two things go wrong with that: a
+ * preview deploy or a domain change breaks every link until the next
+ * rebuild, and the front end's `startsWith("http")` test for external links
+ * starts labelling the town's own PDFs "Opens on another website" — an
+ * accessibility claim that is simply false.
+ *
+ * Anything genuinely off-site (the legacy hopemaine.org links) is returned
+ * untouched.
+ */
+export function siteRelative(url: string): string {
+  if (!url.startsWith("http")) return url;
+
+  try {
+    const parsed = new URL(url);
+    const origin = process.env.NEXT_PUBLIC_SITE_URL;
+    const isOwnUpload =
+      (origin && parsed.origin === new URL(origin).origin) ||
+      parsed.pathname.startsWith("/api/documents/file/") ||
+      parsed.pathname.startsWith("/api/media/file/");
+
+    return isOwnUpload ? `${parsed.pathname}${parsed.search}` : url;
+  } catch {
+    return url;
+  }
+}

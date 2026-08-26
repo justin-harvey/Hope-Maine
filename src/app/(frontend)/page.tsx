@@ -4,8 +4,8 @@ import { HomeHero } from "@/components/HomeHero";
 import { OnlineServicesGrid } from "@/components/OnlineServicesGrid";
 import { Section } from "@/components/Section";
 import { TaskGrid, TaskList, type Task } from "@/components/TaskList";
-import { newsPosts } from "@/data/news";
 import { meetingSchedules } from "@/data/meetings";
+import { getNewsItems } from "@/lib/news";
 import { townInfo } from "@/lib/nav";
 import { faqHref } from "@/lib/utils";
 
@@ -47,8 +47,8 @@ const popularTasks: Task[] = [
   },
 ];
 
-export default function HomePage() {
-  const latestNews = newsPosts.slice(0, 4);
+export default async function HomePage() {
+  const latestNews = await getNewsItems(4);
   const scheduledBoards = meetingSchedules.filter(
     (board) => !board.schedule.startsWith("PLACEHOLDER"),
   );
@@ -81,7 +81,7 @@ export default function HomePage() {
       <Section title="News and notices" headingId="news">
         <ul className="border-t border-line">
           {latestNews.map((post) => (
-            <li key={post.title} className="border-b border-line py-4">
+            <li key={post.key} className="border-b border-line py-4">
               <p className="overline text-ink-muted">{post.date}</p>
               <h3 className="mt-1 heading-sm">
                 <Link

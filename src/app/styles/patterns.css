@@ -125,3 +125,70 @@
   border-top: var(--line-width) solid var(--line);
   border-bottom: var(--line-width) solid var(--line);
 }
+
+/* ── Rich text ────────────────────────────────────────────────
+   Output from the CMS editor. The editor deliberately offers only
+   paragraphs, h2/h3, bold, italic, lists, and links, so this is the
+   complete set of elements it can produce — anything else appearing
+   here means a feature was added to News.ts without a style to match.
+
+   Sizes track the body-sm / heading-sm utilities rather than being
+   invented, so an edited post is typographically identical to the
+   static content it replaced. */
+
+.rich-text {
+  display: grid;
+  gap: 0.75rem;
+  max-width: var(--measure);
+}
+
+.rich-text > * {
+  margin: 0;
+}
+
+.rich-text p,
+.rich-text li {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.rich-text h2 {
+  font-size: 1.125rem;
+  line-height: 1.4;
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 0.5rem;
+}
+
+.rich-text h3 {
+  font-size: 1rem;
+  line-height: 1.4;
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 0.5rem;
+}
+
+.rich-text ul,
+.rich-text ol {
+  display: grid;
+  gap: 0.375rem;
+  padding-left: 1.5rem;
+}
+
+.rich-text ul { list-style: disc; }
+.rich-text ol { list-style: decimal; }
+
+.rich-text a {
+  color: var(--blue-link);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.rich-text a:hover {
+  text-decoration-thickness: 3px;
+}
+
+.rich-text strong {
+  font-weight: 700;
+}

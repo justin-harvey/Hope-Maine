@@ -4,7 +4,7 @@ import { Icon } from "@/components/ui/icon";
 import { Notice } from "@/components/ui/notice";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
-import { documentCategories } from "@/data/documents";
+import { getDocumentCategories, hostingProgress } from "@/lib/town-documents";
 
 export const metadata: Metadata = {
   title: "Documents & Forms",
@@ -16,7 +16,11 @@ function slugify(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
-export default function DocumentsPage() {
+export default async function DocumentsPage() {
+  const documentCategories = await getDocumentCategories();
+  const { hosted, total } = hostingProgress(documentCategories);
+  const allHosted = hosted === total;
+
   return (
     <>
       <PageHero
@@ -26,11 +30,13 @@ export default function DocumentsPage() {
       />
 
       <Section>
-        <Notice variant="info" title="Documents open on the current town website">
-          These files are still hosted on hopemaine.org and will open there. They move to this
-          site as part of the changeover. If a document does not open, call the Town Office at
-          (207) 763-4199 for a copy.
-        </Notice>
+        {!allHosted && (
+          <Notice variant="info" title="Some documents open on the current town website">
+            {total - hosted} of {total} files are still hosted on hopemaine.org and will open
+            there. They move to this site as staff upload them. If a document does not open,
+            call the Town Office at (207) 763-4199 for a copy.
+          </Notice>
+        )}
 
         {/* On-page contents — a long list of records needs a way in. */}
         <nav aria-labelledby="contents-heading" className="mt-8">
@@ -65,12 +71,19 @@ export default function DocumentsPage() {
               )}
               <ul className="mt-4 border-t border-line">
                 {category.documents.map((doc) => (
-                  <li key={doc.label} className="border-b border-line">
+                  <li key={doc.href} className="border-b border-line">
                     <a
                       href={doc.href}
+                      target={doc.hosted ? undefined : "_blank"}
+                      rel={doc.hosted ? undefined : "noopener noreferrer"}
                       className="flex min-h-[var(--tap-min)] items-center gap-3 py-3 body-sm text-blue-link underline underline-offset-2 hover:decoration-[3px]"
                     >
-                      <Icon name="document" size="sm" className="shrink-0" />
+                      <Icon
+                        name={doc.hosted ? "document" : "external-link"}
+                        size="sm"
+                        className="shrink-0"
+                        label={doc.hosted ? undefined : "Opens on the current town website"}
+                      />
                       {doc.label}
                     </a>
                   </li>

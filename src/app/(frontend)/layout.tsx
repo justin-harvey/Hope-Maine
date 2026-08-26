@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Public_Sans } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 

@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 
 import { Icon } from "@/components/ui/icon";
 import { Panel } from "@/components/ui/panel";
+import { NewsBody } from "@/components/NewsBody";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
-import { newsPosts } from "@/data/news";
+import { getNewsItems } from "@/lib/news";
 
 export const metadata: Metadata = {
   title: "News",
@@ -12,7 +13,11 @@ export const metadata: Metadata = {
     "Town announcements, public notices, election information, and meeting warrants for the Town of Hope, Maine.",
 };
 
-export default function NewsPage() {
+// Rendered at build time and rebuilt by the CMS's afterChange hook when a
+// post is published, so this stays a static page despite reading a database.
+export default async function NewsPage() {
+  const posts = await getNewsItems();
+
   return (
     <>
       <PageHero
@@ -23,30 +28,22 @@ export default function NewsPage() {
 
       <Section>
         <div className="grid gap-6">
-          {newsPosts.map((post) => (
-            <Panel key={post.title}>
+          {posts.map((post) => (
+            <Panel key={post.key}>
               <p className="overline text-ink-muted">{post.date}</p>
               <h2 className="mt-1 heading-md text-ink">{post.title}</h2>
               <p className="mt-2 measure body text-ink">{post.summary}</p>
 
-              {post.body && (
-                <div className="mt-4 grid gap-3 border-l-4 border-line pl-4">
-                  {post.body.map((para, i) => (
-                    <p key={i} className="measure body-sm text-ink">
-                      {para}
-                    </p>
-                  ))}
-                </div>
-              )}
+              <NewsBody item={post} />
 
-              {post.documents && post.documents.length > 0 && (
+              {post.documents.length > 0 && (
                 <div className="mt-5 border-t border-line pt-4">
                   <h3 className="overline text-ink-muted">Attachments</h3>
                   <ul className="mt-2 grid">
                     {post.documents.map((doc) => {
                       const isExternal = doc.href.startsWith("http");
                       return (
-                        <li key={doc.label}>
+                        <li key={doc.href}>
                           <a
                             href={doc.href}
                             target={isExternal ? "_blank" : undefined}
