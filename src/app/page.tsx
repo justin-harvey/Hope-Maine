@@ -53,9 +53,12 @@ export default function HomePage() {
     <>
       <HomeHero />
 
+      {/* The task question is the home page's h1: the masthead already
+          carries the town's identity, so this states the page's purpose. */}
       <Section
         title="What do you need to do?"
         headingId="popular-tasks"
+        level={1}
         description="The services residents ask about most often."
       >
         <TaskList tasks={popularTasks} />
