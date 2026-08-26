@@ -4,3 +4,17 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export function slugify(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+// A short, readable anchor for an FAQ question — "How do I pay my property
+// taxes?" becomes "pay-my-property-taxes" rather than repeating "how-do-i"
+// in every link that points at one.
+export function faqSlug(question: string) {
+  return slugify(question.replace(/^how do i\s*/i, "").replace(/\?$/, ""));
+}

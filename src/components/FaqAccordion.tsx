@@ -1,14 +1,49 @@
+"use client";
+
+import { useEffect } from "react";
+
 import { Icon } from "@/components/ui/icon";
 import type { Faq } from "@/data/faqs";
+import { faqSlug } from "@/lib/utils";
+
+// Opens and scrolls to whichever question the URL hash names — a link like
+// /how-do-i#pay-my-property-taxes should land on that answer already open,
+// not just on the collapsed accordion for its category.
+function openHashTarget() {
+  const hash = window.location.hash.slice(1);
+  if (!hash) return;
+
+  const summary = document.getElementById(hash);
+  const details = summary?.closest("details");
+  if (!details) return;
+
+  details.open = true;
+  details.scrollIntoView({ block: "start" });
+  // A native <summary> is already a focusable disclosure control, so this
+  // both announces the destination to a screen reader and gives keyboard
+  // users a sensible place to start (Space/Enter re-closes it).
+  summary?.focus();
+}
 
 // Native <details>: keyboard-operable, screen-reader-announced, and
 // functional with JavaScript disabled — no custom widget to get wrong.
+// The open-on-hash behavior above is progressive enhancement on top of
+// that, not a replacement for it.
 export function FaqAccordion({ items }: { items: Faq[] }) {
+  useEffect(() => {
+    openHashTarget();
+    window.addEventListener("hashchange", openHashTarget);
+    return () => window.removeEventListener("hashchange", openHashTarget);
+  }, []);
+
   return (
     <div className="border-t border-line">
       {items.map((faq) => (
         <details key={faq.question} className="group border-b border-line">
-          <summary className="flex min-h-[var(--tap-min)] cursor-pointer list-none items-center justify-between gap-4 py-3 body font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px] [&::-webkit-details-marker]:hidden">
+          <summary
+            id={faqSlug(faq.question)}
+            className="flex min-h-[var(--tap-min)] scroll-mt-6 cursor-pointer list-none items-center justify-between gap-4 py-3 body font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px] [&::-webkit-details-marker]:hidden"
+          >
             {faq.question}
             <Icon
               name="chevron-down"
