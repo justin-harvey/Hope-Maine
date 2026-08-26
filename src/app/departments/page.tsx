@@ -13,13 +13,11 @@ export const metadata: Metadata = {
   description: "Town departments, contacts, and services for the Town of Hope, Maine.",
 };
 
-function Value({ children }: { children: string }) {
-  const missing = children.startsWith("PLACEHOLDER");
-  return (
-    <span className={missing ? "text-ink-muted" : "text-ink"}>
-      {missing ? "Not published yet" : children}
-    </span>
-  );
+// A missing value is stated plainly rather than left blank, so residents
+// can tell "we haven't published this" from "there is nothing here".
+function Value({ children }: { children: string | null }) {
+  if (!children) return <span className="text-ink-muted">Not published yet</span>;
+  return <span className="text-ink">{children}</span>;
 }
 
 export default function DepartmentsPage() {
@@ -34,53 +32,93 @@ export default function DepartmentsPage() {
       <Section>
         <div className="grid gap-6 md:grid-cols-2">
           {departments.map((dept) => (
-            <Panel key={dept.name}>
+            <Panel key={dept.name} className="flex flex-col">
               <h2 className="heading-md text-ink">{dept.name}</h2>
               <p className="mt-2 measure body-sm text-ink">{dept.description}</p>
+
+              {dept.contact && (
+                <p className="mt-3 body-sm text-ink">
+                  <span className="font-bold">{dept.contact.name}</span>
+                  {" — "}
+                  {dept.contact.role}
+                  {dept.contact.address && (
+                    <span className="block text-ink-muted">{dept.contact.address}</span>
+                  )}
+                </p>
+              )}
 
               <dl className="mt-4">
                 <div className="data-row body-sm">
                   <dt className="font-bold text-ink">Phone</dt>
                   <dd>
-                    <Value>{dept.phone}</Value>
+                    {dept.phone && dept.phone.startsWith("(") ? (
+                      <a
+                        href={`tel:${dept.phone}`}
+                        className="inline-flex min-h-[var(--tap-min)] items-center text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+                      >
+                        {dept.phone}
+                      </a>
+                    ) : (
+                      <Value>{dept.phone}</Value>
+                    )}
                   </dd>
                 </div>
                 <div className="data-row body-sm">
                   <dt className="font-bold text-ink">Email</dt>
                   <dd>
-                    <Value>{dept.email}</Value>
+                    {dept.email ? (
+                      <a
+                        href={`mailto:${dept.email}`}
+                        className="inline-flex min-h-[var(--tap-min)] items-center text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+                      >
+                        {dept.email}
+                      </a>
+                    ) : (
+                      <Value>{null}</Value>
+                    )}
                   </dd>
                 </div>
                 <div className="data-row body-sm">
                   <dt className="font-bold text-ink">Hours</dt>
-                  <dd>
+                  <dd className="text-right">
                     <Value>{dept.hours}</Value>
                   </dd>
                 </div>
               </dl>
 
-              {(dept.slug || dept.website) && (
-                <div className="mt-3 flex flex-wrap items-center gap-x-6">
+              {dept.notes && dept.notes.length > 0 && (
+                <ul className="mt-4 grid gap-2 border-l-4 border-line pl-4">
+                  {dept.notes.map((note) => (
+                    <li key={note} className="body-sm text-ink">
+                      {note}
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {(dept.slug || dept.links) && (
+                <div className="mt-4 flex flex-col border-t border-line pt-2">
                   {dept.slug && (
                     <Link
                       href={`/departments/${dept.slug}`}
-                      className="inline-flex min-h-[var(--tap-min)] items-center gap-2 body-sm font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+                      className="flex min-h-[var(--tap-min)] items-center gap-2 body-sm font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px]"
                     >
                       More about {dept.name}
                       <Icon name="chevron-right" size="xs" />
                     </Link>
                   )}
-                  {dept.website && (
+                  {dept.links?.map((link) => (
                     <a
-                      href={dept.website.href}
+                      key={link.href}
+                      href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex min-h-[var(--tap-min)] items-center gap-2 body-sm font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+                      className="flex min-h-[var(--tap-min)] items-center gap-2 body-sm font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px]"
                     >
-                      {dept.website.label}
+                      {link.label}
                       <Icon name="external-link" size="xs" label="Opens on another website" />
                     </a>
-                  )}
+                  ))}
                 </div>
               )}
             </Panel>

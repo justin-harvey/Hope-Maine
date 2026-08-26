@@ -87,9 +87,15 @@ content exports):
   Revize paths, not resolvable URLs — these need real links or the files.
 - **Four committees.** Board of Appeals, Budget, School, and Cemetery
   Committee have no roster or meeting schedule yet.
-- **Not yet migrated:** Hope History, Town Office Location, the events
-  calendar (a Revize widget), and per-department contacts for most Town
-  Services pages.
+- **Some department contacts.** Animal Control and the Sheriff's
+  Department still have no phone/email/hours. The nine
+  `town_services/*` detail pages and `town_office/index.php` have not
+  been exported — that is where the rest of those values live.
+- **Hero photograph.** `src/components/HomeHero.tsx` has a `HERO_IMAGE`
+  constant set to `null`. Drop a photo at `public/hero/` and point the
+  constant at it to turn the hero image on.
+- **Not yet migrated:** Hope History, Town Office Location, and the
+  events calendar (a Revize widget).
 
 The contact form (`src/components/ContactForm.tsx`) is UI-only and does not
 send email yet; it needs to be wired to an email service or backend before

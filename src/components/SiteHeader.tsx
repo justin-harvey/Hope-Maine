@@ -27,14 +27,14 @@ export function SiteHeader() {
           <Image
             src="/brand/town-seal.png"
             alt=""
-            width={48}
-            height={48}
-            className="h-12 w-12 shrink-0"
+            width={192}
+            height={192}
+            className="h-16 w-16 shrink-0 sm:h-24 sm:w-24"
             priority
           />
           <span>
-            <span className="block heading-sm text-ink">{townInfo.name}</span>
-            <span className="block body-xs text-ink-muted">Incorporated 1804</span>
+            <span className="block heading-md text-ink">{townInfo.name}</span>
+            <span className="block body-sm text-ink-muted">Incorporated 1804</span>
           </span>
         </Link>
 

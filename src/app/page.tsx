@@ -1,10 +1,9 @@
 import Link from "next/link";
 
-import { Notice } from "@/components/ui/notice";
+import { HomeHero } from "@/components/HomeHero";
 import { OnlineServicesGrid } from "@/components/OnlineServicesGrid";
 import { Section } from "@/components/Section";
 import { TaskGrid, TaskList, type Task } from "@/components/TaskList";
-import { hopeIntro } from "@/data/about";
 import { newsPosts } from "@/data/news";
 import { meetingSchedules } from "@/data/meetings";
 import { townInfo } from "@/lib/nav";
@@ -52,12 +51,7 @@ export default function HomePage() {
 
   return (
     <>
-      <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6">
-        <Notice variant="info" title="Site in progress">
-          This is a rebuild of the Town of Hope website. Most content is live, but some
-          documents and committee pages are still being migrated from hopemaine.org.
-        </Notice>
-      </div>
+      <HomeHero />
 
       <Section
         title="What do you need to do?"
@@ -128,8 +122,7 @@ export default function HomePage() {
       </div>
 
       <Section title="About the town" headingId="about-town">
-        <p className="measure body text-ink">{hopeIntro}</p>
-        <div className="mt-5">
+        <div>
           <TaskGrid
             columns={2}
             tasks={[

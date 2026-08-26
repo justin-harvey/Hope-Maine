@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Public_Sans } from "next/font/google";
 import "./globals.css";
-import { OfficialBanner } from "@/components/OfficialBanner";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 
@@ -33,7 +32,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to main content
         </a>
-        <OfficialBanner />
         <SiteHeader />
         <main id="main-content" className="flex-1">
           {children}
