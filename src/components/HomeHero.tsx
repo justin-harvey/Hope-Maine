@@ -15,8 +15,13 @@ function findHeroImage(): string | null {
   return file ? `/hero/${file}` : null;
 }
 
+// Describes the scene without asserting a location — this is a stock
+// photograph, so claiming it shows Hope would be a false statement to
+// anyone relying on the alt text.
 const HERO_ALT =
-  "A rowboat moored in the shallows of a pond in Hope, Maine, ringed by spruce woods under a summer sky.";
+  "A small wooden rowboat moored in the shallows of a calm, forest-ringed lake under a partly cloudy sky.";
+
+const HERO_CREDIT = { photographer: "Michael Delchamp", source: "Unsplash" };
 
 // Deliberately carries no seal, town name, or founding date — the masthead
 // above already states all three, and repeating them pushed the first real
@@ -47,6 +52,12 @@ export function HomeHero() {
             Hope is a thriving community of 1,698, located seven miles from the shores of
             Penobscot Bay in Midcoast Maine.
           </p>
+          {heroImage && (
+            <p className="mt-4 body-xs text-ink-muted">
+              Photograph by {HERO_CREDIT.photographer} on {HERO_CREDIT.source}. Not a photograph
+              of Hope.
+            </p>
+          )}
         </div>
       </div>
     </section>
