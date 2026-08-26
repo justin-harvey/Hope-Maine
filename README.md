@@ -26,8 +26,6 @@ accessibility, and institutional trust.
 - **44px targets.** Every interactive element clears a 44×44px hit area.
 - **Unmissable focus.** The GOV.UK ring: high-vis yellow block with a solid
   black underline, visible on light and dark surfaces alike.
-- **Verification chrome.** A top-anchored banner certifies the official
-  domain, mitigating phishing.
 
 **Where it lives**
 

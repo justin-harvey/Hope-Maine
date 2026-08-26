@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     template: "%s | Town of Hope, Maine",
   },
   description:
-    "Official website of the Town of Hope, Maine — town services, government, meetings, news, and resources for residents.",
+    "Town services, government, meetings, news, and resources for residents of Hope, Maine.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
