@@ -1,18 +1,17 @@
 import type { Metadata } from "next";
-import { DM_Sans, DM_Serif_Text } from "next/font/google";
+import { Public_Sans } from "next/font/google";
 import "./globals.css";
+import { OfficialBanner } from "@/components/OfficialBanner";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
+// One family for the whole site. Public Sans is the USWDS face: neutral
+// grotesque, high x-height, open apertures — built for legibility at small
+// sizes on low-resolution screens.
+const publicSans = Public_Sans({
+  variable: "--font-public-sans",
   subsets: ["latin"],
-});
-
-const dmSerifText = DM_Serif_Text({
-  variable: "--font-dm-serif-text",
-  subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -21,22 +20,20 @@ export const metadata: Metadata = {
     template: "%s | Town of Hope, Maine",
   },
   description:
-    "Official website of the Town of Hope, Maine — town government, departments, meetings, news, and resources for residents.",
+    "Official website of the Town of Hope, Maine — town services, government, meetings, news, and resources for residents.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${dmSans.variable} ${dmSerifText.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
+    <html lang="en" className={`${publicSans.variable} h-full`}>
+      <body className="flex min-h-full flex-col bg-canvas text-ink">
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-cream-50 focus:px-4 focus:py-2 focus:text-blue-900 focus:shadow-lg"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:border-2 focus:border-ink focus:bg-focus focus:px-4 focus:py-3 focus:font-bold focus:text-ink"
         >
           Skip to main content
         </a>
+        <OfficialBanner />
         <SiteHeader />
         <main id="main-content" className="flex-1">
           {children}

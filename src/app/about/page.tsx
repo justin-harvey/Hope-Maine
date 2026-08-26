@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { SurfaceCard } from "@/components/ui/surface-card";
+import { Notice } from "@/components/ui/notice";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { hopeIntro, hopeProfile } from "@/data/about";
@@ -17,40 +17,47 @@ export default function AboutPage() {
     <>
       <PageHero eyebrow="About" title="About Hope" description={hopeIntro} />
 
-      <Section title="Hope Profile">
-        <SurfaceCard>
-          <dl className="divide-y divide-blue-900/10">
-            {hopeProfile.map((row) => (
-              <div key={row.label} className="flex flex-wrap justify-between gap-x-6 gap-y-1 px-5 py-3">
-                <dt className="body-sm text-slate-500">{row.label}</dt>
-                <dd className="body-sm font-semibold text-blue-900">{row.value}</dd>
-              </div>
-            ))}
-          </dl>
-        </SurfaceCard>
+      <Section title="Town profile" headingId="profile">
+        <dl className="border-t border-line">
+          {hopeProfile.map((row) => (
+            <div key={row.label} className="data-row body">
+              <dt className="text-ink">{row.label}</dt>
+              <dd className="font-bold text-ink">{row.value}</dd>
+            </div>
+          ))}
+        </dl>
       </Section>
 
-      <div className="bg-cream-200">
-        <Section title="Town Office">
-          <SurfaceCard density="standard">
-            <address className="grid gap-1 body-sm not-italic text-blue-900/80">
-              <p>{townInfo.addressLine1}</p>
-              <p>{townInfo.addressLine2}</p>
-              <p>{townInfo.cityStateZip}</p>
-            </address>
-            <ul className="mt-4 grid gap-1 body-sm text-blue-900/80">
-              {townInfo.officeHours.map((entry) => (
-                <li key={entry.days} className="flex flex-wrap justify-between gap-x-6">
-                  <span>{entry.days}</span>
-                  <span>{entry.hours}</span>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-4 body-sm text-slate-500">
-              Hope History and Town Maps pages from the current town site haven&apos;t been
-              brought over yet.
-            </p>
-          </SurfaceCard>
+      <div className="band">
+        <Section title="Town Office" headingId="town-office">
+          <div className="grid gap-8 sm:grid-cols-2">
+            <div>
+              <h3 className="overline text-ink-muted">Address</h3>
+              <address className="mt-2 grid gap-0.5 body not-italic text-ink">
+                <span>{townInfo.addressLine1}</span>
+                <span>{townInfo.addressLine2}</span>
+                <span>{townInfo.cityStateZip}</span>
+              </address>
+            </div>
+            <div>
+              <h3 className="overline text-ink-muted">Office hours</h3>
+              <dl className="mt-2">
+                {townInfo.officeHours.map((entry) => (
+                  <div key={entry.days} className="data-row body">
+                    <dt className="text-ink">{entry.days}</dt>
+                    <dd className="font-semibold text-ink">{entry.hours}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </div>
+
+          <div className="mt-8">
+            <Notice title="Still to come">
+              The Hope History and Town Office Location pages from the current town site have not
+              been brought over yet.
+            </Notice>
+          </div>
         </Section>
       </div>
     </>

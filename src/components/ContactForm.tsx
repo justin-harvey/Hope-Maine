@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Field, FieldGroup, FieldHint, FieldLabel } from "@/components/ui/field";
 import { Input, Textarea } from "@/components/ui/input";
+import { Notice } from "@/components/ui/notice";
 
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -19,35 +19,44 @@ export function ContactForm() {
       }}
     >
       {submitted && (
-        <Alert variant="info">
-          <AlertDescription>
-            Thanks — this demo form doesn&apos;t send messages yet. Connect it to an email
-            service or backend before launch.
-          </AlertDescription>
-        </Alert>
+        <Notice variant="warning" title="Not sent">
+          This form is not connected yet. To reach the Town Office today, call (207) 763-4199 or
+          e-mail admin@hopemaine.org.
+        </Notice>
       )}
+
       <FieldGroup>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field>
-            <FieldLabel htmlFor="name">Name</FieldLabel>
-            <Input id="name" name="name" type="text" required />
-          </Field>
-          <Field>
-            <FieldLabel htmlFor="email">Email</FieldLabel>
-            <Input id="email" name="email" type="email" required />
-          </Field>
-        </div>
         <Field>
-          <FieldLabel htmlFor="subject">Subject</FieldLabel>
+          <FieldLabel htmlFor="name">Your name</FieldLabel>
+          <Input id="name" name="name" type="text" autoComplete="name" required />
+        </Field>
+
+        <Field>
+          <FieldLabel htmlFor="email">Email address</FieldLabel>
+          <FieldHint id="email-hint">We will only use this to reply to you.</FieldHint>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            aria-describedby="email-hint"
+            required
+          />
+        </Field>
+
+        <Field>
+          <FieldLabel htmlFor="subject">What is your message about?</FieldLabel>
           <Input id="subject" name="subject" type="text" required />
         </Field>
+
         <Field>
-          <FieldLabel htmlFor="message">Message</FieldLabel>
-          <Textarea id="message" name="message" rows={5} required />
+          <FieldLabel htmlFor="message">Your message</FieldLabel>
+          <Textarea id="message" name="message" rows={6} required />
         </Field>
       </FieldGroup>
-      <Button type="submit" className="justify-self-start">
-        Send Message
+
+      <Button type="submit" size="lg" className="justify-self-start">
+        Send message
       </Button>
     </form>
   );

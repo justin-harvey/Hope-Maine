@@ -3,7 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Icon } from "@/components/ui/icon";
-import { SurfaceCard } from "@/components/ui/surface-card";
+import { Notice } from "@/components/ui/notice";
+import { Panel } from "@/components/ui/panel";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import {
@@ -15,7 +16,7 @@ import {
 export const metadata: Metadata = {
   title: "Code Enforcement Officer & Plumbing Inspector",
   description:
-    "Contact information, office hours, and permit forms for the Town of Hope Code Enforcement Officer & Local Plumbing Inspector.",
+    "Contact information, office hours, and permit forms for the Town of Hope Code Enforcement Officer and Local Plumbing Inspector.",
 };
 
 export default function CodeEnforcementPage() {
@@ -25,91 +26,93 @@ export default function CodeEnforcementPage() {
     <>
       <PageHero
         eyebrow="Departments & Services"
-        title="Code Enforcement Officer & Plumbing Inspector"
+        title="Code Enforcement & Plumbing Inspection"
         description="Building permits, plumbing permits, land use ordinance questions, and code compliance."
       />
 
       <Section>
         <Link
           href="/departments"
-          className="inline-flex items-center gap-1 body-sm font-semibold text-blue-700 hover:text-blue-900"
+          className="inline-flex min-h-[var(--tap-min)] items-center gap-2 body-sm font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px]"
         >
           <Icon name="chevron-right" size="xs" className="rotate-180" />
-          Back to Departments & Services
+          Back to Departments &amp; Services
         </Link>
 
-        <div className="mt-6 grid gap-8 lg:grid-cols-3">
-          <SurfaceCard density="standard" className="lg:col-span-1">
+        <div className="mt-6 grid gap-8 lg:grid-cols-[20rem_1fr]">
+          <Panel strong>
             <Image
               src={officer.photo}
-              alt={officer.name}
+              alt={`${officer.name}, ${officer.title}`}
               width={365}
               height={478}
-              className="w-full rounded-xl object-cover"
+              className="w-full border border-line object-cover"
             />
-            <h2 className="mt-4 font-display text-xl text-blue-900">{officer.name}</h2>
-            <p className="mt-1 body-sm font-medium text-blue-700">{officer.credentials}</p>
-            <address className="mt-4 space-y-1 body-sm not-italic text-blue-900/80">
-              <p>{officer.address.line1}</p>
-              <p>{officer.address.line2}</p>
+            <h2 className="mt-4 heading-md text-ink">{officer.name}</h2>
+            <p className="mt-1 body-sm font-semibold text-ink">{officer.credentials}</p>
+
+            <address className="mt-4 grid gap-0.5 body-sm not-italic text-ink">
+              <span>{officer.address.line1}</span>
+              <span>{officer.address.line2}</span>
             </address>
-            <dl className="mt-4 space-y-2 body-sm text-blue-900/80">
-              <div className="flex items-center gap-2">
-                <Icon name="phone" size="xs" />
-                <dd>
-                  <a href={`tel:${officer.phone}`} className="hover:text-blue-700">
-                    {officer.phone}
-                  </a>
-                </dd>
-              </div>
-              <div className="flex items-center gap-2">
-                <Icon name="mail" size="xs" />
-                <dd>
-                  <a href={`mailto:${officer.email}`} className="hover:text-blue-700">
-                    {officer.email}
-                  </a>
-                </dd>
-              </div>
-              <div className="flex items-center gap-2">
-                <Icon name="clock" size="xs" />
-                <dd>In office {officer.officeDay}</dd>
-              </div>
-            </dl>
-          </SurfaceCard>
 
-          <div className="lg:col-span-2">
-            <SurfaceCard density="standard">
-              <h3 className="font-display text-lg text-blue-900">{officer.title}</h3>
-              <p className="mt-3 body text-blue-900/80">
-                The Code Enforcement Officer and Local Plumbing Inspector is {officer.name}.
-              </p>
-              <p className="mt-3 body-sm text-slate-500">{officer.bio}</p>
-            </SurfaceCard>
+            <ul className="mt-3 grid">
+              <li>
+                <a
+                  href={`tel:${officer.phone}`}
+                  className="flex min-h-[var(--tap-min)] items-center gap-2 body-sm text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+                >
+                  <Icon name="phone" size="xs" />
+                  {officer.phone}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`mailto:${officer.email}`}
+                  className="flex min-h-[var(--tap-min)] items-center gap-2 body-sm text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+                >
+                  <Icon name="mail" size="xs" />
+                  {officer.email}
+                </a>
+              </li>
+            </ul>
+          </Panel>
 
-            <SurfaceCard density="standard" className="mt-6">
-              <h3 className="font-display text-lg text-blue-900">Permit Forms & Fees</h3>
-              <ul className="mt-4 space-y-2 body-sm">
+          <div className="grid gap-6">
+            <Notice variant="info" title="In the office on Tuesdays">
+              The Code Enforcement Officer and Plumbing Inspector works part time and is in the
+              office on {officer.officeDay}. To schedule an appointment, call the Town Office at{" "}
+              {officer.phone} or email {officer.email}.
+            </Notice>
+
+            <div>
+              <h2 className="heading-lg text-ink">Permit forms and fees</h2>
+              <ul className="mt-4 border-t border-line">
                 {codeEnforcementDocuments.map((doc) => (
-                  <li key={doc.label} className="flex items-center gap-2">
-                    <Icon name="document" size="xs" className="shrink-0 text-blue-700" />
-                    <a href={doc.href} className="text-blue-900 hover:text-blue-700">
+                  <li key={doc.label} className="border-b border-line">
+                    <a
+                      href={doc.href}
+                      className="flex min-h-[var(--tap-min)] items-center gap-3 py-3 body text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+                    >
+                      <Icon name="document" size="sm" className="shrink-0" />
                       {doc.label}
                     </a>
                   </li>
                 ))}
               </ul>
-            </SurfaceCard>
+            </div>
 
-            <SurfaceCard density="standard" className="mt-6" tone="sky">
-              <h3 className="font-display text-lg text-blue-900">Issued Building Permits</h3>
-              <p className="mt-2 body-sm text-blue-900/80">{issuedBuildingPermits.note}</p>
+            <Panel>
+              <h2 className="heading-md text-ink">Issued building permits</h2>
+              <p className="mt-2 measure body-sm text-ink">{issuedBuildingPermits.note}</p>
               <a
                 href={issuedBuildingPermits.href}
-                className="mt-3 inline-flex items-center gap-1 body-sm font-semibold text-blue-700 hover:text-blue-900"
+                className="mt-3 inline-flex min-h-[var(--tap-min)] items-center gap-2 body-sm font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px]"
               >
-                View issued permits ({issuedBuildingPermits.count}) <Icon name="external-link" size="xs" />
+                View issued permits ({issuedBuildingPermits.count})
+                <Icon name="chevron-right" size="xs" />
               </a>
-            </SurfaceCard>
+            </Panel>
           </div>
         </div>
       </Section>

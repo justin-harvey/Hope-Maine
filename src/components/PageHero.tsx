@@ -1,3 +1,5 @@
+// Page header, not a marketing hero: title, one line of orientation, and
+// nothing else competing for attention.
 export function PageHero({
   eyebrow,
   title,
@@ -8,11 +10,11 @@ export function PageHero({
   description?: string;
 }) {
   return (
-    <div className="bg-blue-900">
-      <div className="mx-auto max-w-6xl px-6 py-14">
-        {eyebrow && <p className="captions text-gold-300">{eyebrow}</p>}
-        <h1 className="mt-2 font-display text-3xl text-cream-50 sm:text-4xl">{title}</h1>
-        {description && <p className="mt-4 max-w-2xl body text-cream-50/80">{description}</p>}
+    <div className="border-b border-line bg-surface-2">
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
+        {eyebrow && <p className="overline text-ink-muted">{eyebrow}</p>}
+        <h1 className="mt-2 heading-xl text-ink">{title}</h1>
+        {description && <p className="mt-4 measure body-lg text-ink">{description}</p>}
       </div>
     </div>
   );

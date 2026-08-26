@@ -1,67 +1,51 @@
-"use client";
-
-import { useState } from "react";
-
 import { Icon } from "@/components/ui/icon";
-import { SurfaceCard } from "@/components/ui/surface-card";
 import type { Faq } from "@/data/faqs";
-import { cn } from "@/lib/utils";
 
+// Native <details>: keyboard-operable, screen-reader-announced, and
+// functional with JavaScript disabled — no custom widget to get wrong.
 export function FaqAccordion({ items }: { items: Faq[] }) {
-  const [openQuestion, setOpenQuestion] = useState<string | null>(null);
-
   return (
-    <div className="grid gap-3">
-      {items.map((faq) => {
-        const open = openQuestion === faq.question;
-        return (
-          <SurfaceCard key={faq.question} className="overflow-hidden">
-            <h3>
-              <button
-                type="button"
-                aria-expanded={open}
-                onClick={() => setOpenQuestion(open ? null : faq.question)}
-                className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left body font-medium text-blue-900 hover:bg-blue-900/5"
-              >
-                {faq.question}
-                <Icon
-                  name="chevron-down"
-                  size="sm"
-                  className={cn("shrink-0 text-blue-700 transition-transform", open && "rotate-180")}
-                />
-              </button>
-            </h3>
-            {open && (
-              <div className="border-t border-blue-900/10 px-5 py-4">
-                <div className="grid gap-3">
-                  {faq.answer.map((para, i) => (
-                    <p key={i} className="body-sm text-blue-900/80">
-                      {para}
-                    </p>
+    <div className="border-t border-line">
+      {items.map((faq) => (
+        <details key={faq.question} className="group border-b border-line">
+          <summary className="flex min-h-[var(--tap-min)] cursor-pointer list-none items-center justify-between gap-4 py-3 body font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px] [&::-webkit-details-marker]:hidden">
+            {faq.question}
+            <Icon
+              name="chevron-down"
+              size="sm"
+              className="shrink-0 transition-transform group-open:rotate-180"
+            />
+          </summary>
+
+          <div className="pb-5">
+            <div className="grid gap-3 border-l-4 border-line pl-4">
+              {faq.answer.map((para, i) => (
+                <p key={i} className="measure body-sm text-ink">
+                  {para}
+                </p>
+              ))}
+
+              {faq.links && faq.links.length > 0 && (
+                <ul className="mt-1 grid">
+                  {faq.links.map((link) => (
+                    <li key={link.label}>
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex min-h-[var(--tap-min)] items-center gap-2 body-sm font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+                      >
+                        {link.label}
+                        <Icon name="external-link" size="xs" label="Opens on another website" />
+                      </a>
+                    </li>
                   ))}
-                </div>
-                {faq.links && faq.links.length > 0 && (
-                  <ul className="mt-4 grid gap-2 border-t border-blue-900/10 pt-4">
-                    {faq.links.map((link) => (
-                      <li key={link.label}>
-                        <a
-                          href={link.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 body-sm font-semibold text-blue-700 hover:text-blue-900"
-                        >
-                          {link.label}
-                          <Icon name="external-link" size="xs" />
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            )}
-          </SurfaceCard>
-        );
-      })}
+                </ul>
+              )}
+            </div>
+          </div>
+        </details>
+      ))}
     </div>
   );
 }

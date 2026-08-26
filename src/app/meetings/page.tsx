@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 
-import { SurfaceCard } from "@/components/ui/surface-card";
+import { Icon } from "@/components/ui/icon";
+import { Notice } from "@/components/ui/notice";
+import { Panel } from "@/components/ui/panel";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
-import { upcomingMeetings, meetingArchive } from "@/data/meetings";
+import { meetingSchedules, selectBoardRecords } from "@/data/meetings";
 
 export const metadata: Metadata = {
   title: "Meetings & Agendas",
-  description: "Meeting schedules, agendas, and minutes for Town of Hope boards and committees.",
+  description:
+    "Meeting schedules, agendas, and minutes for Town of Hope boards and committees. All meetings are open to the public.",
 };
 
 export default function MeetingsPage() {
@@ -16,62 +19,77 @@ export default function MeetingsPage() {
       <PageHero
         eyebrow="Meetings & Agendas"
         title="Meetings & Agendas"
-        description="Meeting schedules, agendas, and minutes for the Select Board and town committees. All meetings are open to the public."
+        description="Schedules, agendas, and minutes for the Select Board and town committees. All meetings are open to the public."
       />
 
-      <Section title="Upcoming Meetings">
-        <div className="overflow-x-auto rounded-2xl border border-blue-900/10">
-          <table className="w-full text-left body-sm">
-            <thead className="bg-blue-900 text-cream-50">
-              <tr>
-                <th className="px-4 py-3 font-semibold">Board</th>
-                <th className="px-4 py-3 font-semibold">Date</th>
-                <th className="px-4 py-3 font-semibold">Time</th>
-                <th className="px-4 py-3 font-semibold">Location</th>
-                <th className="px-4 py-3 font-semibold">Agenda</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-blue-900/10 bg-cream-50">
-              {upcomingMeetings.map((meeting) => (
-                <tr key={`${meeting.board}-${meeting.date}`}>
-                  <td className="px-4 py-3 font-medium text-blue-900">{meeting.board}</td>
-                  <td className="px-4 py-3 text-slate-500">{meeting.date}</td>
-                  <td className="px-4 py-3 text-slate-500">{meeting.time}</td>
-                  <td className="px-4 py-3 text-slate-500">{meeting.location}</td>
-                  <td className="px-4 py-3">
-                    <a href={meeting.agendaHref} className="font-semibold text-blue-700 hover:text-blue-900">
-                      View Agenda
-                    </a>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <Section>
+        <Notice variant="warning" title="Documents not yet linked">
+          Agenda and minutes files are listed below by name, but the PDFs have not been moved
+          over from hopemaine.org yet. Call the Town Office at (207) 763-4199 for a copy of any
+          record.
+        </Notice>
+
+        <div className="mt-8 grid gap-6">
+          {meetingSchedules.map((board) => {
+            const scheduleKnown = !board.schedule.startsWith("PLACEHOLDER");
+            return (
+              <Panel key={board.board}>
+                <h2 className="heading-md text-ink">{board.board}</h2>
+
+                <dl className="mt-3">
+                  <div className="data-row body-sm">
+                    <dt className="font-bold text-ink">Schedule</dt>
+                    <dd className={scheduleKnown ? "text-ink" : "text-ink-muted"}>
+                      {scheduleKnown ? board.schedule : "Not published yet"}
+                    </dd>
+                  </div>
+                  <div className="data-row body-sm">
+                    <dt className="font-bold text-ink">Location</dt>
+                    <dd className="text-ink">
+                      {board.location.startsWith("PLACEHOLDER") ? "Not published yet" : board.location}
+                    </dd>
+                  </div>
+                </dl>
+
+                {board.note && <p className="mt-3 measure body-sm text-ink">{board.note}</p>}
+
+                {board.recentAgendas.length > 0 && (
+                  <div className="mt-4 border-t border-line pt-4">
+                    <h3 className="overline text-ink-muted">Recent agendas</h3>
+                    <ul className="mt-2 grid">
+                      {board.recentAgendas.map((agenda) => (
+                        <li key={agenda.label}>
+                          <a
+                            href={agenda.href}
+                            className="flex min-h-[var(--tap-min)] items-center gap-2 body-sm text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+                          >
+                            <Icon name="document" size="xs" className="shrink-0" />
+                            {agenda.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </Panel>
+            );
+          })}
         </div>
       </Section>
 
-      <div className="bg-cream-200">
+      <div className="band">
         <Section
-          title="Meeting Archive"
-          description="Recent minutes by board. Full archives available on request from the Town Office."
+          title="Other Select Board records"
+          description="Also held in the town's document center."
         >
-          <div className="grid gap-6 md:grid-cols-2">
-            {meetingArchive.map((entry) => (
-              <SurfaceCard key={entry.board} density="standard">
-                <h3 className="font-display text-lg text-blue-900">{entry.board}</h3>
-                <p className="mt-1 body-sm font-medium text-blue-700">{entry.schedule}</p>
-                <ul className="mt-4 space-y-2 body-sm">
-                  {entry.recentMinutes.map((minute) => (
-                    <li key={minute.label}>
-                      <a href={minute.href} className="text-blue-900 hover:text-blue-700">
-                        {minute.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </SurfaceCard>
+          <dl className="border-t border-line">
+            {selectBoardRecords.map((record) => (
+              <div key={record.label} className="data-row body">
+                <dt className="text-ink">{record.label}</dt>
+                <dd className="font-semibold text-ink">{record.count} documents</dd>
+              </div>
             ))}
-          </div>
+          </dl>
         </Section>
       </div>
     </>

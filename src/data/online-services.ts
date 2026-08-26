@@ -10,7 +10,10 @@ export const onlineServices = [
     label: "Renew your vehicle registration",
     href: "https://apps1.web.maine.gov/online/bmv/rapid-renewal/",
   },
-  { label: "Pay your property taxes", href: "#" },
+  {
+    label: "Pay your property taxes",
+    href: "https://apps1.web.maine.gov/cgi-bin/ePayment/online/disclaimer?sid=952",
+  },
   {
     label: "Request an absentee ballot",
     href: "https://www.maine.gov/cgi-bin/online/AbsenteeBallot/index.pl",
@@ -36,7 +39,8 @@ export const onlineServices = [
     label: "Purchase a hunting or fishing license",
     href: "https://moses.informe.org/cgi-bin/online/moses_v3/index",
   },
-  { label: "Report a problem with a road", href: "#" },
+  // Town roads are reported to the Town Office; state roads go to MDOT.
+  { label: "Report a problem with a road", href: "/how-do-i#community-services" },
   {
     label: "Get a burn permit",
     href: "https://apps1.web.maine.gov/burnpermit/public/index.html",

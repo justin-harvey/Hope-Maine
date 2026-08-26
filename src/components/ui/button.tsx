@@ -2,103 +2,51 @@ import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 
-import { Icon, type IconName, type IconSize } from "@/components/ui/icon";
-import type { SurfaceTone } from "@/lib/design-system-types";
 import { cn } from "@/lib/utils";
 
-// The one button. Every look is a prop — variant, size, tone, icon,
-// fullWidth — never a one-off class at the call site.
+// One button. Square corners, solid fill or 2px stroke, no shadow and no
+// motion. Every size clears the 44px minimum touch target.
 const buttonVariants = cva(
-  "group/button inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium outline-none transition-all duration-[var(--dur-fast)] ease-[var(--ease-soft)] focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 motion-reduce:transition-none [&_svg]:pointer-events-none shrink-0",
+  "focus-ring-only inline-flex min-h-[var(--tap-min)] items-center justify-center gap-2 border-2 text-center font-semibold no-underline disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        filled:
-          "rounded-2xl btn-filled shadow-md hover:shadow-lg active:shadow-md hover:-translate-y-0.5 active:translate-y-0",
-        soft: "rounded-2xl btn-soft shadow-sm hover:-translate-y-px active:translate-y-0",
-        outline: "rounded-2xl border btn-outline hover:-translate-y-px active:translate-y-0",
-        ghost: "rounded-2xl btn-ghost",
-        underline: "rounded-none border-b-2 btn-quiet",
+        // Primary action: navy fill, white label (10.4:1).
+        primary: "border-navy bg-navy text-ink-inverse hover:bg-navy-dark hover:border-navy-dark",
+        // Secondary: white fill, navy stroke and label.
+        secondary: "border-navy bg-canvas text-navy hover:bg-surface-2",
+        // Destructive/urgent.
+        danger: "border-red bg-red text-ink-inverse hover:bg-[#8f0707] hover:border-[#8f0707]",
+        // Quiet: reads as a link but keeps the button target size.
+        quiet: "border-transparent bg-transparent text-blue-link underline underline-offset-2 hover:decoration-[3px]",
       },
       size: {
-        sm: "h-9 px-4 captions",
-        md: "h-11 px-5 body-sm",
-        lg: "h-12 px-6 body",
-        xl: "h-14 px-8 body-lg",
+        md: "px-5 py-2.5 body-sm",
+        lg: "px-6 py-3 body",
       },
       fullWidth: {
         true: "w-full",
       },
-      active: {
-        true: "",
-        false: "",
-      },
     },
-    compoundVariants: [
-      { variant: "underline", class: "px-2" },
-      { variant: "underline", active: false, class: "btn-quiet-dim" },
-    ],
     defaultVariants: {
-      variant: "filled",
+      variant: "primary",
       size: "md",
     },
   },
 );
 
-const iconGlyphSize: Record<NonNullable<VariantProps<typeof buttonVariants>["size"]>, IconSize> = {
-  sm: "xs",
-  md: "sm",
-  lg: "sm",
-  xl: "md",
-};
-
 function Button({
   className,
   variant,
   size,
-  tone,
   fullWidth,
-  active,
-  icon,
-  iconPosition = "trailing",
   asChild = false,
-  children,
   ...props
 }: React.ComponentProps<"button"> &
-  VariantProps<typeof buttonVariants> & {
-    asChild?: boolean;
-    tone?: SurfaceTone;
-    icon?: IconName;
-    iconPosition?: "leading" | "trailing";
-  }) {
+  VariantProps<typeof buttonVariants> & { asChild?: boolean }) {
   const Comp = asChild ? Slot : "button";
-  const toneClass = tone ? `ctl-tone-${tone}` : undefined;
-  const hasChildren = React.Children.count(children) > 0;
-  const glyph = !asChild && icon ? <Icon name={icon} size={iconGlyphSize[size ?? "md"]} /> : null;
-  const iconOnly = !asChild && Boolean(icon) && !hasChildren;
-
   return (
-    <Comp
-      className={cn(
-        buttonVariants({ variant, size, fullWidth, active }),
-        toneClass,
-        variant === "underline" &&
-          (active === false ? "button-border-transparent" : "button-border-current"),
-        iconOnly && "aspect-square px-0",
-        className,
-      )}
-      {...props}
-    >
-      {asChild ? (
-        children
-      ) : (
-        <>
-          {iconPosition === "leading" ? glyph : null}
-          {children}
-          {iconPosition === "trailing" ? glyph : null}
-        </>
-      )}
-    </Comp>
+    <Comp className={cn(buttonVariants({ variant, size, fullWidth }), className)} {...props} />
   );
 }
 

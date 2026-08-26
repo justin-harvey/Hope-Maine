@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Icon } from "@/components/ui/icon";
-import { SurfaceCard } from "@/components/ui/surface-card";
+import { Panel } from "@/components/ui/panel";
 import { OnlineServicesGrid } from "@/components/OnlineServicesGrid";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
@@ -12,6 +12,15 @@ export const metadata: Metadata = {
   title: "Departments & Services",
   description: "Town departments, contacts, and services for the Town of Hope, Maine.",
 };
+
+function Value({ children }: { children: string }) {
+  const missing = children.startsWith("PLACEHOLDER");
+  return (
+    <span className={missing ? "text-ink-muted" : "text-ink"}>
+      {missing ? "Not published yet" : children}
+    </span>
+  );
+}
 
 export default function DepartmentsPage() {
   return (
@@ -25,52 +34,64 @@ export default function DepartmentsPage() {
       <Section>
         <div className="grid gap-6 md:grid-cols-2">
           {departments.map((dept) => (
-            <SurfaceCard key={dept.name} density="standard">
-              <h3 className="font-display text-lg text-blue-900">{dept.name}</h3>
-              <p className="mt-2 body-sm text-slate-500">{dept.description}</p>
-              <dl className="mt-4 space-y-1 body-sm text-blue-900/80">
-                <div className="flex gap-2">
-                  <dt className="font-medium text-blue-900">Phone:</dt>
-                  <dd>{dept.phone}</dd>
+            <Panel key={dept.name}>
+              <h2 className="heading-md text-ink">{dept.name}</h2>
+              <p className="mt-2 measure body-sm text-ink">{dept.description}</p>
+
+              <dl className="mt-4">
+                <div className="data-row body-sm">
+                  <dt className="font-bold text-ink">Phone</dt>
+                  <dd>
+                    <Value>{dept.phone}</Value>
+                  </dd>
                 </div>
-                <div className="flex gap-2">
-                  <dt className="font-medium text-blue-900">Email:</dt>
-                  <dd>{dept.email}</dd>
+                <div className="data-row body-sm">
+                  <dt className="font-bold text-ink">Email</dt>
+                  <dd>
+                    <Value>{dept.email}</Value>
+                  </dd>
                 </div>
-                <div className="flex gap-2">
-                  <dt className="font-medium text-blue-900">Hours:</dt>
-                  <dd>{dept.hours}</dd>
+                <div className="data-row body-sm">
+                  <dt className="font-bold text-ink">Hours</dt>
+                  <dd>
+                    <Value>{dept.hours}</Value>
+                  </dd>
                 </div>
               </dl>
-              <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
-                {dept.slug && (
-                  <Link
-                    href={`/departments/${dept.slug}`}
-                    className="inline-flex items-center gap-1 body-sm font-semibold text-blue-700 hover:text-blue-900"
-                  >
-                    Learn more <Icon name="chevron-right" size="xs" />
-                  </Link>
-                )}
-                {dept.website && (
-                  <a
-                    href={dept.website.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 body-sm font-semibold text-blue-700 hover:text-blue-900"
-                  >
-                    {dept.website.label} <Icon name="external-link" size="xs" />
-                  </a>
-                )}
-              </div>
-            </SurfaceCard>
+
+              {(dept.slug || dept.website) && (
+                <div className="mt-3 flex flex-wrap items-center gap-x-6">
+                  {dept.slug && (
+                    <Link
+                      href={`/departments/${dept.slug}`}
+                      className="inline-flex min-h-[var(--tap-min)] items-center gap-2 body-sm font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+                    >
+                      More about {dept.name}
+                      <Icon name="chevron-right" size="xs" />
+                    </Link>
+                  )}
+                  {dept.website && (
+                    <a
+                      href={dept.website.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex min-h-[var(--tap-min)] items-center gap-2 body-sm font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+                    >
+                      {dept.website.label}
+                      <Icon name="external-link" size="xs" label="Opens on another website" />
+                    </a>
+                  )}
+                </div>
+              )}
+            </Panel>
           ))}
         </div>
       </Section>
 
-      <div className="bg-cream-200">
+      <div className="band">
         <Section
-          title="Online Services"
-          description="Common tasks residents can complete online — most link directly to the relevant State of Maine system."
+          title="Online services"
+          description="Most of these are handled by the State of Maine and open on a maine.gov site."
         >
           <OnlineServicesGrid />
         </Section>

@@ -1,76 +1,70 @@
 /* ─────────────────────────────────────────────────────────────
    Town of Hope — Design Tokens
-   Ported from the CivicChain design system (G00DTECH/Civic-Chain).
-   Flat gallery: color ramps + structural defaults. A tint is
-   <ramp>/<opacity> at the use site, never its own token.
+   Radical Functionalism, after GOV.UK / USWDS / Système de Design.
+   Institutional authority, bulletproof contrast, zero ornament.
+
+   Every text pair below is checked against its intended background.
+   Ratios noted inline; body-size pairs target WCAG AAA (7:1).
    ───────────────────────────────────────────────────────────── */
 
 :root {
-  /* ── Color ramps ── */
-  --blue-100: #e2e9f7;
-  --blue-200: #d6e0f4;
-  --blue-300: #b4c0e0;
-  --blue-500: #90a2d0;
-  --blue-700: #1c2f74;
-  --blue-900: #131f86;
-  --gold-100: #efdfc3;
-  --gold-200: #eddab9;
-  --gold-300: #e9d3ab;
-  --gold-500: #b9a175;
-  --gold-600: #8a775a;
-  --gold-800: #352613;
-  --green-100: #d6f0db;
-  --green-200: #c6e8cd;
-  --green-300: #aed7b6;
-  --green-500: #86b18f;
-  --green-600: #498458;
-  --green-900: #0b401f;
-  --cream-50: #faf3e8;
-  --cream-100: #f3f1e8;
-  --cream-200: #efe9df;
-  --cream-300: #e4ddd2;
-  --slate-100: #ebe5ed;
-  --slate-200: #e3dbe5;
-  --slate-300: #c8bccb;
-  --slate-400: #9f91a3;
-  --slate-500: #6d5a72;
-  --slate-700: #48354d;
-  --red-100: #f8e1e5;
-  --red-400: #bf8084;
-  --red-600: #882335;
+  /* ── Ink ──────────────────────────────────────────────────
+     Slate black, not pure black: softer on bright canvases while
+     holding ~19:1 on white. */
+  --ink: #0b0c0c;              /* 19.2:1 on white  — body + headings */
+  --ink-muted: #414852;        /*  9.2:1 white · 8.3:1 on either grey band */
+  --ink-inverse: #ffffff;
 
-  /* ── Structural defaults ── */
-  --background: var(--cream-100);
-  --foreground: var(--blue-900);
-  --border: rgba(19, 31, 134, 0.14);
-  --ring: rgba(19, 31, 134, 0.24);
+  /* ── Institutional ────────────────────────────────────────
+     Deep navy carries authority: masthead, footer, primary action. */
+  --navy: #1b365d;             /* white on navy = 10.4:1 */
+  --navy-dark: #12243d;        /* hover / pressed */
 
-  /* Control color contract — surfaces (and explicit tone overrides) fill
-     these; controls read them. */
-  --ctl-accent: var(--blue-900);
-  --ctl-on-accent: var(--cream-50);
-  --ctl-ink: var(--foreground);
-  --ctl-soft: var(--blue-200);
-  --ctl-filled-accent: var(--ctl-accent);
-  --ctl-on-filled-accent: var(--ctl-on-accent);
+  /* ── Action ───────────────────────────────────────────────
+     Royal blue for interactive affordance. The link tone is a
+     step darker than the fill tone so body-size links clear AAA. */
+  --blue-link: #1a4480;        /*  8.6:1 on white — text links */
+  --blue: #005ea2;             /*  6.5:1 on white — fills, rules, icons */
+  --blue-wash: #e1f3f8;        /* informational surface */
 
-  --border-width-1: 1px;
-  --border-width-2: 2px;
+  /* ── Canvas & surfaces ────────────────────────────────────
+     Stark white plus two cool greys. Surfaces are separated by
+     lines, never by shadow. */
+  --canvas: #ffffff;
+  --surface-1: #f3f2f1;        /* warm-neutral band */
+  --surface-2: #f0f4f8;        /* cool band */
 
-  /* ── Typography — two families ── */
-  --font-sans: var(--font-dm-sans);
-  --font-display: var(--font-dm-serif-text);
+  /* ── Lines ────────────────────────────────────────────────
+     Structure is drawn, not floated. */
+  --line: #b1b4b6;             /* 1px default rule */
+  --line-strong: #0b0c0c;      /* 2px emphasis rule */
+  --line-width: 1px;
+  --line-width-strong: 2px;
+  --line-width-accent: 0.625rem; /* 10px left bar on notices */
 
-  --tracking-label: 0.18em;
+  /* ── Status ───────────────────────────────────────────────
+     State is always carried by an icon, a label, and a border —
+     never by color alone. */
+  --red: #a10808;              /*  8.2:1 white · 7.1:1 on its own wash */
+  --red-wash: #fdeaea;
+  --green: #005c31;            /*  8.2:1 white · 7.1:1 on its own wash */
+  --green-wash: #e3f2ea;
+  --amber: #6b4700;            /*  8.3:1 white · 7.6:1 on its own wash */
+  --amber-wash: #fff5d6;
 
-  /* ── Motion canon ── */
-  --ease-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --dur-fast: 180ms;
-  --focus-outline-offset: 3px;
+  /* ── Focus ────────────────────────────────────────────────
+     High-vis yellow behind, solid black underline beneath. Visible
+     against every surface in the palette. */
+  --focus-yellow: #ffdd00;
+  --focus-ink: #0b0c0c;
+  --focus-width: 4px;
 
-  --accent: var(--blue-700);
-  --accent-surface: var(--blue-100);
-  --muted-foreground: var(--slate-400);
+  /* ── Metrics ──────────────────────────────────────────────── */
+  --tap-min: 2.75rem;          /* 44px minimum touch target */
+  --measure: 66ch;             /* 60–75 character line length */
+  --radius: 0;                 /* stark geometry: no rounding */
+
+  --font-sans: var(--font-public-sans);
 
   color-scheme: light;
 }

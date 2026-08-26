@@ -1,15 +1,20 @@
 import type { Metadata } from "next";
 
 import { Icon } from "@/components/ui/icon";
-import { SurfaceCard } from "@/components/ui/surface-card";
+import { Notice } from "@/components/ui/notice";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { documentCategories } from "@/data/documents";
 
 export const metadata: Metadata = {
   title: "Documents & Forms",
-  description: "Town reports, ordinances, permits, and forms for the Town of Hope, Maine.",
+  description:
+    "Town reports, ordinances, policies, audits, tax maps, permits, and forms for the Town of Hope, Maine.",
 };
+
+function slugify(value: string) {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
 
 export default function DocumentsPage() {
   return (
@@ -17,25 +22,61 @@ export default function DocumentsPage() {
       <PageHero
         eyebrow="Documents & Forms"
         title="Documents & Forms"
-        description="Town reports, ordinances, permit applications, and other public documents."
+        description="Town reports, ordinances, policies, audited finances, maps, permit applications, and other public records."
       />
 
       <Section>
-        <div className="grid gap-6 md:grid-cols-2">
+        <Notice variant="warning" title="Documents not yet linked">
+          Every document below is listed by its real name, but the files themselves have not been
+          moved over from hopemaine.org yet. Call the Town Office at (207) 763-4199 for a copy of
+          any record.
+        </Notice>
+
+        {/* On-page contents — a long list of records needs a way in. */}
+        <nav aria-labelledby="contents-heading" className="mt-8">
+          <h2 id="contents-heading" className="overline text-ink-muted">
+            On this page
+          </h2>
+          <ul className="mt-3 grid gap-x-8 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
+            {documentCategories.map((category) => (
+              <li key={category.category}>
+                <a
+                  href={`#${slugify(category.category)}`}
+                  className="flex min-h-[var(--tap-min)] items-center body-sm text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+                >
+                  {category.category} ({category.documents.length})
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="mt-10 grid gap-12">
           {documentCategories.map((category) => (
-            <SurfaceCard key={category.category} density="standard">
-              <h3 className="font-display text-lg text-blue-900">{category.category}</h3>
-              <ul className="mt-4 space-y-2 body-sm">
+            <section key={category.category} aria-labelledby={slugify(category.category)}>
+              <h2
+                id={slugify(category.category)}
+                className="scroll-mt-6 border-b-2 border-line-strong pb-2 heading-lg text-ink"
+              >
+                {category.category}
+              </h2>
+              {category.description && (
+                <p className="mt-2 measure body-sm text-ink-muted">{category.description}</p>
+              )}
+              <ul className="mt-4 border-t border-line">
                 {category.documents.map((doc) => (
-                  <li key={doc.label} className="flex items-center gap-2">
-                    <Icon name="document" size="xs" className="shrink-0 text-blue-700" />
-                    <a href={doc.href} className="text-blue-900 hover:text-blue-700">
+                  <li key={doc.label} className="border-b border-line">
+                    <a
+                      href={doc.href}
+                      className="flex min-h-[var(--tap-min)] items-center gap-3 py-3 body-sm text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+                    >
+                      <Icon name="document" size="sm" className="shrink-0" />
                       {doc.label}
                     </a>
                   </li>
                 ))}
               </ul>
-            </SurfaceCard>
+            </section>
           ))}
         </div>
       </Section>

@@ -14,96 +14,83 @@ export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 bg-cream-50 shadow-sm">
-      <div className="hidden bg-blue-900 text-cream-50 md:block">
-        <div className="mx-auto flex max-w-6xl items-center justify-end gap-6 px-6 py-1.5 body-xs">
-          <a href={`tel:${townInfo.phone}`} className="inline-flex items-center gap-1.5 hover:text-gold-300">
-            <Icon name="phone" size="xs" />
-            {townInfo.phone}
-          </a>
-          <a href={`mailto:${townInfo.email}`} className="inline-flex items-center gap-1.5 hover:text-gold-300">
-            <Icon name="mail" size="xs" />
-            {townInfo.email}
-          </a>
-        </div>
-      </div>
-
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4">
-        <Link href="/" className="flex items-center gap-3" onClick={() => setMenuOpen(false)}>
+    <header className="border-b-2 border-line-strong bg-canvas">
+      {/* Masthead */}
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+        {/* The seal is the route home, per the GOV.UK masthead pattern. */}
+        <Link
+          href="/"
+          aria-label="Town of Hope, Maine — home"
+          className="flex items-center gap-3 no-underline"
+          onClick={() => setMenuOpen(false)}
+        >
           <Image
             src="/brand/town-seal.png"
-            alt="Town of Hope, Maine seal"
-            width={44}
-            height={44}
-            className="h-11 w-11 shrink-0"
+            alt=""
+            width={48}
+            height={48}
+            className="h-12 w-12 shrink-0"
             priority
           />
-          <span className="leading-tight">
-            <span className="block font-display text-lg whitespace-nowrap text-blue-900">
-              {townInfo.name}
-            </span>
-            <span className="hidden body-xs text-slate-500 sm:block">{townInfo.tagline}</span>
+          <span>
+            <span className="block heading-sm text-ink">{townInfo.name}</span>
+            <span className="block body-xs text-ink-muted">Incorporated 1804</span>
           </span>
         </Link>
 
-        <nav className="hidden xl:block" aria-label="Primary">
-          <ul className="flex items-center gap-1">
-            {primaryNav.map((item) => {
-              const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
-              return (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    aria-current={active ? "page" : undefined}
-                    className={cn(
-                      "block rounded-2xl px-2.5 py-2 body-sm font-medium whitespace-nowrap transition-colors",
-                      active ? "bg-blue-900 text-cream-50" : "text-blue-900 hover:bg-blue-900/5",
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
+        <div className="flex items-center gap-3">
+          <a
+            href={`tel:${townInfo.phone}`}
+            className="hidden min-h-[var(--tap-min)] items-center gap-2 body-sm font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px] md:inline-flex"
+          >
+            <Icon name="phone" size="xs" />
+            {townInfo.phone}
+          </a>
 
-        <button
-          type="button"
-          className="inline-flex items-center justify-center rounded-2xl border border-blue-900/20 p-2 text-blue-900 xl:hidden"
-          aria-expanded={menuOpen}
-          aria-controls="mobile-nav"
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          <span className="sr-only">{menuOpen ? "Close menu" : "Open menu"}</span>
-          <Icon name={menuOpen ? "close" : "menu"} size="md" />
-        </button>
+          <button
+            type="button"
+            className="inline-flex min-h-[var(--tap-min)] min-w-[var(--tap-min)] items-center justify-center gap-2 border-2 border-navy bg-navy px-3 font-semibold text-ink-inverse focus-ring-only lg:hidden"
+            aria-expanded={menuOpen}
+            aria-controls="primary-navigation"
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <Icon name={menuOpen ? "close" : "menu"} size="sm" />
+            <span className="body-sm">Menu</span>
+          </button>
+        </div>
       </div>
 
-      {menuOpen && (
-        <nav id="mobile-nav" aria-label="Primary" className="border-t border-blue-900/10 xl:hidden">
-          <ul className="mx-auto max-w-6xl px-6 py-2">
-            {primaryNav.map((item) => {
-              const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
-              return (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    aria-current={active ? "page" : undefined}
-                    onClick={() => setMenuOpen(false)}
-                    className={cn(
-                      "block rounded-2xl px-3 py-2.5 body-sm font-medium",
-                      active ? "bg-blue-900 text-cream-50" : "text-blue-900 hover:bg-blue-900/5",
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-      )}
+      {/* Primary navigation — navy band, full-width targets */}
+      <nav
+        id="primary-navigation"
+        aria-label="Primary"
+        className={cn("bg-navy", menuOpen ? "block" : "hidden lg:block")}
+      >
+        <ul className="mx-auto flex max-w-7xl flex-col px-4 sm:px-6 lg:flex-row lg:flex-wrap">
+          {primaryNav.map((item) => {
+            const active = pathname.startsWith(item.href);
+            return (
+              <li key={item.href} className="border-b border-navy-dark lg:border-b-0">
+                <Link
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  onClick={() => setMenuOpen(false)}
+                  className={cn(
+                    "flex min-h-[var(--tap-min)] items-center px-3 py-3 font-semibold whitespace-nowrap no-underline body-sm lg:px-2 xl:px-3",
+                    // Active state is carried by a thick bottom rule as well
+                    // as color, so it survives greyscale and high-contrast mode.
+                    active
+                      ? "bg-canvas text-navy lg:bg-transparent lg:text-ink-inverse lg:shadow-[inset_0_-6px_0_0_var(--focus-yellow)]"
+                      : "text-ink-inverse hover:bg-navy-dark hover:underline hover:underline-offset-4",
+                  )}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
     </header>
   );
 }

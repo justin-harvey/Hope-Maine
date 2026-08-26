@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
 
 import { Icon } from "@/components/ui/icon";
-import { SurfaceCard } from "@/components/ui/surface-card";
+import { Notice } from "@/components/ui/notice";
+import { Panel } from "@/components/ui/panel";
+import { Tag } from "@/components/ui/tag";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { selectBoard, townOfficials, boardsAndCommittees } from "@/data/government";
 
 export const metadata: Metadata = {
   title: "Town Government",
-  description: "Select Board, town officials, and boards & committees for the Town of Hope, Maine.",
+  description:
+    "Select Board members, town officials, and boards and committees for the Town of Hope, Maine.",
 };
 
 export default function GovernmentPage() {
@@ -17,52 +20,110 @@ export default function GovernmentPage() {
       <PageHero
         eyebrow="Town Government"
         title="Town Government"
-        description="Hope is governed by an elected Select Board, town officials, and a number of volunteer boards and committees."
+        description="Hope is governed by an elected Select Board, supported by town officials and volunteer boards and committees."
       />
 
-      <Section title="Select Board">
-        <div className="grid gap-4 sm:grid-cols-3">
-          {selectBoard.map((member) => (
-            <SurfaceCard key={member.role} density="standard">
-              <p className="font-display text-lg text-blue-900">{member.name}</p>
-              <p className="mt-1 body-sm font-medium text-blue-700">{member.role}</p>
-              <p className="mt-2 body-sm text-slate-500">Term ends {member.termEnds}</p>
-            </SurfaceCard>
+      <Section title="Select Board" headingId="select-board">
+        <Notice variant="info" title="Meeting schedule">
+          {selectBoard.meets} {selectBoard.agendaNote}
+        </Notice>
+
+        <ul className="mt-6 border-t border-line">
+          {selectBoard.members.map((member) => (
+            <li
+              key={`${member.name}-${member.termExpires}`}
+              className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-line py-4"
+            >
+              <div>
+                <p className="heading-sm text-ink">
+                  {member.name}{" "}
+                  {member.role !== "Member" && (
+                    <Tag tone={member.name === "Vacant" ? "neutral" : "navy"}>{member.role}</Tag>
+                  )}
+                </p>
+                {member.email && (
+                  <a
+                    href={`mailto:${member.email}`}
+                    className="mt-1 inline-flex min-h-[var(--tap-min)] items-center gap-2 body-sm text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+                  >
+                    <Icon name="mail" size="xs" />
+                    {member.email}
+                  </a>
+                )}
+              </div>
+              <p className="body-sm text-ink-muted">Term expires {member.termExpires}</p>
+            </li>
           ))}
-        </div>
+        </ul>
+
+        <p className="mt-5 body-sm text-ink">
+          Contact the whole board at{" "}
+          <a
+            href={`mailto:${selectBoard.boardEmail}`}
+            className="prose-link font-semibold"
+          >
+            {selectBoard.boardEmail}
+          </a>
+          .
+        </p>
       </Section>
 
-      <div className="bg-cream-200">
-        <Section title="Town Office Staff">
-          <div className="grid gap-4 sm:grid-cols-2">
+      <div className="band">
+        <Section title="Town Office staff" headingId="staff">
+          <div className="grid gap-4 md:grid-cols-2">
             {townOfficials.map((official) => (
-              <SurfaceCard key={official.role} density="standard">
-                <p className="font-display text-lg text-blue-900">{official.name}</p>
-                <p className="mt-1 body-sm font-medium text-blue-700">{official.role}</p>
+              <Panel key={official.role}>
+                <h3 className="heading-sm text-ink">{official.name}</h3>
+                <p className="mt-1 body-sm font-semibold text-ink">{official.role}</p>
                 {official.otherRoles.length > 0 && (
-                  <p className="mt-1 body-sm text-slate-500">{official.otherRoles.join(", ")}</p>
+                  <p className="mt-1 body-sm text-ink-muted">{official.otherRoles.join(" · ")}</p>
                 )}
-                <p className="mt-3 flex items-center gap-1.5 body-sm text-blue-900">
+                <a
+                  href={`mailto:${official.email}`}
+                  className="mt-2 inline-flex min-h-[var(--tap-min)] items-center gap-2 body-sm text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+                >
                   <Icon name="mail" size="xs" />
                   {official.email}
-                </p>
-              </SurfaceCard>
+                </a>
+              </Panel>
             ))}
           </div>
         </Section>
       </div>
 
       <Section
-        title="Boards & Committees"
+        title="Boards and committees"
+        headingId="boards"
         description="Volunteer bodies that advise the Select Board and administer specific town functions."
       >
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-6">
           {boardsAndCommittees.map((board) => (
-            <SurfaceCard key={board.name} density="standard">
-              <h3 className="font-display text-lg text-blue-900">{board.name}</h3>
-              <p className="mt-2 body-sm text-slate-500">{board.description}</p>
-              <p className="mt-3 body-sm font-medium text-blue-700">{board.meets}</p>
-            </SurfaceCard>
+            <Panel key={board.name}>
+              <h3 className="heading-md text-ink">{board.name}</h3>
+              <p className="mt-2 measure body-sm text-ink">{board.description}</p>
+              <p className="mt-2 body-sm text-ink">
+                <span className="font-bold">Meets:</span>{" "}
+                {board.meets.startsWith("PLACEHOLDER") ? (
+                  <span className="text-ink-muted">Schedule not published yet</span>
+                ) : (
+                  board.meets
+                )}
+              </p>
+
+              {board.members.length > 0 && (
+                <div className="mt-4 border-t border-line pt-4">
+                  <h4 className="overline text-ink-muted">Current members</h4>
+                  <dl className="mt-2">
+                    {board.members.map((member) => (
+                      <div key={member.name} className="data-row body-sm">
+                        <dt className="text-ink">{member.name}</dt>
+                        <dd className="text-ink-muted">Term expires {member.termExpires}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              )}
+            </Panel>
           ))}
         </div>
       </Section>

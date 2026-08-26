@@ -2,76 +2,84 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Icon } from "@/components/ui/icon";
-import { primaryNav, townInfo } from "@/lib/nav";
+import { primaryNav, secondaryNav, townInfo } from "@/lib/nav";
 
 export function SiteFooter() {
   return (
-    <footer className="bg-blue-900 text-cream-50">
-      <div className="mx-auto grid max-w-6xl gap-10 px-6 py-12 md:grid-cols-3">
+    <footer className="mt-16 border-t-[6px] border-navy bg-surface-1">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-10 sm:px-6 md:grid-cols-3">
         <div>
-          <Image
-            src="/brand/town-seal.png"
-            alt="Town of Hope, Maine seal"
-            width={56}
-            height={56}
-            className="h-14 w-14"
-          />
-          <h2 className="mt-3 font-display text-lg text-cream-50">{townInfo.name}</h2>
-          <p className="mt-2 body-sm text-cream-50/70">{townInfo.tagline}</p>
-          <address className="mt-4 space-y-1 body-sm not-italic text-cream-50/80">
-            <p>{townInfo.addressLine1}</p>
-            <p>{townInfo.addressLine2}</p>
-            <p>{townInfo.cityStateZip}</p>
+          <div className="flex items-center gap-3">
+            <Image src="/brand/town-seal.png" alt="" width={48} height={48} className="h-12 w-12" />
+            <p className="heading-sm text-ink">{townInfo.name}</p>
+          </div>
+          <address className="mt-4 grid gap-0.5 body-sm not-italic text-ink">
+            <span>{townInfo.addressLine1}</span>
+            <span>{townInfo.addressLine2}</span>
+            <span>{townInfo.cityStateZip}</span>
           </address>
         </div>
 
-        <div>
-          <h3 className="captions text-cream-50">Quick Links</h3>
-          <ul className="mt-3 space-y-2 body-sm">
-            {primaryNav.slice(1).map((item) => (
+        <nav aria-label="Footer">
+          <h2 className="overline text-ink-muted">On this site</h2>
+          <ul className="mt-3 grid">
+            {[...primaryNav, ...secondaryNav].map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className="text-cream-50/80 hover:text-gold-300">
+                <Link
+                  href={item.href}
+                  className="flex min-h-[var(--tap-min)] items-center body-sm text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+                >
                   {item.label}
                 </Link>
               </li>
             ))}
           </ul>
-        </div>
+        </nav>
 
         <div>
-          <h3 className="captions text-cream-50">Contact</h3>
-          <ul className="mt-3 space-y-2 body-sm text-cream-50/80">
-            <li className="flex items-center gap-2">
-              <Icon name="phone" size="xs" />
-              <a href={`tel:${townInfo.phone}`} className="hover:text-gold-300">
+          <h2 className="overline text-ink-muted">Contact</h2>
+          <ul className="mt-3 grid body-sm text-ink">
+            <li>
+              <a
+                href={`tel:${townInfo.phone}`}
+                className="flex min-h-[var(--tap-min)] items-center gap-2 text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+              >
+                <Icon name="phone" size="xs" />
                 {townInfo.phone}
               </a>
             </li>
-            <li className="flex items-center gap-2">
-              <Icon name="mail" size="xs" />
-              <a href={`mailto:${townInfo.email}`} className="hover:text-gold-300">
+            <li>
+              <a
+                href={`mailto:${townInfo.email}`}
+                className="flex min-h-[var(--tap-min)] items-center gap-2 text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+              >
+                <Icon name="mail" size="xs" />
                 {townInfo.email}
               </a>
             </li>
+            <li className="flex min-h-[var(--tap-min)] items-center gap-2 text-ink">
+              Fax: {townInfo.fax}
+            </li>
           </ul>
-          <h3 className="mt-5 captions text-cream-50">Office Hours</h3>
-          <ul className="mt-3 space-y-1 body-sm text-cream-50/80">
+
+          <h2 className="mt-4 overline text-ink-muted">Town Office hours</h2>
+          <ul className="mt-3 grid gap-1 body-sm text-ink">
             {townInfo.officeHours.map((entry) => (
-              <li key={entry.days} className="flex justify-between gap-4">
+              <li key={entry.days} className="flex flex-wrap justify-between gap-x-4">
                 <span>{entry.days}</span>
-                <span>{entry.hours}</span>
+                <span className="font-semibold">{entry.hours}</span>
               </li>
             ))}
           </ul>
         </div>
       </div>
 
-      <div className="border-t border-cream-50/10">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 py-4 body-xs text-cream-50/60 sm:flex-row sm:items-center sm:justify-between">
+      <div className="border-t border-line">
+        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-4 body-xs text-ink-muted sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <p>
-            © {new Date().getFullYear()} {townInfo.name}. All rights reserved.
+            © {new Date().getFullYear()} {townInfo.name}
           </p>
-          <p>Website content is being updated — some information is placeholder text.</p>
+          <p>Some information on this site is still being migrated from hopemaine.org.</p>
         </div>
       </div>
     </footer>

@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
 
 import { Icon } from "@/components/ui/icon";
-import { SurfaceCard } from "@/components/ui/surface-card";
+import { Notice } from "@/components/ui/notice";
+import { Panel } from "@/components/ui/panel";
+import { ContactForm } from "@/components/ContactForm";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
-import { ContactForm } from "@/components/ContactForm";
 import { townInfo } from "@/lib/nav";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Contact information, hours, and location for the Town of Hope, Maine town office.",
+  description:
+    "Contact information, hours, and location for the Town of Hope, Maine town office.",
 };
 
 export default function ContactPage() {
@@ -18,66 +20,73 @@ export default function ContactPage() {
       <PageHero
         eyebrow="Contact"
         title="Contact the Town Office"
-        description="Reach out with questions, or stop by during office hours."
+        description="Call, email, or stop by during office hours."
       />
 
       <Section>
-        <div className="grid gap-8 lg:grid-cols-3">
-          <div className="space-y-6 lg:col-span-1">
-            <SurfaceCard density="standard">
-              <h3 className="font-display text-lg text-blue-900">Hope Town Office</h3>
-              <address className="mt-3 space-y-1 body-sm not-italic text-blue-900/80">
-                <p>{townInfo.addressLine1}</p>
-                <p>{townInfo.addressLine2}</p>
-                <p>{townInfo.cityStateZip}</p>
+        <div className="grid gap-10 lg:grid-cols-[24rem_1fr]">
+          <div className="grid gap-6">
+            <Panel strong>
+              <h2 className="heading-md text-ink">Hope Town Office</h2>
+              <address className="mt-3 grid gap-0.5 body not-italic text-ink">
+                <span>{townInfo.addressLine1}</span>
+                <span>{townInfo.addressLine2}</span>
+                <span>{townInfo.cityStateZip}</span>
               </address>
-              <dl className="mt-4 space-y-2 body-sm text-blue-900/80">
-                <div className="flex items-center gap-2">
-                  <Icon name="phone" size="xs" />
-                  <dd>
-                    <a href={`tel:${townInfo.phone}`} className="hover:text-blue-700">
-                      {townInfo.phone}
-                    </a>
-                  </dd>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Icon name="mail" size="xs" />
-                  <dd>
-                    <a href={`mailto:${townInfo.email}`} className="hover:text-blue-700">
-                      {townInfo.email}
-                    </a>
-                  </dd>
-                </div>
-              </dl>
-            </SurfaceCard>
 
-            <SurfaceCard density="standard">
-              <h3 className="font-display text-lg text-blue-900">Office Hours</h3>
-              <ul className="mt-3 space-y-1 body-sm text-blue-900/80">
-                {townInfo.officeHours.map((entry) => (
-                  <li key={entry.days} className="flex justify-between gap-4">
-                    <span>{entry.days}</span>
-                    <span>{entry.hours}</span>
-                  </li>
-                ))}
+              <ul className="mt-4 grid border-t border-line pt-2">
+                <li>
+                  <a
+                    href={`tel:${townInfo.phone}`}
+                    className="flex min-h-[var(--tap-min)] items-center gap-3 body text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+                  >
+                    <Icon name="phone" size="sm" className="shrink-0" />
+                    {townInfo.phone}
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={`mailto:${townInfo.email}`}
+                    className="flex min-h-[var(--tap-min)] items-center gap-3 body text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+                  >
+                    <Icon name="mail" size="sm" className="shrink-0" />
+                    {townInfo.email}
+                  </a>
+                </li>
+                <li className="flex min-h-[var(--tap-min)] items-center gap-3 body text-ink">
+                  <Icon name="document" size="sm" className="shrink-0" />
+                  Fax: {townInfo.fax}
+                </li>
               </ul>
-            </SurfaceCard>
+            </Panel>
 
-            <div className="flex h-48 items-center justify-center rounded-2xl border border-dashed border-blue-900/20 bg-cream-200 body-sm text-slate-500">
-              Map embed placeholder — add a Google Maps embed once the address is confirmed.
-            </div>
+            <Panel>
+              <h2 className="heading-md text-ink">Office hours</h2>
+              <dl className="mt-3">
+                {townInfo.officeHours.map((entry) => (
+                  <div key={entry.days} className="data-row body">
+                    <dt className="text-ink">{entry.days}</dt>
+                    <dd className="font-semibold text-ink">{entry.hours}</dd>
+                  </div>
+                ))}
+              </dl>
+            </Panel>
+
+            <Notice variant="danger" title="Emergencies">
+              For any emergency, dial <span className="font-bold">911</span>. If you need General
+              Assistance outside office hours, contact the Knox County Regional Communications
+              Center at (207) 594-0429.
+            </Notice>
           </div>
 
-          <div className="lg:col-span-2">
-            <SurfaceCard density="standard">
-              <h3 className="font-display text-lg text-blue-900">Send a Message</h3>
-              <p className="mt-1 body-sm text-slate-500">
-                For urgent matters, please call the Town Office directly.
-              </p>
-              <div className="mt-6">
-                <ContactForm />
-              </div>
-            </SurfaceCard>
+          <div>
+            <h2 className="heading-lg text-ink">Send a message</h2>
+            <p className="mt-2 measure body text-ink-muted">
+              For urgent matters, please call the Town Office directly.
+            </p>
+            <div className="mt-6">
+              <ContactForm />
+            </div>
           </div>
         </div>
       </Section>

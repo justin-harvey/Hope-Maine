@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 
 import { Icon } from "@/components/ui/icon";
-import { SurfaceCard } from "@/components/ui/surface-card";
+import { Panel } from "@/components/ui/panel";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { newsPosts } from "@/data/news";
 
 export const metadata: Metadata = {
   title: "News",
-  description: "Town announcements, public notices, and meeting warrants for the Town of Hope, Maine.",
+  description:
+    "Town announcements, public notices, election information, and meeting warrants for the Town of Hope, Maine.",
 };
 
 export default function NewsPage() {
@@ -16,22 +17,22 @@ export default function NewsPage() {
     <>
       <PageHero
         eyebrow="News"
-        title="News & Announcements"
-        description="Public notices, town meeting warrants, election information, and announcements from the Town of Hope."
+        title="News & Notices"
+        description="Public notices, town meeting warrants, election information, and announcements."
       />
 
       <Section>
-        <div className="grid gap-4">
+        <div className="grid gap-6">
           {newsPosts.map((post) => (
-            <SurfaceCard key={post.title} density="standard">
-              <p className="captions text-blue-700">{post.date}</p>
-              <h2 className="mt-2 font-display text-xl text-blue-900">{post.title}</h2>
-              <p className="mt-2 body-sm text-slate-500">{post.summary}</p>
+            <Panel key={post.title}>
+              <p className="overline text-ink-muted">{post.date}</p>
+              <h2 className="mt-1 heading-md text-ink">{post.title}</h2>
+              <p className="mt-2 measure body text-ink">{post.summary}</p>
 
               {post.body && (
-                <div className="mt-4 grid gap-2 border-t border-blue-900/10 pt-4">
+                <div className="mt-4 grid gap-3 border-l-4 border-line pl-4">
                   {post.body.map((para, i) => (
-                    <p key={i} className="body-sm text-blue-900/80">
+                    <p key={i} className="measure body-sm text-ink">
                       {para}
                     </p>
                   ))}
@@ -39,32 +40,34 @@ export default function NewsPage() {
               )}
 
               {post.documents && post.documents.length > 0 && (
-                <div className="mt-4 border-t border-blue-900/10 pt-4">
-                  <p className="captions text-slate-500">Attachments</p>
-                  <ul className="mt-2 grid gap-1.5">
+                <div className="mt-5 border-t border-line pt-4">
+                  <h3 className="overline text-ink-muted">Attachments</h3>
+                  <ul className="mt-2 grid">
                     {post.documents.map((doc) => {
                       const isExternal = doc.href.startsWith("http");
                       return (
-                        <li key={doc.label} className="flex items-center gap-2">
-                          <Icon name="document" size="xs" className="shrink-0 text-blue-700" />
+                        <li key={doc.label}>
                           <a
                             href={doc.href}
                             target={isExternal ? "_blank" : undefined}
                             rel={isExternal ? "noopener noreferrer" : undefined}
-                            className="body-sm text-blue-900 hover:text-blue-700"
+                            className="flex min-h-[var(--tap-min)] items-center gap-3 body-sm text-blue-link underline underline-offset-2 hover:decoration-[3px]"
                           >
+                            <Icon
+                              name={isExternal ? "external-link" : "document"}
+                              size="xs"
+                              className="shrink-0"
+                              label={isExternal ? "Opens on another website" : undefined}
+                            />
                             {doc.label}
                           </a>
-                          {isExternal && (
-                            <Icon name="external-link" size="xs" className="shrink-0 text-slate-400" />
-                          )}
                         </li>
                       );
                     })}
                   </ul>
                 </div>
               )}
-            </SurfaceCard>
+            </Panel>
           ))}
         </div>
       </Section>

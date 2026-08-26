@@ -3,16 +3,22 @@ export type NavItem = {
   href: string;
 };
 
+// Seven primary destinations, after the GOV.UK/USWDS ceiling of about
+// seven. Home is reached through the masthead seal, not a nav item.
+// Secondary destinations live in the footer and are linked in context.
 export const primaryNav: NavItem[] = [
-  { label: "Home", href: "/" },
-  { label: "Town Government", href: "/government" },
-  { label: "Departments & Services", href: "/departments" },
-  { label: "Meetings & Agendas", href: "/meetings" },
-  { label: "News", href: "/news" },
-  { label: "Documents & Forms", href: "/documents" },
   { label: "How Do I...?", href: "/how-do-i" },
-  { label: "About Hope", href: "/about" },
+  { label: "Services", href: "/departments" },
+  { label: "Government", href: "/government" },
+  { label: "Meetings", href: "/meetings" },
+  { label: "Documents", href: "/documents" },
+  { label: "News", href: "/news" },
   { label: "Contact", href: "/contact" },
+];
+
+export const secondaryNav: NavItem[] = [
+  { label: "About Hope", href: "/about" },
+  { label: "Schools", href: "/schools" },
 ];
 
 // Address, phone, and fax are real (hopemaine.org content export,

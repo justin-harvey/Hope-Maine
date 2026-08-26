@@ -1,153 +1,184 @@
 import Link from "next/link";
 
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Icon } from "@/components/ui/icon";
-import { LinkButton } from "@/components/ui/link-button";
-import { SurfaceCard } from "@/components/ui/surface-card";
+import { Notice } from "@/components/ui/notice";
 import { OnlineServicesGrid } from "@/components/OnlineServicesGrid";
 import { Section } from "@/components/Section";
-import { townInfo } from "@/lib/nav";
+import { TaskGrid, TaskList, type Task } from "@/components/TaskList";
 import { hopeIntro } from "@/data/about";
-import { upcomingMeetings } from "@/data/meetings";
 import { newsPosts } from "@/data/news";
+import { meetingSchedules } from "@/data/meetings";
+import { townInfo } from "@/lib/nav";
 
-// Mirrors the quick links on the current hopemaine.org home page.
-const quickLinks = [
-  { label: "How Do I...?", href: "/how-do-i" },
-  { label: "Public Hearing & Town Meeting", href: "/news" },
-  { label: "Town Reports", href: "/documents" },
-  { label: "Meetings & Agendas", href: "/meetings" },
-  { label: "Permits & Forms", href: "/documents" },
-  { label: "Contact the Town Office", href: "/contact" },
+// Task-first routing: the page opens with what residents actually come
+// here to do, not with a welcome message.
+const popularTasks: Task[] = [
+  {
+    label: "Pay your property taxes",
+    href: "/how-do-i#property-taxes",
+    detail: "Due dates, payment methods, and online payment",
+  },
+  {
+    label: "Register a vehicle",
+    href: "/how-do-i#vehicles",
+    detail: "What to bring for new registrations and renewals",
+  },
+  {
+    label: "Get a building or plumbing permit",
+    href: "/departments/code-enforcement",
+    detail: "Forms, fees, and the Code Enforcement Officer's hours",
+  },
+  {
+    label: "Read Select Board agendas and minutes",
+    href: "/meetings",
+    detail: "Meeting schedules for every board and committee",
+  },
+  {
+    label: "License your dog",
+    href: "/how-do-i#licenses",
+    detail: "Fees, rabies certificate, and the renewal deadline",
+  },
+  {
+    label: "Apply for General Assistance",
+    href: "/how-do-i#community-services",
+    detail: "Emergency help with housing, fuel, and basic needs",
+  },
 ];
 
 export default function HomePage() {
+  const latestNews = newsPosts.slice(0, 4);
+  const scheduledBoards = meetingSchedules.filter(
+    (board) => !board.schedule.startsWith("PLACEHOLDER"),
+  );
+
   return (
     <>
-      <div className="mx-auto max-w-6xl px-6 pt-6">
-        <Alert variant="warning">
-          <Icon name="warning" size="sm" />
-          <AlertDescription>
-            Site under construction — some information here is still placeholder text
-            while real town content is added.
-          </AlertDescription>
-        </Alert>
+      <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6">
+        <Notice variant="info" title="Site in progress">
+          This is a rebuild of the Town of Hope website. Most content is live, but some
+          documents and committee pages are still being migrated from hopemaine.org.
+        </Notice>
       </div>
 
-      <div className="bg-blue-900">
-        <div className="mx-auto grid max-w-6xl gap-8 px-6 py-16 md:grid-cols-2 md:items-center md:py-24">
-          <div>
-            <p className="captions text-gold-300">{townInfo.tagline}</p>
-            <h1 className="mt-3 font-display text-4xl text-cream-50 sm:text-5xl">
-              Welcome to the Town of Hope
-            </h1>
-            <p className="mt-5 max-w-xl body-lg text-cream-50/80">{hopeIntro}</p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <LinkButton href="/departments" tone="gold">
-                Town Services
-              </LinkButton>
-              <LinkButton href="/about" variant="outline" tone="slate">
-                Learn More About Hope
-              </LinkButton>
-            </div>
-          </div>
-          <SurfaceCard tone="ink" density="standard">
-            <h2 className="font-display text-lg text-cream-50">Town Office Hours</h2>
-            <ul className="mt-3 space-y-2 body-sm text-cream-50/80">
-              {townInfo.officeHours.map((entry) => (
-                <li key={entry.days} className="flex justify-between gap-4">
-                  <span>{entry.days}</span>
-                  <span>{entry.hours}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-4 border-t border-cream-50/10 pt-4 body-sm text-cream-50/80">
-              <p>{townInfo.addressLine1}</p>
-              <p>{townInfo.addressLine2}</p>
-              <p>{townInfo.cityStateZip}</p>
-              <p className="mt-2">
-                <a href={`tel:${townInfo.phone}`} className="hover:text-gold-300">
-                  {townInfo.phone}
-                </a>
-              </p>
-            </div>
-          </SurfaceCard>
-        </div>
-      </div>
-
-      <Section title="Quick Links">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {quickLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className="flex items-center justify-between rounded-2xl border border-blue-900/10 bg-cream-50 px-5 py-4 body font-medium text-blue-900 shadow-sm transition-colors hover:border-blue-700 hover:text-blue-700"
-            >
-              {link.label}
-              <Icon name="chevron-right" size="sm" />
-            </Link>
-          ))}
-        </div>
+      <Section
+        title="What do you need to do?"
+        headingId="popular-tasks"
+        description="The services residents ask about most often."
+      >
+        <TaskList tasks={popularTasks} />
       </Section>
 
-      <div className="bg-cream-200">
-        <Section title="Online Services" description="Common tasks residents can complete online.">
+      <div className="band">
+        <Section
+          title="Online services"
+          headingId="online-services"
+          description="Most of these are handled by the State of Maine and open on a maine.gov site."
+        >
           <OnlineServicesGrid />
         </Section>
       </div>
 
-      <Section title="Latest News" description="Announcements from the Town of Hope.">
-        <div className="grid gap-6 md:grid-cols-3">
-          {newsPosts.slice(0, 3).map((post) => (
-            <SurfaceCard key={post.title} density="standard">
-              <p className="captions text-blue-700">{post.date}</p>
-              <h3 className="mt-2 font-display text-lg text-blue-900">{post.title}</h3>
-              <p className="mt-2 body-sm text-slate-500">{post.summary}</p>
-              <Link href="/news" className="mt-4 inline-block body-sm font-semibold text-blue-700 hover:text-blue-900">
-                Read more →
-              </Link>
-            </SurfaceCard>
+      <Section title="News and notices" headingId="news">
+        <ul className="border-t border-line">
+          {latestNews.map((post) => (
+            <li key={post.title} className="border-b border-line py-4">
+              <p className="overline text-ink-muted">{post.date}</p>
+              <h3 className="mt-1 heading-sm">
+                <Link
+                  href="/news"
+                  className="inline-flex min-h-[var(--tap-min)] items-center text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+                >
+                  {post.title}
+                </Link>
+              </h3>
+              <p className="mt-1 measure body-sm text-ink">{post.summary}</p>
+            </li>
           ))}
-        </div>
-        <div className="mt-6">
-          <LinkButton href="/news" variant="outline">
-            View All News
-          </LinkButton>
-        </div>
+        </ul>
+        <p className="mt-5">
+          <Link
+            href="/news"
+            className="inline-flex min-h-[var(--tap-min)] items-center body font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+          >
+            All news and notices
+          </Link>
+        </p>
       </Section>
 
-      <div className="bg-cream-200">
-        <Section title="Upcoming Meetings" description="Select Board, Planning Board, and committee meetings.">
-          <div className="overflow-x-auto rounded-2xl border border-blue-900/10">
-            <table className="w-full text-left body-sm">
-              <thead className="bg-blue-900 text-cream-50">
-                <tr>
-                  <th className="px-4 py-3 font-semibold">Board</th>
-                  <th className="px-4 py-3 font-semibold">Date</th>
-                  <th className="px-4 py-3 font-semibold">Time</th>
-                  <th className="px-4 py-3 font-semibold">Location</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-blue-900/10 bg-cream-50">
-                {upcomingMeetings.map((meeting) => (
-                  <tr key={`${meeting.board}-${meeting.date}`}>
-                    <td className="px-4 py-3 font-medium text-blue-900">{meeting.board}</td>
-                    <td className="px-4 py-3 text-slate-500">{meeting.date}</td>
-                    <td className="px-4 py-3 text-slate-500">{meeting.time}</td>
-                    <td className="px-4 py-3 text-slate-500">{meeting.location}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="mt-6">
-            <LinkButton href="/meetings" variant="outline">
-              Full Meeting Calendar
-            </LinkButton>
-          </div>
+      <div className="band-cool">
+        <Section title="Meeting schedule" headingId="meetings">
+          <dl className="border-t border-line">
+            {scheduledBoards.map((board) => (
+              <div key={board.board} className="border-b border-line py-4">
+                <dt className="heading-sm text-ink">{board.board}</dt>
+                <dd className="mt-1 body-sm text-ink">
+                  {board.schedule} · {board.location}
+                </dd>
+              </div>
+            ))}
+          </dl>
+          <p className="mt-5">
+            <Link
+              href="/meetings"
+              className="inline-flex min-h-[var(--tap-min)] items-center body font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+            >
+              Agendas, minutes, and all boards
+            </Link>
+          </p>
         </Section>
       </div>
 
+      <Section title="About the town" headingId="about-town">
+        <p className="measure body text-ink">{hopeIntro}</p>
+        <div className="mt-5">
+          <TaskGrid
+            columns={2}
+            tasks={[
+              {
+                label: "About Hope",
+                href: "/about",
+                detail: "Population, area, valuation, and tax rate",
+              },
+              {
+                label: "Schools",
+                href: "/schools",
+                detail: "School Union 69 and the Five Town CSD",
+              },
+            ]}
+          />
+        </div>
+      </Section>
+
+      <Section title="Visit or call the Town Office" headingId="town-office">
+        <div className="grid gap-8 sm:grid-cols-2">
+          <div>
+            <h3 className="overline text-ink-muted">Address</h3>
+            <address className="mt-2 grid gap-0.5 body not-italic text-ink">
+              <span>{townInfo.addressLine1}</span>
+              <span>{townInfo.addressLine2}</span>
+              <span>{townInfo.cityStateZip}</span>
+            </address>
+            <p className="mt-3">
+              <a
+                href={`tel:${townInfo.phone}`}
+                className="inline-flex min-h-[var(--tap-min)] items-center body font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+              >
+                {townInfo.phone}
+              </a>
+            </p>
+          </div>
+          <div>
+            <h3 className="overline text-ink-muted">Office hours</h3>
+            <dl className="mt-2">
+              {townInfo.officeHours.map((entry) => (
+                <div key={entry.days} className="data-row body">
+                  <dt className="text-ink">{entry.days}</dt>
+                  <dd className="font-semibold text-ink">{entry.hours}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
+      </Section>
     </>
   );
 }

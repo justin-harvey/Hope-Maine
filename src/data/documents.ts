@@ -1,66 +1,147 @@
-// Document names below are real — from the hopemaine.org Town Reports
-// document center and "How Do I" page exports (2026-08-26). The exports
-// give relative Revize paths rather than resolvable URLs, so every href is
-// still PLACEHOLDER (`#`) pending the real PDF links.
+// Document names are real — from the hopemaine.org Town Reports,
+// Ordinances, Policies, Audit & Finances, Tax Maps, and "How Do I" page
+// exports (2026-08-26). The exports give relative Revize paths rather than
+// resolvable URLs, so every href is still PLACEHOLDER (`#`).
 
 export const documentCategories = [
   {
     category: "Annual Town Reports",
+    description: "The Town's annual report, published each year.",
     documents: [
-      { label: "2026 Annual Town Report", href: "#" },
-      { label: "2025 Annual Town Report", href: "#" },
-      { label: "2024 Annual Town Report", href: "#" },
-      { label: "2023 Annual Town Report", href: "#" },
-      { label: "2022 Annual Town Report", href: "#" },
-      { label: "2021 Annual Town Report", href: "#" },
-      { label: "2020 Annual Town Report", href: "#" },
-      { label: "2019 Annual Town Report", href: "#" },
-      { label: "2018 Annual Town Report", href: "#" },
-      { label: "2017 Annual Town Report", href: "#" },
-      { label: "2016 Annual Town Report", href: "#" },
-      { label: "2015 Annual Town Report", href: "#" },
+      "2026 Annual Town Report",
+      "2025 Annual Town Report",
+      "2024 Annual Town Report",
+      "2023 Annual Town Report",
+      "2022 Annual Town Report",
+      "2021 Annual Town Report",
+      "2020 Annual Town Report",
+      "2019 Annual Town Report",
+      "2018 Annual Town Report",
+      "2017 Annual Town Report",
+      "2016 Annual Town Report",
+      "2015 Annual Town Report",
+    ].map((label) => ({ label, href: "#" })),
+  },
+  {
+    category: "Ordinances",
+    description: "Ordinances adopted by the Town of Hope.",
+    documents: [
+      "Active Duty Military Personnel Vehicle Excise Tax Exemption Ordinance",
+      "Addressing Ordinance",
+      "Board of Assessment Review Ordinance",
+      "Budget Committee Ordinance",
+      "Cable Television Ordinance",
+      "Capital Planning Committee Ordinance",
+      "Comprehensive Plan",
+      "Comprehensive Plan — Special Excerpted Edition",
+      "Emergency Management Ordinance",
+      "Fire Department Ordinance",
+      "Floodplain Management Ordinance",
+      "General Assistance Ordinance",
+      "Land Use Ordinance",
+      "Local Food and Community Self-Governance Ordinance",
+      "Parking Ordinance",
+      "Planning Board Ordinance",
+      "Powers of Municipal Boards and Commissions When Vacancies Exist Ordinance",
+      "Property Assessed Clean Energy (PACE) Ordinance",
+      "Recall Ordinance",
+      "Shoreland Zone Ordinance",
+      "Subdivision Ordinance",
+      "Zoning Board of Appeals Ordinance",
+    ].map((label) => ({ label, href: "#" })),
+  },
+  {
+    category: "Policies",
+    description: "Policies adopted by the Select Board.",
+    documents: [
+      "Application of Delinquent Property Tax Payment Policy",
+      "Cemetery Rules & Regulations (Hope Grove)",
+      "Cemetery Rules & Regulations (Morey Hill)",
+      "Emergency Operations Plan Policy",
+      "Hope Chest Policy",
+      "Human Burial on Privately Owned Land",
+      "Municipal Building Use Policy",
+      "Real Estate Property Tax Poverty Abatement Policy",
+      "Returned Check Policy",
+      "Sand & Salt Shed Use Policy",
+      "Town Boards & Committees Policy",
+      "Town Office Hours Policy",
+      "Town Office Materials & Information Fees Policy",
+      "Veterans Memorial Sign Policy",
+    ].map((label) => ({ label, href: "#" })),
+  },
+  {
+    category: "Audit & Finances",
+    description: "Audited financial statements by fiscal year.",
+    documents: [
+      "Fiscal Year 2023",
+      "Fiscal Year 2022",
+      "Fiscal Year 2021",
+      "Fiscal Year 2020",
+      "Fiscal Year 2019",
+      "Fiscal Year 2018",
+      "Fiscal Year 2017",
+      "Fiscal Year 2016",
+      "Fiscal Year 2015",
+      "Fiscal Year 2014",
+    ].map((label) => ({ label, href: "#" })),
+  },
+  {
+    category: "Building & Land Use Forms",
+    description: "Permit applications and fee schedules.",
+    documents: [
+      "Building/Land Use Permit Application",
+      "Building and Land Use Permit Fees",
+      "Driveway/Entrance Permit Application — State Roads",
+      "Driveway/Entrance Permit & New Address Application — Town and Private Roads",
+      "CMP Form 1190",
+    ].map((label) => ({ label, href: "#" })),
+  },
+  {
+    category: "Plumbing & Septic Forms",
+    description: "Internal plumbing and subsurface wastewater applications.",
+    documents: [
+      "Internal Plumbing Permit Application (HHE-211)",
+      "Subsurface Wastewater Disposal System Application (HHE-200)",
+      "Plumbing Fee Schedule",
+      "State of Maine Search for Old Septic Plans",
+    ].map((label) => ({ label, href: "#" })),
+  },
+  {
+    category: "Vital Records Forms",
+    description: "Requests for certified copies and marriage intentions.",
+    documents: [
+      "Birth Certificate request form",
+      "Death Certificate request form",
+      "Marriage Intentions Fillable form",
+    ].map((label) => ({ label, href: "#" })),
+  },
+  {
+    category: "General Assistance Forms",
+    description: "Application and program maximums.",
+    documents: [
+      "General Assistance Application",
+      "General Assistance Overall Maximums 2025-2026",
+      "General Assistance Ordinance",
+    ].map((label) => ({ label, href: "#" })),
+  },
+  {
+    category: "Tax Maps & Other Maps",
+    description:
+      "Tax maps (33 sheets plus an index) and the Hope street map. Flood maps are not yet published.",
+    documents: [
+      { label: "Hope Tax Map Index (2024)", href: "#" },
+      { label: "Tax Maps — Sheets 1 through 33", href: "#" },
+      { label: "Hope Street Map (© Tay Vaughan, 2006)", href: "#" },
     ],
   },
   {
-    category: "Building & Land Use",
+    category: "Town Government Forms",
+    description: "Committee service and resident complaints.",
     documents: [
-      { label: "Building Permit Application", href: "#" },
-      { label: "Building and Land Use Permit Fees", href: "#" },
-      { label: "Driveway/Entrance Permit Application — State Roads", href: "#" },
-      { label: "Driveway/Entrance Permit & New Address Application — Town and Private Roads", href: "#" },
-    ],
-  },
-  {
-    category: "Plumbing & Septic",
-    documents: [
-      { label: "Plumbing Permit Form HHE-211", href: "#" },
-      { label: "Subsurface Wastewater Disposal System Application (HHE-200)", href: "#" },
-      { label: "Plumbing Fee Schedule", href: "#" },
-      { label: "State of Maine Search for Old Septic Plans", href: "#" },
-    ],
-  },
-  {
-    category: "Vital Records",
-    documents: [
-      { label: "Birth Certificate request form", href: "#" },
-      { label: "Death Certificate request form", href: "#" },
-      { label: "Marriage Intentions Fillable form 2023", href: "#" },
-    ],
-  },
-  {
-    category: "General Assistance",
-    documents: [
-      { label: "General Assistance Application", href: "#" },
-      { label: "General Assistance Overall Maximums 2024-25", href: "#" },
-      { label: "General Assistance Ordinance", href: "#" },
-    ],
-  },
-  {
-    category: "Town Government",
-    documents: [
-      { label: "Application for Committee Service", href: "#" },
-      { label: "Town of Hope Resident Complaint Form", href: "#" },
-      { label: "Long Term Trailer Plates", href: "#" },
-    ],
+      "Application for Committee Service",
+      "Town of Hope Resident Complaint Form",
+      "Long Term Trailer Plates",
+    ].map((label) => ({ label, href: "#" })),
   },
 ];

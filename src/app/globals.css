@@ -1,12 +1,11 @@
 /* ─────────────────────────────────────────────────────────────
    Town of Hope — Global stylesheet entry
-   Design system ported from CivicChain (G00DTECH/Civic-Chain):
 
        tokens.css   →   primitives.css   →   patterns.css
 
-   Brand hexes and structural defaults live in tokens.css. Semantic
-   type utilities live in primitives.css. Composites live in
-   patterns.css.
+   Design language: Radical Functionalism, after GOV.UK, USWDS, and
+   the Système de Design de l'État. Clarity and accessibility over
+   visual flair — no shadows, no gradients, no rounding.
    ───────────────────────────────────────────────────────────── */
 
 @import "tailwindcss" source(none);
@@ -19,42 +18,39 @@
 @source "../lib/**/*.{ts,tsx}";
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-border: var(--border);
-  --color-ring: var(--ring);
-  --font-sans: var(--font-sans);
-  --font-display: var(--font-display);
+  --color-canvas: var(--canvas);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
 
-  --color-blue-100: var(--blue-100);
-  --color-blue-200: var(--blue-200);
-  --color-blue-300: var(--blue-300);
-  --color-blue-500: var(--blue-500);
-  --color-blue-700: var(--blue-700);
-  --color-blue-900: var(--blue-900);
-  --color-gold-100: var(--gold-100);
-  --color-gold-200: var(--gold-200);
-  --color-gold-300: var(--gold-300);
-  --color-gold-500: var(--gold-500);
-  --color-gold-600: var(--gold-600);
-  --color-gold-800: var(--gold-800);
-  --color-green-100: var(--green-100);
-  --color-green-200: var(--green-200);
-  --color-green-300: var(--green-300);
-  --color-green-500: var(--green-500);
-  --color-green-600: var(--green-600);
-  --color-green-900: var(--green-900);
-  --color-cream-50: var(--cream-50);
-  --color-cream-100: var(--cream-100);
-  --color-cream-200: var(--cream-200);
-  --color-cream-300: var(--cream-300);
-  --color-slate-100: var(--slate-100);
-  --color-slate-200: var(--slate-200);
-  --color-slate-300: var(--slate-300);
-  --color-slate-400: var(--slate-400);
-  --color-slate-500: var(--slate-500);
-  --color-slate-700: var(--slate-700);
-  --color-red-100: var(--red-100);
-  --color-red-400: var(--red-400);
-  --color-red-600: var(--red-600);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-inverse: var(--ink-inverse);
+
+  --color-navy: var(--navy);
+  --color-navy-dark: var(--navy-dark);
+
+  --color-blue: var(--blue);
+  --color-blue-link: var(--blue-link);
+  --color-blue-wash: var(--blue-wash);
+
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-red: var(--red);
+  --color-red-wash: var(--red-wash);
+  --color-green: var(--green);
+  --color-green-wash: var(--green-wash);
+  --color-amber: var(--amber);
+  --color-amber-wash: var(--amber-wash);
+  --color-focus: var(--focus-yellow);
+
+  --font-sans: var(--font-sans);
+
+  /* Stark geometry: the radius scale collapses to zero. */
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
 }
