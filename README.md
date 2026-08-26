@@ -105,6 +105,8 @@ Deliberately, only the content that actually changes:
 | Collection | What it holds | Changes |
 | --- | --- | --- |
 | **News and notices** | Hearings, warrants, announcements | Monthly |
+| **Meetings** | Dated meetings, with agendas and minutes | Weekly |
+| **Boards & committees** | Standing schedule, location, and note per board | Rarely |
 | **Documents** | Ordinances, reports, forms, maps, agendas, minutes | Weekly |
 | **Media** | Photographs | Rarely |
 | **Users** | Staff accounts | Rarely |
@@ -122,6 +124,46 @@ the Code Enforcement Officer's hours and when* than a database row is.
 An editor may open and update their own record, so they can change their own
 name or password; the `role` field has its own field-level access control so
 they cannot promote themselves while doing it (`src/payload/access.ts`).
+
+### Meetings
+
+Two collections, deliberately separate. **Boards & committees** is the
+standing entity — how often it sits, where, and how to get on its agenda.
+**Meetings** is the dated occurrence.
+
+Four boards shipped with `PLACEHOLDER` schedules because the exports never
+carried one; nobody outside the Town Office knows when the Board of Appeals
+sits. They seed with the field empty, so `/meetings` says "Not published
+yet" — which is true — and the first person to log in can fill it in.
+
+A meeting's agenda and minutes are relationships to **Documents** rather
+than uploads on the meeting itself, so every PDF the town publishes lands in
+one library under one set of accessibility checks. The relationship field
+can create and upload a document inline, so posting Friday's agenda is still
+one pass through the admin.
+
+**Cancelling.** Set the status; the meeting stays on the page struck through
+and labelled rather than disappearing. Residents who already planned around
+it need to be told, and a meeting that silently vanishes reads as a website
+fault. The status is carried by a written word, never by colour alone.
+
+**The nine agendas the site shipped with** are files on hopemaine.org, not
+uploads. They seed as real meetings carrying the old URL in
+`legacyAgendaUrl`, so the record exists now and the link keeps working;
+attaching an uploaded agenda supersedes it, the same way an upload
+supersedes a legacy link on `/documents`.
+
+**`/meetings` is the one page that revalidates on a timer** (hourly). It
+splits meetings on "now", so unlike the rest of the site it goes stale on
+its own — a meeting prerendered as upcoming would stay upcoming until
+somebody happened to edit something. The `afterChange` hooks still rebuild
+it immediately on an edit; the timer only covers the passage of time.
+
+**Times are stored as instants and rendered in `America/New_York`.** Seeding
+them with a hard-coded `-0400` was wrong and shipped once: Maine is UTC-4 in
+August and UTC-5 in January, so every winter meeting published an hour
+early — the Planning Board's 6:30 PM January agenda read 5:30 PM. See
+`zonedTime()` in `scripts/seed.ts`.
 
 ### Accessibility guardrails
 
@@ -269,7 +311,9 @@ content exports):
   the page exports and could not be verified from the build environment,
   which has no outbound access to hopemaine.org — spot-check before launch.
 - **Four committees.** Board of Appeals, Budget, School, and Cemetery
-  Committee have no roster or meeting schedule yet.
+  Committee have no roster yet. Their meeting schedules are now editable at
+  `/admin` under Boards & committees — the town can publish them without a
+  code change.
 - **Some department contacts.** Animal Control and the Sheriff's
   Department still have no phone/email/hours. The nine
   `town_services/*` detail pages and `town_office/index.php` have not
@@ -291,6 +335,7 @@ address to embed.
 - `npm run dev` — start the dev server
 - `npm run build` — production build
 - `npm run lint` — run ESLint
-- `npm run seed` — create the first admin account and import the news posts
+- `npm run seed` — create the first admin account and import the news posts,
+  boards, and known meetings
 - `npm run generate:types` — regenerate `src/payload/payload-types.ts`
 - `npm run generate:importmap` — regenerate the admin's component import map

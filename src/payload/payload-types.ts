@@ -68,6 +68,8 @@ export interface Config {
   blocks: {};
   collections: {
     news: News;
+    meetings: Meeting;
+    boards: Board;
     documents: Document;
     media: Media;
     users: User;
@@ -79,6 +81,8 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     news: NewsSelect<false> | NewsSelect<true>;
+    meetings: MeetingsSelect<false> | MeetingsSelect<true>;
+    boards: BoardsSelect<false> | BoardsSelect<true>;
     documents: DocumentsSelect<false> | DocumentsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -208,6 +212,72 @@ export interface Document {
   focalY?: number | null;
 }
 /**
+ * Scheduled meetings, with agendas and minutes.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "meetings".
+ */
+export interface Meeting {
+  id: number;
+  title?: string | null;
+  board: number | Board;
+  /**
+   * Date and start time. The page lists meetings from this moment on as upcoming.
+   */
+  startsAt: string;
+  status: 'scheduled' | 'cancelled' | 'rescheduled';
+  /**
+   * Only if this meeting is somewhere other than the board's usual place — a town meeting at the Fire Station, say. Leave empty to use the board's location.
+   */
+  locationOverride?: string | null;
+  /**
+   * Anything specific to this meeting: a public hearing item, a cancellation reason, the new date if it moved.
+   */
+  note?: string | null;
+  /**
+   * The agenda PDF. Use "Create New" to upload one without leaving this page.
+   */
+  agenda?: (number | null) | Document;
+  /**
+   * Added after the meeting, once the minutes are approved.
+   */
+  minutes?: (number | null) | Document;
+  /**
+   * Agenda still hosted on the old hopemaine.org site. Attaching an uploaded agenda replaces this link.
+   */
+  legacyAgendaUrl?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Standing boards and committees, and when each one meets.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "boards".
+ */
+export interface Board {
+  id: number;
+  name: string;
+  /**
+   * When this board normally meets, in plain words — "Second and fourth Tuesdays of each month, 5:30 PM". Leave empty if there is no fixed schedule; the page then says "Not published yet" rather than inventing one.
+   */
+  schedule?: string | null;
+  /**
+   * Where it normally meets. An individual meeting can override this.
+   */
+  location?: string | null;
+  /**
+   * Anything a resident needs to know — how to get an item on the agenda, or that the schedule varies.
+   */
+  note?: string | null;
+  /**
+   * Lower numbers come first on the Meetings page. The Select Board is 10 and the Planning Board 20, so leaving this at 100 puts a new committee after both.
+   */
+  order: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Photographs and images used on the site.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -316,6 +386,14 @@ export interface PayloadLockedDocument {
         value: number | News;
       } | null)
     | ({
+        relationTo: 'meetings';
+        value: number | Meeting;
+      } | null)
+    | ({
+        relationTo: 'boards';
+        value: number | Board;
+      } | null)
+    | ({
         relationTo: 'documents';
         value: number | Document;
       } | null)
@@ -382,6 +460,36 @@ export interface NewsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "meetings_select".
+ */
+export interface MeetingsSelect<T extends boolean = true> {
+  title?: T;
+  board?: T;
+  startsAt?: T;
+  status?: T;
+  locationOverride?: T;
+  note?: T;
+  agenda?: T;
+  minutes?: T;
+  legacyAgendaUrl?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "boards_select".
+ */
+export interface BoardsSelect<T extends boolean = true> {
+  name?: T;
+  schedule?: T;
+  location?: T;
+  note?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

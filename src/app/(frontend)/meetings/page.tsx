@@ -3,9 +3,11 @@ import type { Metadata } from "next";
 import { Icon } from "@/components/ui/icon";
 import { Notice } from "@/components/ui/notice";
 import { Panel } from "@/components/ui/panel";
+import { MeetingCard } from "@/components/MeetingCard";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
-import { meetingSchedules, selectBoardRecords } from "@/data/meetings";
+import { selectBoardRecords } from "@/data/meetings";
+import { getMeetingsView } from "@/lib/meetings";
 
 export const metadata: Metadata = {
   title: "Meetings & Agendas",
@@ -13,7 +15,23 @@ export const metadata: Metadata = {
     "Meeting schedules, agendas, and minutes for Town of Hope boards and committees. All meetings are open to the public.",
 };
 
-export default function MeetingsPage() {
+/**
+ * Rebuilt hourly.
+ *
+ * The page splits meetings on "now", so unlike the rest of the site it goes
+ * wrong on its own: without this a meeting prerendered as upcoming would
+ * stay upcoming until somebody happened to edit something. The collections'
+ * afterChange hooks still rebuild it immediately on an edit — this only
+ * covers the passage of time.
+ */
+export const revalidate = 3600;
+
+export default async function MeetingsPage() {
+  const { upcoming, boards } = await getMeetingsView();
+  const anyLegacyAgenda = boards.some((board) =>
+    board.records.some((record) => record.agenda?.href.startsWith("http")),
+  );
+
   return (
     <>
       <PageHero
@@ -23,57 +41,93 @@ export default function MeetingsPage() {
       />
 
       <Section>
-        <Notice variant="info" title="Agendas open on the current town website">
-          Recent agendas are listed below and will open on hopemaine.org. Older agendas, minutes,
-          and warrants are held in the town&apos;s document centre — call the Town Office at
-          (207) 763-4199 for any record not listed here.
-        </Notice>
+        {upcoming.length > 0 ? (
+          <div>
+            <h2 id="upcoming" className="overline text-ink-muted">
+              Next meetings
+            </h2>
+            <ul className="mt-2 border-t border-line">
+              {upcoming.slice(0, 8).map((meeting) => (
+                <MeetingCard key={meeting.key} meeting={meeting} />
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <Notice variant="info" title="No meetings are currently scheduled here">
+            Meeting dates are posted as they are set. The usual schedule for each board is listed
+            below, and the Town Office can confirm the next date on (207) 763-4199.
+          </Notice>
+        )}
+
+        {anyLegacyAgenda && (
+          <Notice variant="info" title="Some agendas open on the current town website" className="mt-8">
+            Agendas marked as opening on another website are still hosted on hopemaine.org. Older
+            agendas, minutes, and warrants are held in the town&apos;s document centre — call the
+            Town Office at (207) 763-4199 for any record not listed here.
+          </Notice>
+        )}
 
         <div className="mt-8 grid gap-6">
-          {meetingSchedules.map((board) => {
-            const scheduleKnown = !board.schedule.startsWith("PLACEHOLDER");
-            return (
-              <Panel key={board.board}>
-                <h2 className="heading-md text-ink">{board.board}</h2>
+          {boards.map((board) => (
+            <Panel key={board.key}>
+              <h2 className="heading-md text-ink">{board.name}</h2>
 
-                <dl className="mt-3">
-                  <div className="data-row body-sm">
-                    <dt className="font-bold text-ink">Schedule</dt>
-                    <dd className={scheduleKnown ? "text-ink" : "text-ink-muted"}>
-                      {scheduleKnown ? board.schedule : "Not published yet"}
-                    </dd>
-                  </div>
-                  <div className="data-row body-sm">
-                    <dt className="font-bold text-ink">Location</dt>
-                    <dd className="text-ink">
-                      {board.location.startsWith("PLACEHOLDER") ? "Not published yet" : board.location}
-                    </dd>
-                  </div>
-                </dl>
+              <dl className="mt-3">
+                <div className="data-row body-sm">
+                  <dt className="font-bold text-ink">Schedule</dt>
+                  <dd className={board.schedule ? "text-ink" : "text-ink-muted"}>
+                    {board.schedule ?? "Not published yet"}
+                  </dd>
+                </div>
+                <div className="data-row body-sm">
+                  <dt className="font-bold text-ink">Location</dt>
+                  <dd className={board.location ? "text-ink" : "text-ink-muted"}>
+                    {board.location ?? "Not published yet"}
+                  </dd>
+                </div>
+              </dl>
 
-                {board.note && <p className="mt-3 measure body-sm text-ink">{board.note}</p>}
+              {board.note && <p className="mt-3 measure body-sm text-ink">{board.note}</p>}
 
-                {board.recentAgendas.length > 0 && (
-                  <div className="mt-4 border-t border-line pt-4">
-                    <h3 className="overline text-ink-muted">Recent agendas</h3>
-                    <ul className="mt-2 grid">
-                      {board.recentAgendas.map((agenda) => (
-                        <li key={agenda.label}>
-                          <a
-                            href={agenda.href}
-                            className="flex min-h-[var(--tap-min)] items-center gap-2 body-sm text-blue-link underline underline-offset-2 hover:decoration-[3px]"
-                          >
-                            <Icon name="document" size="xs" className="shrink-0" />
-                            {agenda.label}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </Panel>
-            );
-          })}
+              {board.records.length > 0 && (
+                <div className="mt-4 border-t border-line pt-4">
+                  <h3 className="overline text-ink-muted">Recent agendas and minutes</h3>
+                  <ul className="mt-2 grid gap-1">
+                    {board.records.map((record) => (
+                      <li key={record.key} className="body-sm text-ink">
+                        <span className="font-semibold">{record.when}</span>
+                        <span className="ml-3 inline-flex flex-wrap gap-x-4">
+                          {[record.agenda, record.minutes].map((doc, i) =>
+                            doc ? (
+                              <a
+                                key={doc.href}
+                                href={doc.href}
+                                target={doc.href.startsWith("http") ? "_blank" : undefined}
+                                rel={doc.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                                className="inline-flex min-h-[var(--tap-min)] items-center gap-2 text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+                              >
+                                <Icon
+                                  name={doc.href.startsWith("http") ? "external-link" : "document"}
+                                  size="xs"
+                                  className="shrink-0"
+                                  label={
+                                    doc.href.startsWith("http")
+                                      ? "Opens on another website"
+                                      : undefined
+                                  }
+                                />
+                                {i === 0 ? "Agenda" : "Minutes"}
+                              </a>
+                            ) : null,
+                          )}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </Panel>
+          ))}
         </div>
       </Section>
 

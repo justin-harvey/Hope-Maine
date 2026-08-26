@@ -5,7 +5,9 @@ import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { buildConfig } from "payload";
 import sharp from "sharp";
 
+import { Boards } from "@/payload/collections/Boards";
 import { Documents } from "@/payload/collections/Documents";
+import { Meetings } from "@/payload/collections/Meetings";
 import { Media } from "@/payload/collections/Media";
 import { News } from "@/payload/collections/News";
 import { Users } from "@/payload/collections/Users";
@@ -24,7 +26,7 @@ export default buildConfig({
       titleSuffix: " · Town of Hope",
     },
   },
-  collections: [News, Documents, Media, Users],
+  collections: [News, Meetings, Boards, Documents, Media, Users],
   editor: lexicalEditor(),
   db: buildDatabaseAdapter(),
   // Used to sign login cookies. A deployed site must set this; a changed

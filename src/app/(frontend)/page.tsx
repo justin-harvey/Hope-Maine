@@ -4,7 +4,7 @@ import { HomeHero } from "@/components/HomeHero";
 import { OnlineServicesGrid } from "@/components/OnlineServicesGrid";
 import { Section } from "@/components/Section";
 import { TaskGrid, TaskList, type Task } from "@/components/TaskList";
-import { meetingSchedules } from "@/data/meetings";
+import { getMeetingsView } from "@/lib/meetings";
 import { getNewsItems } from "@/lib/news";
 import { townInfo } from "@/lib/nav";
 import { faqHref } from "@/lib/utils";
@@ -48,10 +48,10 @@ const popularTasks: Task[] = [
 ];
 
 export default async function HomePage() {
-  const latestNews = await getNewsItems(4);
-  const scheduledBoards = meetingSchedules.filter(
-    (board) => !board.schedule.startsWith("PLACEHOLDER"),
-  );
+  const [latestNews, { boards }] = await Promise.all([getNewsItems(4), getMeetingsView()]);
+  // Boards whose schedule the town has actually published. The rest say so
+  // on /meetings rather than being guessed at here.
+  const scheduledBoards = boards.filter((board) => board.schedule);
 
   return (
     <>
@@ -109,10 +109,11 @@ export default async function HomePage() {
         <Section title="Meeting schedule" headingId="meetings">
           <dl className="border-t border-line">
             {scheduledBoards.map((board) => (
-              <div key={board.board} className="border-b border-line py-4">
-                <dt className="heading-sm text-ink">{board.board}</dt>
+              <div key={board.key} className="border-b border-line py-4">
+                <dt className="heading-sm text-ink">{board.name}</dt>
                 <dd className="mt-1 body-sm text-ink">
-                  {board.schedule} · {board.location}
+                  {board.schedule}
+                  {board.location && <> · {board.location}</>}
                 </dd>
               </div>
             ))}
