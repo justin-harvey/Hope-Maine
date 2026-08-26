@@ -1,0 +1,153 @@
+/* ─────────────────────────────────────────────────────────────
+   Town of Hope — Design Patterns
+   Ported from the CivicChain design system. Control color contract
+   + button surface treatments consumed by Button/SurfaceCard.
+   ───────────────────────────────────────────────────────────── */
+
+.button-border-current {
+  border-color: currentcolor;
+}
+
+.button-border-transparent {
+  border-color: transparent;
+}
+
+/* ── Control color contract ───────────────────────────────────
+   A surface (or an explicit tone override) sets these variables;
+   interactive controls read them — one tone source instead of a
+   per-component matrix. */
+.ctl-tone-cream {
+  --ctl-accent: var(--blue-900);
+  --ctl-on-accent: var(--cream-50);
+  --ctl-ink: var(--blue-900);
+  --ctl-soft: var(--cream-200);
+  --ctl-filled-accent: var(--ctl-accent);
+  --ctl-on-filled-accent: var(--ctl-on-accent);
+}
+
+.ctl-tone-sky {
+  --ctl-accent: var(--blue-700);
+  --ctl-on-accent: var(--cream-50);
+  --ctl-ink: var(--blue-700);
+  --ctl-soft: var(--blue-200);
+  --ctl-filled-accent: var(--ctl-accent);
+  --ctl-on-filled-accent: var(--ctl-on-accent);
+}
+
+.ctl-tone-gold {
+  --ctl-accent: var(--gold-800);
+  --ctl-on-accent: var(--cream-50);
+  --ctl-ink: var(--gold-800);
+  --ctl-soft: var(--gold-200);
+  --ctl-filled-accent: var(--ctl-accent);
+  --ctl-on-filled-accent: var(--ctl-on-accent);
+}
+
+.ctl-tone-sage {
+  --ctl-accent: var(--green-900);
+  --ctl-on-accent: var(--cream-50);
+  --ctl-ink: var(--green-900);
+  --ctl-soft: var(--green-200);
+  --ctl-filled-accent: var(--ctl-accent);
+  --ctl-on-filled-accent: var(--ctl-on-accent);
+}
+
+.ctl-tone-slate {
+  --ctl-accent: var(--slate-700);
+  --ctl-on-accent: var(--cream-50);
+  --ctl-ink: var(--cream-50);
+  --ctl-soft: var(--slate-200);
+  --ctl-filled-accent: var(--ctl-accent);
+  --ctl-on-filled-accent: var(--ctl-on-accent);
+}
+
+.ctl-tone-ink {
+  --ctl-accent: var(--blue-900);
+  --ctl-on-accent: var(--cream-50);
+  --ctl-ink: var(--cream-50);
+  --ctl-soft: var(--blue-200);
+  --ctl-filled-accent: var(--ctl-accent);
+  --ctl-on-filled-accent: var(--ctl-on-accent);
+}
+
+.surface-card.ctl-tone-slate,
+.surface-card.ctl-tone-ink {
+  --ctl-filled-accent: var(--cream-50);
+  --ctl-on-filled-accent: var(--blue-900);
+}
+
+/* Filled (default) Button — color from the contract; geometry/motion in cva. */
+.btn-filled {
+  background: var(--ctl-filled-accent);
+  color: var(--ctl-on-filled-accent);
+}
+
+.btn-filled:hover {
+  background: color-mix(in oklab, var(--ctl-filled-accent), black 12%);
+}
+
+.btn-filled:active {
+  background: var(--ctl-filled-accent);
+}
+
+/* Secondary — light in-family surface, saturated family text. */
+.btn-soft {
+  background: var(--ctl-soft);
+  color: var(--ctl-accent);
+}
+
+.btn-soft:hover {
+  background: color-mix(in oklab, var(--ctl-soft), black 7%);
+}
+
+.btn-soft:active {
+  background: color-mix(in oklab, var(--ctl-soft), black 10%);
+}
+
+/* Outline — quiet light fill, saturated family stroke + label. */
+.btn-outline {
+  background: var(--cream-50);
+  color: var(--ctl-accent);
+  border-color: color-mix(in oklab, var(--ctl-accent), transparent 70%);
+}
+
+.btn-outline:hover {
+  background: var(--ctl-soft);
+  border-color: var(--ctl-accent);
+}
+
+.btn-outline:active {
+  background: color-mix(in oklab, var(--ctl-soft), black 6%);
+}
+
+/* Ghost — no resting fill; family text sits directly on the surface. */
+.btn-ghost {
+  color: color-mix(in oklab, var(--ctl-ink), transparent 30%);
+}
+
+.btn-ghost:hover {
+  color: var(--ctl-ink);
+  background: color-mix(in oklab, var(--ctl-ink), transparent 90%);
+}
+
+.btn-ghost:active {
+  background: color-mix(in oklab, var(--ctl-ink), transparent 84%);
+}
+
+/* Underline / text button — label + rule both ride --ctl-ink. */
+.btn-quiet {
+  color: var(--ctl-ink);
+}
+
+.btn-quiet-dim {
+  color: color-mix(in oklab, var(--ctl-ink), transparent 45%);
+}
+
+.btn-quiet-dim:hover {
+  color: var(--ctl-ink);
+}
+
+/* Text inside a tinted card inherits the card's tone color — but not controls. */
+.surface-card :where(.body-xs, .body-sm, .body, .body-bold, .body-lg, .body-xl, .h4, .h3, .h2, .h1, .captions):not([class*="text-"], [class*="btn-"]) {
+  color: inherit;
+}

@@ -8,19 +8,11 @@ export function PageHero({
   description?: string;
 }) {
   return (
-    <div className="bg-navy-900">
+    <div className="bg-blue-900">
       <div className="mx-auto max-w-6xl px-6 py-14">
-        {eyebrow && (
-          <p className="text-sm font-semibold tracking-wide text-gold-500 uppercase">
-            {eyebrow}
-          </p>
-        )}
-        <h1 className="mt-2 font-serif text-3xl font-semibold text-white sm:text-4xl">
-          {title}
-        </h1>
-        {description && (
-          <p className="mt-4 max-w-2xl text-base text-white/80">{description}</p>
-        )}
+        {eyebrow && <p className="captions text-gold-300">{eyebrow}</p>}
+        <h1 className="mt-2 font-display text-3xl text-cream-50 sm:text-4xl">{title}</h1>
+        {description && <p className="mt-4 max-w-2xl body text-cream-50/80">{description}</p>}
       </div>
     </div>
   );

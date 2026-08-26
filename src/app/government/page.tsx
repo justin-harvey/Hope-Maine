@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+
+import { Icon } from "@/components/ui/icon";
+import { SurfaceCard } from "@/components/ui/surface-card";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
-import { Card } from "@/components/Card";
 import { selectBoard, townOfficials, boardsAndCommittees } from "@/data/government";
 
 export const metadata: Metadata = {
@@ -21,25 +23,30 @@ export default function GovernmentPage() {
       <Section title="Select Board">
         <div className="grid gap-4 sm:grid-cols-3">
           {selectBoard.map((member) => (
-            <Card key={member.role}>
-              <p className="font-serif text-lg font-semibold text-navy-950">{member.name}</p>
-              <p className="mt-1 text-sm font-medium text-forest-700">{member.role}</p>
-              <p className="mt-2 text-sm text-navy-900/60">Term ends {member.termEnds}</p>
-            </Card>
+            <SurfaceCard key={member.role} density="standard">
+              <p className="font-display text-lg text-blue-900">{member.name}</p>
+              <p className="mt-1 body-sm font-medium text-blue-700">{member.role}</p>
+              <p className="mt-2 body-sm text-slate-500">Term ends {member.termEnds}</p>
+            </SurfaceCard>
           ))}
         </div>
       </Section>
 
-      <div className="bg-navy-950/[0.03]">
-        <Section title="Town Officials">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="bg-cream-200">
+        <Section title="Town Office Staff">
+          <div className="grid gap-4 sm:grid-cols-2">
             {townOfficials.map((official) => (
-              <Card key={official.role}>
-                <p className="text-sm font-medium text-forest-700">{official.role}</p>
-                <p className="mt-1 font-serif text-base font-semibold text-navy-950">
-                  {official.name}
+              <SurfaceCard key={official.role} density="standard">
+                <p className="font-display text-lg text-blue-900">{official.name}</p>
+                <p className="mt-1 body-sm font-medium text-blue-700">{official.role}</p>
+                {official.otherRoles.length > 0 && (
+                  <p className="mt-1 body-sm text-slate-500">{official.otherRoles.join(", ")}</p>
+                )}
+                <p className="mt-3 flex items-center gap-1.5 body-sm text-blue-900">
+                  <Icon name="mail" size="xs" />
+                  {official.email}
                 </p>
-              </Card>
+              </SurfaceCard>
             ))}
           </div>
         </Section>
@@ -51,11 +58,11 @@ export default function GovernmentPage() {
       >
         <div className="grid gap-4 md:grid-cols-2">
           {boardsAndCommittees.map((board) => (
-            <Card key={board.name}>
-              <h3 className="font-serif text-lg font-semibold text-navy-950">{board.name}</h3>
-              <p className="mt-2 text-sm text-navy-900/70">{board.description}</p>
-              <p className="mt-3 text-sm font-medium text-forest-700">{board.meets}</p>
-            </Card>
+            <SurfaceCard key={board.name} density="standard">
+              <h3 className="font-display text-lg text-blue-900">{board.name}</h3>
+              <p className="mt-2 body-sm text-slate-500">{board.description}</p>
+              <p className="mt-3 body-sm font-medium text-blue-700">{board.meets}</p>
+            </SurfaceCard>
           ))}
         </div>
       </Section>

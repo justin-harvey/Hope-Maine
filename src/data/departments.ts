@@ -1,55 +1,77 @@
-// PLACEHOLDER DATA — replace with real department contacts, hours, and descriptions.
+// Department/service list is real — sourced from the current hopemaine.org
+// "Town Services" page (screenshot provided 2026-08-26). Contact details and
+// hours weren't shown on that page and are still PLACEHOLDER.
 
 export const departments = [
   {
     name: "Town Office",
     description:
-      "PLACEHOLDER — General administration, vehicle registration, dog licensing, voter registration, and general assistance.",
-    phone: "PLACEHOLDER — (207) 555-0123",
-    email: "PLACEHOLDER — admin@hopemaine.org",
+      "General administration, vehicle registration, dog licensing, voter registration, and general assistance. Staffed by the Town Clerk, Town Administrator, and Bookkeeper — see Town Government for names and emails.",
+    phone: "PLACEHOLDER — (207) 763-4199",
+    email: "clerk@hopemaine.org",
     hours: "PLACEHOLDER — Mon–Thu, 8:00 AM–4:00 PM",
   },
   {
-    name: "Assessing",
-    description: "PLACEHOLDER — Property assessments, tax maps, and abatement requests.",
-    phone: "PLACEHOLDER — (207) 555-0125",
-    email: "PLACEHOLDER — assessing@hopemaine.org",
-    hours: "PLACEHOLDER — By appointment",
-  },
-  {
-    name: "Code Enforcement & Planning",
-    description:
-      "PLACEHOLDER — Building permits, land use ordinance questions, and code compliance.",
-    phone: "PLACEHOLDER — (207) 555-0126",
-    email: "PLACEHOLDER — cec@hopemaine.org",
-    hours: "PLACEHOLDER — Tue & Thu, 9:00 AM–3:00 PM",
-  },
-  {
-    name: "Public Works",
-    description: "PLACEHOLDER — Road maintenance, plowing, and drainage.",
-    phone: "PLACEHOLDER — (207) 555-0127",
-    email: "PLACEHOLDER — publicworks@hopemaine.org",
-    hours: "PLACEHOLDER — Mon–Fri, 7:00 AM–3:00 PM",
-  },
-  {
-    name: "Fire & Rescue",
-    description: "PLACEHOLDER — Volunteer fire department and emergency response.",
-    phone: "PLACEHOLDER — (207) 555-0128 (non-emergency)",
-    email: "PLACEHOLDER — fire@hopemaine.org",
-    hours: "Emergency: dial 911",
-  },
-  {
-    name: "Transfer Station & Recycling",
-    description: "PLACEHOLDER — Solid waste disposal and recycling drop-off.",
-    phone: "PLACEHOLDER — (207) 555-0129",
-    email: "PLACEHOLDER — transferstation@hopemaine.org",
-    hours: "PLACEHOLDER — Wed & Sat, 8:00 AM–4:00 PM",
+    name: "Roads",
+    description: "Road maintenance, plowing, and drainage.",
+    phone: "PLACEHOLDER",
+    email: "PLACEHOLDER",
+    hours: "PLACEHOLDER",
   },
   {
     name: "Animal Control",
-    description: "PLACEHOLDER — Dog licensing and animal complaints.",
-    phone: "PLACEHOLDER — (207) 555-0130",
-    email: "PLACEHOLDER — animalcontrol@hopemaine.org",
-    hours: "PLACEHOLDER — On call",
+    description: "Dog licensing and animal complaints.",
+    phone: "PLACEHOLDER",
+    email: "PLACEHOLDER",
+    hours: "PLACEHOLDER",
+  },
+  {
+    name: "Fire Department",
+    description: "Volunteer fire department and emergency response.",
+    phone: "PLACEHOLDER (non-emergency)",
+    email: "PLACEHOLDER",
+    hours: "Emergency: dial 911",
+  },
+  {
+    name: "Code Enforcement",
+    description: "Building permits, land use ordinance questions, and code compliance.",
+    phone: "PLACEHOLDER",
+    email: "PLACEHOLDER",
+    hours: "PLACEHOLDER",
+  },
+  {
+    name: "Cemeteries",
+    description: "Town cemetery maintenance and lot information.",
+    phone: "PLACEHOLDER",
+    email: "PLACEHOLDER",
+    hours: "PLACEHOLDER",
+  },
+  {
+    name: "Solid Waste and Recycling",
+    description: "Transfer station operations, solid waste disposal, and recycling drop-off.",
+    phone: "PLACEHOLDER",
+    email: "PLACEHOLDER",
+    hours: "PLACEHOLDER",
+  },
+  {
+    name: "General Assistance",
+    description: "Emergency financial assistance for qualifying residents.",
+    phone: "PLACEHOLDER",
+    email: "PLACEHOLDER",
+    hours: "PLACEHOLDER",
+  },
+  {
+    name: "911 Service",
+    description: "Addressing and emergency dispatch service information.",
+    phone: "Emergency: dial 911",
+    email: "PLACEHOLDER",
+    hours: "PLACEHOLDER",
+  },
+  {
+    name: "Sheriff's Department",
+    description: "Law enforcement services (Knox County Sheriff's Office).",
+    phone: "PLACEHOLDER",
+    email: "PLACEHOLDER",
+    hours: "PLACEHOLDER",
   },
 ];

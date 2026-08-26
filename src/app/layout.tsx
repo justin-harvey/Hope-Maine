@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
-import { Inter, Lora } from "next/font/google";
+import { DM_Sans, DM_Serif_Text } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 
-const inter = Inter({
-  variable: "--font-sans",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
 });
 
-const lora = Lora({
-  variable: "--font-serif",
+const dmSerifText = DM_Serif_Text({
+  variable: "--font-dm-serif-text",
   subsets: ["latin"],
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {
@@ -27,12 +28,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${lora.variable} h-full antialiased`}
+      className={`${dmSans.variable} ${dmSerifText.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2 focus:text-navy-900 focus:shadow-lg"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-cream-50 focus:px-4 focus:py-2 focus:text-blue-900 focus:shadow-lg"
         >
           Skip to main content
         </a>

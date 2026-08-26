@@ -1,0 +1,76 @@
+/* ─────────────────────────────────────────────────────────────
+   Town of Hope — Design Tokens
+   Ported from the CivicChain design system (G00DTECH/Civic-Chain).
+   Flat gallery: color ramps + structural defaults. A tint is
+   <ramp>/<opacity> at the use site, never its own token.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  /* ── Color ramps ── */
+  --blue-100: #e2e9f7;
+  --blue-200: #d6e0f4;
+  --blue-300: #b4c0e0;
+  --blue-500: #90a2d0;
+  --blue-700: #1c2f74;
+  --blue-900: #131f86;
+  --gold-100: #efdfc3;
+  --gold-200: #eddab9;
+  --gold-300: #e9d3ab;
+  --gold-500: #b9a175;
+  --gold-600: #8a775a;
+  --gold-800: #352613;
+  --green-100: #d6f0db;
+  --green-200: #c6e8cd;
+  --green-300: #aed7b6;
+  --green-500: #86b18f;
+  --green-600: #498458;
+  --green-900: #0b401f;
+  --cream-50: #faf3e8;
+  --cream-100: #f3f1e8;
+  --cream-200: #efe9df;
+  --cream-300: #e4ddd2;
+  --slate-100: #ebe5ed;
+  --slate-200: #e3dbe5;
+  --slate-300: #c8bccb;
+  --slate-400: #9f91a3;
+  --slate-500: #6d5a72;
+  --slate-700: #48354d;
+  --red-100: #f8e1e5;
+  --red-400: #bf8084;
+  --red-600: #882335;
+
+  /* ── Structural defaults ── */
+  --background: var(--cream-100);
+  --foreground: var(--blue-900);
+  --border: rgba(19, 31, 134, 0.14);
+  --ring: rgba(19, 31, 134, 0.24);
+
+  /* Control color contract — surfaces (and explicit tone overrides) fill
+     these; controls read them. */
+  --ctl-accent: var(--blue-900);
+  --ctl-on-accent: var(--cream-50);
+  --ctl-ink: var(--foreground);
+  --ctl-soft: var(--blue-200);
+  --ctl-filled-accent: var(--ctl-accent);
+  --ctl-on-filled-accent: var(--ctl-on-accent);
+
+  --border-width-1: 1px;
+  --border-width-2: 2px;
+
+  /* ── Typography — two families ── */
+  --font-sans: var(--font-dm-sans);
+  --font-display: var(--font-dm-serif-text);
+
+  --tracking-label: 0.18em;
+
+  /* ── Motion canon ── */
+  --ease-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-fast: 180ms;
+  --focus-outline-offset: 3px;
+
+  --accent: var(--blue-700);
+  --accent-surface: var(--blue-100);
+  --muted-foreground: var(--slate-400);
+
+  color-scheme: light;
+}

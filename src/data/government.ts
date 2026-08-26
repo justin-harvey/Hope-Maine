@@ -1,4 +1,6 @@
-// PLACEHOLDER DATA — replace with real Select Board / committee membership and info.
+// Town Office staff below are real — sourced from the current hopemaine.org
+// staff directory (screenshot provided 2026-08-26). The Select Board roster
+// and boards/committees are still PLACEHOLDER — that page wasn't captured.
 
 export const selectBoard = [
   { name: "PLACEHOLDER — Board Chair Name", role: "Chair", termEnds: "2027" },
@@ -7,10 +9,35 @@ export const selectBoard = [
 ];
 
 export const townOfficials = [
-  { name: "PLACEHOLDER — Name", role: "Town Administrator" },
-  { name: "PLACEHOLDER — Name", role: "Town Clerk" },
-  { name: "PLACEHOLDER — Name", role: "Treasurer" },
-  { name: "PLACEHOLDER — Name", role: "Tax Collector" },
+  {
+    name: "Pamela Jordan",
+    role: "Town Clerk",
+    otherRoles: ["Tax Collector", "Deputy Treasurer", "Deputy Registrar of Voters"],
+    email: "clerk@hopemaine.org",
+  },
+  {
+    name: "PLACEHOLDER — name not visible in submitted screenshot",
+    role: "Deputy Town Clerk",
+    otherRoles: ["Deputy Tax Collector", "Deputy Treasurer", "Deputy Registrar of Voters"],
+    email: "deputyclerk@hopemaine.org",
+  },
+  {
+    name: "Samantha Mank",
+    role: "Town Administrator",
+    otherRoles: [
+      "Treasurer",
+      "Registrar of Voters",
+      "General Assistance Administrator",
+      "Deputy Code Enforcement Officer",
+    ],
+    email: "PLACEHOLDER — admin@hopemaine.org",
+  },
+  {
+    name: "Shani Dennison",
+    role: "Bookkeeper",
+    otherRoles: [],
+    email: "finance@hopemaine.org",
+  },
 ];
 
 export const boardsAndCommittees = [

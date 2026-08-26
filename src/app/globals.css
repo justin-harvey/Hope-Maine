@@ -1,49 +1,60 @@
-@import "tailwindcss";
+/* ─────────────────────────────────────────────────────────────
+   Town of Hope — Global stylesheet entry
+   Design system ported from CivicChain (G00DTECH/Civic-Chain):
 
-:root {
-  /* Deep navy — primary brand color, header/footer/buttons */
-  --color-navy-950: #0b1b2b;
-  --color-navy-900: #102a43;
-  --color-navy-800: #16395c;
-  --color-navy-700: #1d4e75;
+       tokens.css   →   primitives.css   →   patterns.css
 
-  /* Forest green — secondary accent, links, active states */
-  --color-forest-900: #123524;
-  --color-forest-700: #1e5c3a;
-  --color-forest-600: #257048;
-  --color-forest-500: #2e8557;
+   Brand hexes and structural defaults live in tokens.css. Semantic
+   type utilities live in primitives.css. Composites live in
+   patterns.css.
+   ───────────────────────────────────────────────────────────── */
 
-  /* Warm gold — sparing accent (badges, highlights) */
-  --color-gold-600: #b9812f;
-  --color-gold-500: #cc9a42;
+@import "tailwindcss" source(none);
+@import "./styles/tokens.css";
+@import "./styles/primitives.css";
+@import "./styles/patterns.css";
 
-  --background: #ffffff;
-  --foreground: #16211b;
-}
+@source "./**/*.{ts,tsx}";
+@source "../components/**/*.{ts,tsx}";
+@source "../lib/**/*.{ts,tsx}";
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-
-  --color-navy-950: var(--color-navy-950);
-  --color-navy-900: var(--color-navy-900);
-  --color-navy-800: var(--color-navy-800);
-  --color-navy-700: var(--color-navy-700);
-
-  --color-forest-900: var(--color-forest-900);
-  --color-forest-700: var(--color-forest-700);
-  --color-forest-600: var(--color-forest-600);
-  --color-forest-500: var(--color-forest-500);
-
-  --color-gold-600: var(--color-gold-600);
-  --color-gold-500: var(--color-gold-500);
-
+  --color-border: var(--border);
+  --color-ring: var(--ring);
   --font-sans: var(--font-sans);
-  --font-serif: var(--font-serif);
-}
+  --font-display: var(--font-display);
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
+  --color-blue-100: var(--blue-100);
+  --color-blue-200: var(--blue-200);
+  --color-blue-300: var(--blue-300);
+  --color-blue-500: var(--blue-500);
+  --color-blue-700: var(--blue-700);
+  --color-blue-900: var(--blue-900);
+  --color-gold-100: var(--gold-100);
+  --color-gold-200: var(--gold-200);
+  --color-gold-300: var(--gold-300);
+  --color-gold-500: var(--gold-500);
+  --color-gold-600: var(--gold-600);
+  --color-gold-800: var(--gold-800);
+  --color-green-100: var(--green-100);
+  --color-green-200: var(--green-200);
+  --color-green-300: var(--green-300);
+  --color-green-500: var(--green-500);
+  --color-green-600: var(--green-600);
+  --color-green-900: var(--green-900);
+  --color-cream-50: var(--cream-50);
+  --color-cream-100: var(--cream-100);
+  --color-cream-200: var(--cream-200);
+  --color-cream-300: var(--cream-300);
+  --color-slate-100: var(--slate-100);
+  --color-slate-200: var(--slate-200);
+  --color-slate-300: var(--slate-300);
+  --color-slate-400: var(--slate-400);
+  --color-slate-500: var(--slate-500);
+  --color-slate-700: var(--slate-700);
+  --color-red-100: var(--red-100);
+  --color-red-400: var(--red-400);
+  --color-red-600: var(--red-600);
 }

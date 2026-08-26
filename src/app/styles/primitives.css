@@ -1,0 +1,112 @@
+/* ─────────────────────────────────────────────────────────────
+   Town of Hope — Design Primitives
+   Ported from the CivicChain design system. Base reset, semantic
+   typography, and motion hooks. Sizing/spacing/radius/shadow use
+   Tailwind utilities directly.
+   ───────────────────────────────────────────────────────────── */
+
+* {
+  border-color: var(--border);
+}
+
+h1, h2, h3, h4, h5, h6, p, blockquote, a, button, li, label, span {
+  text-wrap: balance;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100dvh;
+  background:
+    radial-gradient(ellipse 50% 12% at 60% 0%, color-mix(in oklab, var(--gold-300), transparent 82%), transparent),
+    var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+}
+
+a,
+button {
+  transition:
+    color var(--dur-fast) var(--ease-soft),
+    background-color var(--dur-fast) var(--ease-soft),
+    border-color var(--dur-fast) var(--ease-soft),
+    transform var(--dur-fast) var(--ease-soft),
+    box-shadow var(--dur-fast) var(--ease-soft);
+}
+
+::selection {
+  background: color-mix(in oklab, var(--blue-900), white 72%);
+  color: var(--foreground);
+}
+
+.tracking-label {
+  letter-spacing: var(--tracking-label);
+}
+
+/* ── Typography utilities ─────────────────────────────────────
+   Semantic text roles backed by Tailwind's official size scale. ── */
+
+@utility captions {
+  font: 500 var(--text-xs) / var(--text-xs--line-height) var(--font-sans), sans-serif;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+@utility body-xs {
+  font: 400 var(--text-xs) / var(--text-xs--line-height) var(--font-sans), sans-serif;
+}
+
+@utility body-sm {
+  font: 400 var(--text-sm) / var(--text-sm--line-height) var(--font-sans), sans-serif;
+}
+
+@utility body {
+  font: 400 var(--text-base) / var(--text-base--line-height) var(--font-sans), sans-serif;
+}
+
+@utility body-bold {
+  font: 700 var(--text-base) / var(--text-base--line-height) var(--font-sans), sans-serif;
+}
+
+@utility body-lg {
+  font: 400 var(--text-lg) / var(--text-lg--line-height) var(--font-sans), sans-serif;
+}
+
+@utility body-xl {
+  font: 400 var(--text-xl) / var(--text-xl--line-height) var(--font-sans), sans-serif;
+}
+
+@utility h4 {
+  font: 400 var(--text-3xl) / var(--text-3xl--line-height) var(--font-display), serif;
+}
+
+@utility h3 {
+  font: 400 var(--text-5xl) / var(--text-5xl--line-height) var(--font-display), serif;
+}
+
+@utility h2 {
+  font: 400 var(--text-6xl) / var(--text-6xl--line-height) var(--font-display), serif;
+}
+
+@utility h1 {
+  font: 400 var(--text-8xl) / var(--text-8xl--line-height) var(--font-display), serif;
+}
+
+@layer base {
+  :where(.body-xs, .body-sm, .body, .body-bold, .body-lg, .body-xl, .h4, .h3, .h2, .h1) {
+    color: var(--foreground);
+  }
+
+  :where(.captions) {
+    color: var(--slate-500);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a,
+  button {
+    transition: none;
+  }
+}

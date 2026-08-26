@@ -3,20 +3,25 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+
+import { Icon } from "@/components/ui/icon";
 import { primaryNav, townInfo } from "@/lib/nav";
+import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 bg-white shadow-sm">
-      <div className="hidden bg-navy-950 text-white md:block">
-        <div className="mx-auto flex max-w-6xl items-center justify-end gap-6 px-6 py-1.5 text-xs">
-          <a href={`tel:${townInfo.phone}`} className="hover:text-gold-500">
+    <header className="sticky top-0 z-40 bg-cream-50 shadow-sm">
+      <div className="hidden bg-blue-900 text-cream-50 md:block">
+        <div className="mx-auto flex max-w-6xl items-center justify-end gap-6 px-6 py-1.5 body-xs">
+          <a href={`tel:${townInfo.phone}`} className="inline-flex items-center gap-1.5 hover:text-gold-300">
+            <Icon name="phone" size="xs" />
             {townInfo.phone}
           </a>
-          <a href={`mailto:${townInfo.email}`} className="hover:text-gold-500">
+          <a href={`mailto:${townInfo.email}`} className="inline-flex items-center gap-1.5 hover:text-gold-300">
+            <Icon name="mail" size="xs" />
             {townInfo.email}
           </a>
         </div>
@@ -24,32 +29,28 @@ export function SiteHeader() {
 
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
         <Link href="/" className="flex items-center gap-3" onClick={() => setMenuOpen(false)}>
-          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-forest-700 font-serif text-lg font-semibold text-white">
+          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-blue-900 font-display text-lg text-cream-50">
             H
           </span>
           <span className="leading-tight">
-            <span className="block font-serif text-lg font-semibold text-navy-950">
-              {townInfo.name}
-            </span>
-            <span className="block text-xs text-navy-700">{townInfo.tagline}</span>
+            <span className="block font-display text-lg text-blue-900 sm:text-xl">{townInfo.name}</span>
+            <span className="block body-xs text-slate-500">{townInfo.tagline}</span>
           </span>
         </Link>
 
         <nav className="hidden lg:block" aria-label="Primary">
           <ul className="flex items-center gap-1">
             {primaryNav.map((item) => {
-              const active =
-                item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+              const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
               return (
                 <li key={item.href}>
                   <Link
                     href={item.href}
                     aria-current={active ? "page" : undefined}
-                    className={`block rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-                      active
-                        ? "bg-forest-700 text-white"
-                        : "text-navy-900 hover:bg-navy-950/5"
-                    }`}
+                    className={cn(
+                      "block rounded-2xl px-3 py-2 body-sm font-medium transition-colors",
+                      active ? "bg-blue-900 text-cream-50" : "text-blue-900 hover:bg-blue-900/5",
+                    )}
                   >
                     {item.label}
                   </Link>
@@ -61,39 +62,31 @@ export function SiteHeader() {
 
         <button
           type="button"
-          className="inline-flex items-center justify-center rounded-md border border-navy-900/20 p-2 text-navy-900 lg:hidden"
+          className="inline-flex items-center justify-center rounded-2xl border border-blue-900/20 p-2 text-blue-900 lg:hidden"
           aria-expanded={menuOpen}
           aria-controls="mobile-nav"
           onClick={() => setMenuOpen((open) => !open)}
         >
           <span className="sr-only">{menuOpen ? "Close menu" : "Open menu"}</span>
-          {menuOpen ? (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-          ) : (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-          )}
+          <Icon name={menuOpen ? "close" : "menu"} size="md" />
         </button>
       </div>
 
       {menuOpen && (
-        <nav id="mobile-nav" aria-label="Primary" className="border-t border-navy-900/10 lg:hidden">
+        <nav id="mobile-nav" aria-label="Primary" className="border-t border-blue-900/10 lg:hidden">
           <ul className="mx-auto max-w-6xl px-6 py-2">
             {primaryNav.map((item) => {
-              const active =
-                item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+              const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
               return (
                 <li key={item.href}>
                   <Link
                     href={item.href}
                     aria-current={active ? "page" : undefined}
                     onClick={() => setMenuOpen(false)}
-                    className={`block rounded-md px-3 py-2.5 text-sm font-medium ${
-                      active ? "bg-forest-700 text-white" : "text-navy-900 hover:bg-navy-950/5"
-                    }`}
+                    className={cn(
+                      "block rounded-2xl px-3 py-2.5 body-sm font-medium",
+                      active ? "bg-blue-900 text-cream-50" : "text-blue-900 hover:bg-blue-900/5",
+                    )}
                   >
                     {item.label}
                   </Link>
