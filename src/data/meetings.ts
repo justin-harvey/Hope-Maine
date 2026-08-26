@@ -1,4 +1,8 @@
-// PLACEHOLDER DATA — replace with real meeting schedules and link real agenda/minutes files.
+// PLACEHOLDER DATA — replace with real meeting schedules and link real
+// agenda/minutes files. Board names match the real committee list confirmed
+// via a full hopemaine.org crawl (provided 2026-08-26): Select Board,
+// Planning Board, School Committee, Cemetery Committee, Budget Committee,
+// Board of Appeals.
 
 export const upcomingMeetings = [
   {
@@ -16,7 +20,7 @@ export const upcomingMeetings = [
     agendaHref: "#",
   },
   {
-    board: "Conservation Commission",
+    board: "Budget Committee",
     date: "PLACEHOLDER — Wed, Sept 17, 2026",
     time: "6:00 PM",
     location: "Hope Town Office",
@@ -47,7 +51,7 @@ export const meetingArchive = [
     recentMinutes: [{ label: "PLACEHOLDER — Jun 3, 2026 Minutes", href: "#" }],
   },
   {
-    board: "Conservation Commission",
+    board: "Budget Committee",
     schedule: "PLACEHOLDER — 3rd Wednesday monthly, 6:00 PM",
     recentMinutes: [{ label: "PLACEHOLDER — Jul 16, 2026 Minutes", href: "#" }],
   },

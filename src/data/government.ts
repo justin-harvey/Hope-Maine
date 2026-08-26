@@ -1,6 +1,9 @@
 // Town Office staff below are real — sourced from the current hopemaine.org
-// staff directory (screenshot provided 2026-08-26). The Select Board roster
-// and boards/committees are still PLACEHOLDER — that page wasn't captured.
+// staff directory (screenshot provided 2026-08-26). A full site crawl
+// (provided 2026-08-26) confirmed the real committee list — Select Board,
+// Planning Board, School Committee, Cemetery Committee, Budget Committee,
+// and Board of Appeals — but only captured page titles/headings, not the
+// actual member rosters, so names below are still PLACEHOLDER.
 
 export const selectBoard = [
   { name: "PLACEHOLDER — Board Chair Name", role: "Chair", termEnds: "2027" },
@@ -52,13 +55,18 @@ export const boardsAndCommittees = [
     meets: "PLACEHOLDER — As needed",
   },
   {
-    name: "Conservation Commission",
-    description: "PLACEHOLDER — advises on natural resources and open space.",
-    meets: "PLACEHOLDER — 3rd Wednesday monthly, 6:00 PM",
-  },
-  {
     name: "Budget Committee",
     description: "PLACEHOLDER — reviews the annual municipal budget prior to Town Meeting.",
     meets: "PLACEHOLDER — Winter months, as scheduled",
+  },
+  {
+    name: "School Committee",
+    description: "PLACEHOLDER — oversees local school matters for the town.",
+    meets: "PLACEHOLDER",
+  },
+  {
+    name: "Cemetery Committee",
+    description: "PLACEHOLDER — oversees town cemetery maintenance and policy.",
+    meets: "PLACEHOLDER",
   },
 ];

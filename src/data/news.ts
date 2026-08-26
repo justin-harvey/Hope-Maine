@@ -1,25 +1,20 @@
-// PLACEHOLDER DATA — replace with real news posts and community events.
+// Titles below are real — confirmed via a full hopemaine.org crawl
+// (provided 2026-08-26), which found these two live news_detail pages. The
+// crawl only captured page titles/headings, not article body text or
+// publish dates, so those fields are still PLACEHOLDER. hopemaine.org's
+// newslist.php may hold more posts than these two — worth a screenshot.
 
 export const newsPosts = [
   {
-    title: "PLACEHOLDER — Town Office Holiday Closure",
-    date: "PLACEHOLDER — Aug 20, 2026",
-    summary:
-      "PLACEHOLDER — Example announcement text describing an upcoming office closure or schedule change.",
+    title: "Annual Special Town Meeting",
+    date: "PLACEHOLDER — date not captured",
+    summary: "PLACEHOLDER — article text not captured; see hopemaine.org for the full notice.",
     href: "#",
   },
   {
-    title: "PLACEHOLDER — Fall Leaf & Brush Pickup Schedule",
-    date: "PLACEHOLDER — Aug 12, 2026",
-    summary:
-      "PLACEHOLDER — Example announcement text describing a seasonal public works program.",
-    href: "#",
-  },
-  {
-    title: "PLACEHOLDER — Notice of Public Hearing",
-    date: "PLACEHOLDER — Aug 5, 2026",
-    summary:
-      "PLACEHOLDER — Example legal notice text regarding a proposed ordinance amendment.",
+    title: "MCSW Fee Increase Notice",
+    date: "PLACEHOLDER — date not captured",
+    summary: "PLACEHOLDER — article text not captured; see hopemaine.org for the full notice.",
     href: "#",
   },
 ];
