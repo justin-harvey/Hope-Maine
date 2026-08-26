@@ -40,7 +40,7 @@ export const onlineServices = [
     href: "https://moses.informe.org/cgi-bin/online/moses_v3/index",
   },
   // Town roads are reported to the Town Office; state roads go to MDOT.
-  { label: "Report a problem with a road", href: "/how-do-i#community-services" },
+  { label: "Report a problem with a road", href: "/report/road" },
   {
     label: "Get a burn permit",
     href: "https://apps1.web.maine.gov/burnpermit/public/index.html",

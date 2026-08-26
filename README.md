@@ -37,6 +37,31 @@ accessibility, and institutional trust.
 Icons are a small inline-SVG set in `src/components/ui/icon.tsx` — add a
 path there rather than pulling in an icon font.
 
+### Online forms
+
+`/report/road` is a multi-step service flow built on the GOV.UK form
+pattern: one question per screen, an error summary that takes focus on a
+failed submit, per-field errors wired with `aria-describedby` and
+`aria-invalid`, a check-your-answers step with Change links, and a
+confirmation with a reference number.
+
+The primitives live in `src/components/forms/` and are reusable for the
+other paper forms the town still hands out (complaints, committee
+service, General Assistance).
+
+**Submission depends on Netlify Forms.** The page carries a hidden static
+form so Netlify's build-time parser can discover the fields; the React
+component POSTs urlencoded data to `/`. Two things are required for this
+to actually deliver:
+
+1. Enable **Forms** for the site in the Netlify dashboard.
+2. Add a notification address under **Forms → Form notifications**, or
+   nobody at the Town Office will see submissions.
+
+Until Forms is enabled the POST fails and the form says so plainly rather
+than showing a false confirmation. The free tier allows 100 submissions a
+month, which is ample for a town of 1,698.
+
 ### Accessibility audit
 
 `npm run build`, then with the dev server running, the Playwright script in

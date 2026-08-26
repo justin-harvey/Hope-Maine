@@ -334,7 +334,11 @@ export const faqs: Faq[] = [
     question: "How do I report a problem with a road?",
     category: "Community Services",
     answer: [
-      "Report a problem with a road through the Town's online reporting form, or contact the Town Office directly.",
+      "Report a problem with a town road using the online form, or contact the Town Office directly. Problems on state highways go to the Maine Department of Transportation.",
+    ],
+    links: [
+      { label: "Report a problem with a road", href: "/report/road" },
+      { label: "Maine DOT — report a state road issue", href: "http://www.maine.gov/mdot/contact/" },
     ],
   },
 ];
