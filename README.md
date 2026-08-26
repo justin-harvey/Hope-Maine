@@ -164,10 +164,27 @@ needs them.
 
 ### Accessibility audit
 
-`npm run build`, then with the dev server running, the Playwright script in
-the scratchpad checks every page for contrast failures, sub-44px touch
-targets, and focus visibility. The current state is **0 AA failures and 0
-under-AAA pairs**. Re-run it after any change to tokens or components.
+`npm run audit` runs three gates against a running site: contrast and touch
+targets, dead and broken links, and the no-JavaScript journey. The current
+state is **0 AA failures, 0 pairs below AAA, 0 dead links**. Re-run after any
+change to tokens, components, or routing.
+
+Point it at a deploy with `AUDIT_BASE_URL`, and at a preinstalled browser
+with `PLAYWRIGHT_CHROMIUM_PATH`.
+
+The scripts are in `tools/audit/`; `tools/README.md` says what each gate
+catches and why — including the 1.62:1 contrast failure that looked perfectly
+fine in a screenshot.
+
+### Re-running the content migration
+
+`tools/migrate/` holds the crawler that took the content off the old site, in
+a form that can be run again. Run phase 1 on a schedule while hopemaine.org is
+still live and it reports which pages have **changed** since the last run,
+which is how you avoid launching with content that went stale mid-rebuild.
+
+See `tools/README.md` for the phases, their gates, and the modelling rules
+that keep invented content out.
 
 ## Editing the site (Payload CMS)
 
