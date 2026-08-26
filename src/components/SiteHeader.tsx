@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -29,9 +30,14 @@ export function SiteHeader() {
 
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
         <Link href="/" className="flex items-center gap-3" onClick={() => setMenuOpen(false)}>
-          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-blue-900 font-display text-lg text-cream-50">
-            H
-          </span>
+          <Image
+            src="/brand/town-seal.png"
+            alt="Town of Hope, Maine seal"
+            width={44}
+            height={44}
+            className="h-11 w-11 shrink-0"
+            priority
+          />
           <span className="leading-tight">
             <span className="block font-display text-lg text-blue-900 sm:text-xl">{townInfo.name}</span>
             <span className="block body-xs text-slate-500">{townInfo.tagline}</span>

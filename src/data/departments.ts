@@ -2,12 +2,22 @@
 // "Town Services" page (screenshot provided 2026-08-26). Contact details and
 // hours weren't shown on that page and are still PLACEHOLDER.
 
-export const departments = [
+export type Department = {
+  name: string;
+  description: string;
+  phone: string;
+  email: string;
+  hours: string;
+  /** Present when the department has a dedicated page at /departments/[slug]. */
+  slug?: string;
+};
+
+export const departments: Department[] = [
   {
     name: "Town Office",
     description:
       "General administration, vehicle registration, dog licensing, voter registration, and general assistance. Staffed by the Town Clerk, Town Administrator, and Bookkeeper — see Town Government for names and emails.",
-    phone: "PLACEHOLDER — (207) 763-4199",
+    phone: "(207) 763-4199",
     email: "clerk@hopemaine.org",
     hours: "PLACEHOLDER — Mon–Thu, 8:00 AM–4:00 PM",
   },
@@ -34,10 +44,12 @@ export const departments = [
   },
   {
     name: "Code Enforcement",
-    description: "Building permits, land use ordinance questions, and code compliance.",
-    phone: "PLACEHOLDER",
-    email: "PLACEHOLDER",
-    hours: "PLACEHOLDER",
+    description:
+      "Building permits, plumbing permits, land use ordinance questions, and code compliance. Staffed by Zachary Herrick, Code Enforcement Officer / Local Plumbing Inspector.",
+    phone: "(207) 763-4199",
+    email: "ceo-lpi@hopemaine.org",
+    hours: "Part-time — in the office Tuesdays",
+    slug: "code-enforcement",
   },
   {
     name: "Cemeteries",

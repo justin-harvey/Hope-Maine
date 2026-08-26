@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { Icon } from "@/components/ui/icon";
@@ -8,7 +9,14 @@ export function SiteFooter() {
     <footer className="bg-blue-900 text-cream-50">
       <div className="mx-auto grid max-w-6xl gap-10 px-6 py-12 md:grid-cols-3">
         <div>
-          <h2 className="font-display text-lg text-cream-50">{townInfo.name}</h2>
+          <Image
+            src="/brand/town-seal.png"
+            alt="Town of Hope, Maine seal"
+            width={56}
+            height={56}
+            className="h-14 w-14"
+          />
+          <h2 className="mt-3 font-display text-lg text-cream-50">{townInfo.name}</h2>
           <p className="mt-2 body-sm text-cream-50/70">{townInfo.tagline}</p>
           <address className="mt-4 space-y-1 body-sm not-italic text-cream-50/80">
             <p>{townInfo.addressLine1}</p>

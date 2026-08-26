@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { Icon } from "@/components/ui/icon";
 import { SurfaceCard } from "@/components/ui/surface-card";
@@ -41,6 +42,14 @@ export default function DepartmentsPage() {
                   <dd>{dept.hours}</dd>
                 </div>
               </dl>
+              {dept.slug && (
+                <Link
+                  href={`/departments/${dept.slug}`}
+                  className="mt-4 inline-flex items-center gap-1 body-sm font-semibold text-blue-700 hover:text-blue-900"
+                >
+                  Learn more <Icon name="chevron-right" size="xs" />
+                </Link>
+              )}
             </SurfaceCard>
           ))}
         </div>
