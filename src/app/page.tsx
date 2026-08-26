@@ -7,22 +7,22 @@ import { TaskGrid, TaskList, type Task } from "@/components/TaskList";
 import { newsPosts } from "@/data/news";
 import { meetingSchedules } from "@/data/meetings";
 import { townInfo } from "@/lib/nav";
-import { faqSlug } from "@/lib/utils";
+import { faqHref } from "@/lib/utils";
 
 // Task-first routing: the page opens with what residents actually come
 // here to do, not with a welcome message. Hrefs are generated from the
-// actual FAQ question text via faqSlug, so a link never points at a
-// question that got reworded out from under it — and FaqAccordion opens
-// the matching answer automatically when the hash lands.
+// actual FAQ question text via faqHref, so a link never points at a
+// question that got reworded out from under it, and the answer arrives
+// already open — no JavaScript required.
 const popularTasks: Task[] = [
   {
     label: "Pay your property taxes",
-    href: `/how-do-i#${faqSlug("How do I pay my property taxes?")}`,
+    href: faqHref("How do I pay my property taxes?"),
     detail: "Due dates, payment methods, and online payment",
   },
   {
     label: "Register a vehicle",
-    href: `/how-do-i#${faqSlug("How do I register a car?")}`,
+    href: faqHref("How do I register a car?"),
     detail: "What to bring for new registrations and renewals",
   },
   {
@@ -37,12 +37,12 @@ const popularTasks: Task[] = [
   },
   {
     label: "License your dog",
-    href: `/how-do-i#${faqSlug("How do I license my dog?")}`,
+    href: faqHref("How do I license my dog?"),
     detail: "Fees, rabies certificate, and the renewal deadline",
   },
   {
     label: "Apply for General Assistance",
-    href: `/how-do-i#${faqSlug("How do I apply for General Assistance?")}`,
+    href: faqHref("How do I apply for General Assistance?"),
     detail: "Emergency help with housing, fuel, and basic needs",
   },
 ];

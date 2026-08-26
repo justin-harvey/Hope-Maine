@@ -37,6 +37,24 @@ accessibility, and institutional trust.
 Icons are a small inline-SVG set in `src/components/ui/icon.tsx` — add a
 path there rather than pulling in an icon font.
 
+### Linking to a single FAQ answer
+
+Use `faqHref(question)` from `src/lib/utils.ts`. It emits
+`/how-do-i?q=<slug>#<slug>` — the slug appears twice on purpose:
+
+- **`?q=`** is read on the server, which renders that `<details>` already
+  open. This is what makes the link work with **JavaScript blocked** —
+  Brave and similar browsers block scripts by default, and an earlier
+  JS-only implementation left the page scrolled to a question that was
+  still shut.
+- **`#`** is the anchor the browser scrolls to, also without script.
+
+Because it reads `searchParams`, `/how-do-i` renders per request rather
+than statically. That is the deliberate cost of the no-JS guarantee.
+
+Generate hrefs with `faqHref` rather than writing them by hand, so a link
+can never point at a slug that drifted from its question's wording.
+
 ### Online forms
 
 `/report/road` is a multi-step service flow built on the GOV.UK form
@@ -106,17 +124,22 @@ content exports):
 
 **Still placeholder:**
 
-- **Document links.** Every PDF href is `#`. The exports give relative
-  Revize paths, not resolvable URLs — these need real links or the files.
+- **Document hosting.** All 155 document links now resolve, but they point
+  at the files on hopemaine.org via `LEGACY_DOC_BASE` in
+  `src/lib/documents.ts`. The PDFs still need to be copied onto this site;
+  when they are, change that one constant. These URLs were derived from the
+  page exports and could not be verified from the build environment, which
+  has no outbound access to hopemaine.org — spot-check before launch.
 - **Four committees.** Board of Appeals, Budget, School, and Cemetery
   Committee have no roster or meeting schedule yet.
 - **Some department contacts.** Animal Control and the Sheriff's
   Department still have no phone/email/hours. The nine
   `town_services/*` detail pages and `town_office/index.php` have not
   been exported — that is where the rest of those values live.
-- **Hero photograph.** `src/components/HomeHero.tsx` has a `HERO_IMAGE`
-  constant set to `null`. Drop a photo at `public/hero/` and point the
-  constant at it to turn the hero image on.
+- **Hero photograph.** A stock photo is in place and credited on the page
+  as not being a picture of Hope. Replacing it with a real photograph of
+  the town is a drop-in: put the file in `public/hero/` (see the README
+  there) and update `HERO_ALT` in `src/components/HomeHero.tsx`.
 - **Not yet migrated:** Hope History, Town Office Location, and the
   events calendar (a Revize widget).
 

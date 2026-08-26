@@ -27,9 +27,12 @@ function openHashTarget() {
 
 // Native <details>: keyboard-operable, screen-reader-announced, and
 // functional with JavaScript disabled — no custom widget to get wrong.
-// The open-on-hash behavior above is progressive enhancement on top of
-// that, not a replacement for it.
-export function FaqAccordion({ items }: { items: Faq[] }) {
+//
+// `openSlug` comes from the ?q= parameter and is applied during rendering,
+// so the linked answer arrives already open in the HTML. That is what makes
+// this work with scripts blocked. The hash effect below only covers links
+// that carry a bare #fragment with no ?q=.
+export function FaqAccordion({ items, openSlug }: { items: Faq[]; openSlug?: string }) {
   useEffect(() => {
     openHashTarget();
     window.addEventListener("hashchange", openHashTarget);
@@ -38,10 +41,12 @@ export function FaqAccordion({ items }: { items: Faq[] }) {
 
   return (
     <div className="border-t border-line">
-      {items.map((faq) => (
-        <details key={faq.question} className="group border-b border-line">
+      {items.map((faq) => {
+        const slug = faqSlug(faq.question);
+        return (
+        <details key={faq.question} open={slug === openSlug} className="group border-b border-line">
           <summary
-            id={faqSlug(faq.question)}
+            id={slug}
             className="flex min-h-[var(--tap-min)] scroll-mt-6 cursor-pointer list-none items-center justify-between gap-4 py-3 body font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px] [&::-webkit-details-marker]:hidden"
           >
             {faq.question}
@@ -80,7 +85,8 @@ export function FaqAccordion({ items }: { items: Faq[] }) {
             </div>
           </div>
         </details>
-      ))}
+        );
+      })}
     </div>
   );
 }

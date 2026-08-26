@@ -23,10 +23,10 @@ export default function MeetingsPage() {
       />
 
       <Section>
-        <Notice variant="warning" title="Documents not yet linked">
-          Agenda and minutes files are listed below by name, but the PDFs have not been moved
-          over from hopemaine.org yet. Call the Town Office at (207) 763-4199 for a copy of any
-          record.
+        <Notice variant="info" title="Agendas open on the current town website">
+          Recent agendas are listed below and will open on hopemaine.org. Older agendas, minutes,
+          and warrants are held in the town&apos;s document centre — call the Town Office at
+          (207) 763-4199 for any record not listed here.
         </Notice>
 
         <div className="mt-8 grid gap-6">

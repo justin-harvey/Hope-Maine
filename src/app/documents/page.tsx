@@ -26,10 +26,10 @@ export default function DocumentsPage() {
       />
 
       <Section>
-        <Notice variant="warning" title="Documents not yet linked">
-          Every document below is listed by its real name, but the files themselves have not been
-          moved over from hopemaine.org yet. Call the Town Office at (207) 763-4199 for a copy of
-          any record.
+        <Notice variant="info" title="Documents open on the current town website">
+          These files are still hosted on hopemaine.org and will open there. They move to this
+          site as part of the changeover. If a document does not open, call the Town Office at
+          (207) 763-4199 for a copy.
         </Notice>
 
         {/* On-page contents — a long list of records needs a way in. */}

@@ -1,8 +1,10 @@
 // Real content — from the hopemaine.org newslist and news_detail page
 // exports (2026-08-26). Dates come from the newslist index, which shows
 // month/day only; years are inferred from each article's body text.
-// Attached PDFs/images are noted in `documents` but hrefs are PLACEHOLDER —
-// the exports give relative Revize paths, not resolvable URLs.
+// Attachment hrefs are built from the paths in those same exports and
+// point at the files on the current Revize host — see src/lib/documents.ts.
+
+import { doc } from "@/lib/documents";
 
 export type NewsPost = {
   title: string;
@@ -18,7 +20,7 @@ export const newsPosts: NewsPost[] = [
     date: "Sep 22, 2026",
     summary:
       "Mid-Coast Solid Waste Corporation public notice regarding an increase to MSW and Pay-As-You-Throw fees.",
-    documents: [{ label: "MCSWC Public Notice — MSW and PAYT Fee Increase", href: "#" }],
+    documents: [{ label: "MCSWC Public Notice — MSW and PAYT Fee Increase", href: doc("Documents/Announcements/Basic Announcements/MCSWC Public Notice - MSW and PAYT Fee Increase 9-22-26.jpg") }],
   },
   {
     title: "Annual Special Town Meeting",
@@ -31,14 +33,13 @@ export const newsPosts: NewsPost[] = [
       "The Annual Meeting will be held on Thursday, August 20, 2026 at 6:00 p.m. at the Hope Corner Fire Station.",
     ],
     documents: [
-      { label: "Public Hearings Schedule", href: "#" },
-      { label: "Public Hearing Notice 08.13.26", href: "#" },
-      { label: "Town Meeting Warrant", href: "#" },
-      { label: "Proposed 2026-2027 Budget", href: "#" },
-      { label: "Proposed Roads Budget Detail", href: "#" },
-      { label: "Proposed Equipment Lease Purchase Information", href: "#" },
-      { label: "Proposed Equipment List", href: "#" },
-      { label: "Final Report from Roads Advisory Committee", href: "#" },
+      { label: "Public Hearings Schedule", href: doc("Documents/Announcements/Town Meetings/2026/Public Hearing Schedule.pdf") },
+      { label: "Public Hearing Notice 08.13.26", href: doc("Documents/Announcements/Town Meetings/2026/Public Hearing Notice 08.13.26.pdf") },
+      { label: "Town Meeting Warrant", href: doc("Documents/Announcements/Town Meetings/2026/08.20.26 Annual Special Town Meeting Warrant.pdf") },
+      { label: "Proposed 2026-2027 Budget", href: doc("Documents/Announcements/Town Meetings/2026/2026-2027 Proposed Budget.pdf") },
+      { label: "Proposed Roads Budget Detail", href: doc("Documents/Announcements/Town Meetings/2026/Proposed Roads Budget Detail.pdf") },
+      { label: "Proposed Equipment Lease Purchase Information", href: doc("Documents/Announcements/Town Meetings/2026/Roads Equipment Lease Purchase Proposal.pdf") },
+      { label: "Final Report from Roads Advisory Committee", href: doc("Documents/Announcements/Town Meetings/2026/Hope Roads Advisory Committee Final Report 4.12.22.pdf") },
     ],
   },
   {
@@ -57,10 +58,10 @@ export const newsPosts: NewsPost[] = [
       "The Annual Meeting will be held on Thursday, August 20, 2026 at 6:00 p.m. at the Hope Corner Fire Station.",
     ],
     documents: [
-      { label: "Public Hearings Schedule", href: "#" },
-      { label: "Public Hearing Notice 08.13.26", href: "#" },
-      { label: "Town Meeting Warrant", href: "#" },
-      { label: "Proposed 2026-2027 Budget", href: "#" },
+      { label: "Public Hearings Schedule", href: doc("Documents/Announcements/Town Meetings/2026/Public Hearing Schedule.pdf") },
+      { label: "Public Hearing Notice 08.13.26", href: doc("Documents/Announcements/Town Meetings/2026/Public Hearing Notice 08.13.26.pdf") },
+      { label: "Town Meeting Warrant", href: doc("Documents/Announcements/Town Meetings/2026/08.20.26 Annual Special Town Meeting Warrant.pdf") },
+      { label: "Proposed 2026-2027 Budget", href: doc("Documents/Announcements/Town Meetings/2026/2026-2027 Proposed Budget.pdf") },
     ],
   },
   {
@@ -68,9 +69,9 @@ export const newsPosts: NewsPost[] = [
     date: "Jun 9, 2026",
     summary: "Results from the June 9th election, including State of Maine, Town, and Five Town CSD results.",
     documents: [
-      { label: "State of Maine Democratic & Republican Results", href: "#" },
-      { label: "Town of Hope Results", href: "#" },
-      { label: "Five Town CSD Results", href: "#" },
+      { label: "State of Maine Democratic & Republican Results", href: doc("Documents/Announcements/Elections/2026 Elections/State of Maine Democratic & Republican.pdf") },
+      { label: "Town of Hope Results", href: doc("Documents/Announcements/Elections/2026 Elections/Town Results.pdf") },
+      { label: "Five Town CSD Results", href: doc("Documents/Announcements/Elections/2026 Elections/Five Town CSD.pdf") },
     ],
   },
   {
@@ -87,12 +88,12 @@ export const newsPosts: NewsPost[] = [
         label: "Request an Absentee Ballot (online)",
         href: "https://absenteeballotrequest.sos.maine.gov/",
       },
-      { label: "Request an Absentee Ballot (paper)", href: "#" },
-      { label: "Notice of Primary Election", href: "#" },
-      { label: "Democratic Primary Sample Ballot", href: "#" },
-      { label: "Republican Primary Sample Ballot", href: "#" },
-      { label: "Five Town CSD Warrant & Notice of Election", href: "#" },
-      { label: "Warrant & Notice of Election for June 9th", href: "#" },
+      { label: "Request an Absentee Ballot (paper)", href: doc("Documents/Announcements/Elections/2026 Elections/absentee application.pdf") },
+      { label: "Notice of Primary Election", href: doc("Documents/Announcements/Elections/2026 Elections/Notice of Primary Election 06.09.26.pdf") },
+      { label: "Democratic Primary Sample Ballot", href: doc("Documents/Announcements/Elections/2026 Elections/Democratic Sample Ballot.pdf") },
+      { label: "Republican Primary Sample Ballot", href: doc("Documents/Announcements/Elections/2026 Elections/Republican Primary Sample Ballot.pdf") },
+      { label: "Five Town CSD Warrant & Notice of Election", href: doc("Documents/Announcements/Elections/2026 Elections/Five Town CSD June 9 2026 Warrant.pdf") },
+      { label: "Warrant & Notice of Election for June 9th", href: doc("Documents/Announcements/Elections/2026 Elections/June 9 Warrant and Notice of Election.pdf") },
     ],
   },
   {
@@ -100,10 +101,10 @@ export const newsPosts: NewsPost[] = [
     date: "May 14, 2026",
     summary: "Public hearing on the 2026 Knox County Budget.",
     documents: [
-      { label: "Notice of Public Hearing", href: "#" },
-      { label: "Public Hearing Agenda — 05.14.26", href: "#" },
-      { label: "Letters from the Commissioners", href: "#" },
-      { label: "2026 Knox County Budget", href: "#" },
+      { label: "Notice of Public Hearing", href: doc("Documents/Announcements/Elections/2026 Elections/Notice of Public Hearing - Knox County Budget 05.14.26.pdf") },
+      { label: "Public Hearing Agenda — 05.14.26", href: doc("Documents/Announcements/Elections/2026 Elections/Public Hearing Agenda - 05.14.26.pdf") },
+      { label: "Letters from the Commissioners", href: doc("Documents/Announcements/Elections/2026 Elections/Letter from the Knox County Commissioners.pdf") },
+      { label: "2026 Knox County Budget", href: doc("Documents/Announcements/Elections/2026 Elections/Knox County 2026 Budget.pdf") },
     ],
   },
   {
@@ -111,15 +112,15 @@ export const newsPosts: NewsPost[] = [
     date: "May 14, 2026",
     summary:
       "The Special Town Meeting for the Hope Elementary School Budget will be held Thursday, May 14, 2026 at 6:00 p.m. in the Hope Elementary School gymnasium.",
-    documents: [{ label: "Warrant — HES Special Town Meeting", href: "#" }],
+    documents: [{ label: "Warrant — HES Special Town Meeting", href: doc("Documents/Announcements/Elections/2026 Elections/Special School Budget Town Meeting Warrant 05.14.26.pdf") }],
   },
   {
     title: "Accepting Paving Bids",
     date: "Feb 26, 2026",
     summary: "The Town is accepting bids for 2026 paving work.",
     documents: [
-      { label: "2026 Paving Bid Specifications", href: "#" },
-      { label: "2026 Paving Bid Ad", href: "#" },
+      { label: "2026 Paving Bid Specifications", href: doc("Documents/Announcements/Bids/2026 Bids/2026 Paving Specs 02.18.26.pdf") },
+      { label: "2026 Paving Bid Ad", href: doc("Documents/Announcements/Bids/2026 Bids/Paving Ad.pdf") },
     ],
   },
   {
@@ -127,8 +128,8 @@ export const newsPosts: NewsPost[] = [
     date: "Feb 26, 2026",
     summary: "The Town is accepting bids for 2026 mowing work.",
     documents: [
-      { label: "2026 Mowing Specifications", href: "#" },
-      { label: "2026 Mowing Bid Ad", href: "#" },
+      { label: "2026 Mowing Specifications", href: doc("Documents/Announcements/Bids/2026 Bids/Mowing Bid Specs 2026.pdf") },
+      { label: "2026 Mowing Bid Ad", href: doc("Documents/Announcements/Bids/2026 Bids/Mowing Ad.pdf") },
     ],
   },
   {
@@ -136,9 +137,9 @@ export const newsPosts: NewsPost[] = [
     date: "Feb 25, 2026",
     summary: "The Town of Hope is accepting applications for the Deputy Town Clerk position.",
     documents: [
-      { label: "Deputy Town Clerk Job Description", href: "#" },
-      { label: "Deputy Town Clerk Ad", href: "#" },
-      { label: "Employment Application", href: "#" },
+      { label: "Deputy Town Clerk Job Description", href: doc("Documents/Announcements/Employment Opportunity/Deputy Clerk/Deputy Clerk-Deputy Tax Collector Job Description.pdf") },
+      { label: "Deputy Town Clerk Ad", href: doc("Documents/Announcements/Employment Opportunity/Deputy Clerk/Deputy Town Clerk Ad.pdf") },
+      { label: "Employment Application", href: doc("Documents/Announcements/Employment Opportunity/Hope Employment Application.pdf") },
     ],
   },
   {
@@ -154,7 +155,7 @@ export const newsPosts: NewsPost[] = [
       "Questions: contact Superintendent Carlson at shawn.carlson@fivetowns.net or call 207-605-7710.",
     ],
     documents: [
-      { label: "Call for Participation for Interview Committee", href: "#" },
+      { label: "Call for Participation for Interview Committee", href: doc("Documents/Announcements/Basic Announcements/CALL FOR PARTICIPATION FOR INTERVIEW COMMITTEE for Community and Parents (002).pdf") },
       { label: "Principal Search Feedback Form", href: "https://forms.gle/DA8c1iU9TvpehaTZ8" },
     ],
   },

@@ -20,7 +20,13 @@ const categoryAnchors: Record<string, string> = {
   "Community Services": "community-services",
 };
 
-export default function HowDoIPage() {
+// Reading ?q= makes this page render per-request, which is the price of
+// having the linked answer arrive already open without relying on script.
+// For a town of 1,698 that trade is not close.
+export default async function HowDoIPage(props: PageProps<"/how-do-i">) {
+  const { q } = await props.searchParams;
+  const openSlug = typeof q === "string" ? q : undefined;
+
   return (
     <>
       <PageHero
@@ -62,7 +68,7 @@ export default function HowDoIPage() {
                   {category}
                 </h2>
                 <div className="mt-4">
-                  <FaqAccordion items={items} />
+                  <FaqAccordion items={items} openSlug={openSlug} />
                 </div>
               </section>
             );
