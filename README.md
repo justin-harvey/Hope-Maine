@@ -4,6 +4,57 @@ Live: https://hope-maine.netlify.app/
 A rebuild of the Town of Hope, Maine municipal website, built with Next.js
 (App Router), TypeScript, and Tailwind CSS.
 
+## For other Maine towns, and why it is free
+
+This was built for Hope, but it was built to be handed to any small town.
+
+Most Maine municipalities buy their website from a hosted vendor. A small town
+pays roughly $4,600 to $4,800 a year to CivicPlus for the website alone, with
+agenda management, resident alerts, and meeting video sold as separate products
+on top. Revize, the usual value option, ran one city about $20,000 to start and
+$7,990 a year after. Small-municipality contracts commonly land between $8,000
+and $25,000 a year, renew automatically, and escalate a few percent annually.
+
+This system does the same job, the public site, agenda and minutes posting, and
+the document library, for effectively nothing. It runs on the free tiers of
+Netlify, a Postgres host (Neon or Supabase), and S3-compatible storage. There is
+no license fee and no per-seat cost, because the software is open source.
+
+And it serves the towns the vendors do not: the many small Maine municipalities
+that cannot justify five figures a year, and so run an outdated, inaccessible, or
+abandoned site, or none at all.
+
+### Accessibility is the part that is not optional
+
+Under the 2024 U.S. Department of Justice rule, ADA Title II requires
+local-government websites to meet WCAG 2.1 AA, on a timetable that reaches towns
+of this size (Hope's own deadline is 26 April 2027). Most hosted municipal sites
+do not reliably meet that bar, which is why towns are now exposed to complaints.
+This one is accessible by construction: AAA color contrast, no-JavaScript
+fallbacks, required alt text and a PDF text-quality check enforced by the software
+rather than by a style guide, and automated audit gates that fail the build on a
+contrast or dead-link regression. See *Accessibility audit* and *Accessibility
+guardrails* below.
+
+### Open source, offered as value in kind
+
+The code is released under the MIT License (see `LICENSE`). Any town, or anyone
+working for one, is free to take it, host it, and adapt it, at no cost and with no
+strings. It is offered as a contribution in kind to Maine's municipalities: public
+infrastructure, given back to the public.
+
+What it is not yet is a turnkey product a town clerk can stand up alone. Today it
+is Hope's site specifically, and setting up a new town means a developer rebranding
+it, loading the town's own content (the migration toolkit in `tools/` does most of
+that automatically), and setting a handful of environment variables. Closing that
+gap, a blank de-branded template, a guided one-click setup, and a plain-language
+editor guide, is the work that turns "Hope's website" into "any town's website,"
+and it is the work that grant support would fund. The software stays free; the
+funding builds the on-ramp so a town office of five people can adopt it without a
+developer on call.
+
+A town interested in using it is welcome to open an issue on this repository.
+
 ## Design system
 
 The site follows **Radical Functionalism**, the modern government design
