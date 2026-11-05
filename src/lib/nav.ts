@@ -1,3 +1,5 @@
+import { town, townDisplayName, townShortName } from "@/town.config";
+
 export type NavItem = {
   label: string;
   href: string;
@@ -17,27 +19,23 @@ export const primaryNav: NavItem[] = [
 ];
 
 export const secondaryNav: NavItem[] = [
-  { label: "About Hope", href: "/about" },
+  { label: `About ${town.name}`, href: "/about" },
   { label: "Schools", href: "/schools" },
 ];
 
-// Address, phone, and fax are real (hopemaine.org content export,
-// 2026-08-26). Office hours below come from the General Assistance FAQ,
-// which states the Town Office's "regular business hours" — worth
-// confirming they apply to all services, not just General Assistance.
+// The header and footer read the town's identity and contact details from
+// this object, which is assembled from src/town.config.ts so there is one
+// place to change them. The field names (addressLine1/2) are kept for the
+// components that already consume them.
 export const townInfo = {
-  name: "Town of Hope, Maine",
-  shortName: "Hope, Maine",
-  tagline: "A Midcoast Maine community since 1804",
-  addressLine1: "Hope Town Office",
-  addressLine2: "441 Camden Rd",
-  cityStateZip: "Hope, ME 04847",
-  phone: "(207) 763-4199",
-  fax: "(207) 763-4195",
-  email: "admin@hopemaine.org",
-  officeHours: [
-    { days: "Tuesday, Wednesday & Friday", hours: "8:30 AM – 4:30 PM" },
-    { days: "Thursday", hours: "12:00 PM – 6:00 PM" },
-    { days: "Monday", hours: "Closed" },
-  ],
+  name: townDisplayName,
+  shortName: townShortName,
+  tagline: town.tagline,
+  addressLine1: town.contact.officeName,
+  addressLine2: town.contact.addressLine,
+  cityStateZip: town.contact.cityStateZip,
+  phone: town.contact.phone,
+  fax: town.contact.fax,
+  email: town.contact.email,
+  officeHours: town.contact.officeHours,
 };

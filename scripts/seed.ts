@@ -13,9 +13,10 @@ import configPromise from "../payload.config";
 import { getPayload } from "payload";
 import { meetingSchedules } from "../src/data/meetings";
 import { newsPosts } from "../src/data/news";
+import { town } from "../src/town.config";
 
 const FIRST_ADMIN = {
-  email: process.env.SEED_ADMIN_EMAIL ?? "admin@hopemaine.org",
+  email: process.env.SEED_ADMIN_EMAIL ?? town.firstAdminEmail,
   password: process.env.SEED_ADMIN_PASSWORD ?? "ChangeMeBeforeLaunch1!",
   name: "Town Administrator",
   role: "admin" as const,
@@ -71,16 +72,9 @@ function toLexical(paragraphs: string[]) {
  * sits. They seed with the field empty so the page says "Not published yet"
  * — which is true — and the first person to log in can fill it in.
  */
-const BOARD_ORDER: Record<string, number> = {
-  "Select Board": 10,
-  "Planning Board": 20,
-  "Board of Appeals": 30,
-  "Budget Committee": 40,
-  "School Committee": 50,
-  "Cemetery Committee": 60,
-};
+const BOARD_ORDER: Record<string, number> = town.boardSeedOrder;
 
-const TOWN_TZ = "America/New_York";
+const TOWN_TZ = town.timezone;
 
 /** How far the given instant's local time in `tz` sits from UTC, in ms. */
 function tzOffsetMs(instant: Date, tz: string): number {
@@ -295,7 +289,27 @@ async function seed() {
   await payload.destroy();
 }
 
-seed().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+/**
+ * Exit once output has drained.
+ *
+ * `payload.destroy()` closes the database, but the SQLite/libsql client can
+ * still leave a handle that keeps Node alive, so the process would otherwise
+ * hang after the work is done — which in turn hangs anything that runs the
+ * seed and waits for it (the setup wizard). Exiting *before* I/O drains is the
+ * old bug noted above; flushing both streams first avoids it.
+ */
+function finish(code: number) {
+  let pending = 2;
+  const one = () => {
+    if (--pending === 0) process.exit(code);
+  };
+  process.stdout.write("", one);
+  process.stderr.write("", one);
+}
+
+seed()
+  .then(() => finish(0))
+  .catch((error) => {
+    console.error(error);
+    finish(1);
+  });

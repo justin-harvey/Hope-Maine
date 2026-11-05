@@ -184,11 +184,8 @@ export interface Document {
     | 'Annual Town Reports'
     | 'Ordinances'
     | 'Policies'
-    | 'Audited Financial Statements'
-    | 'Budget Summary & Comparison'
-    | 'Hope Elementary School Audit'
+    | 'Budgets & Financial Statements'
     | 'Tax Maps'
-    | 'Street & Zoning Maps'
     | 'Permits, Forms & Applications'
     | 'Agendas & Minutes';
   /**
@@ -287,7 +284,7 @@ export interface Board {
 export interface Media {
   id: number;
   /**
-   * Describe the image for someone who cannot see it. If it is decorative and adds nothing, say so — e.g. "Decorative photograph of Hope Corner".
+   * Describe the image for someone who cannot see it. If it is decorative and adds nothing, say so — e.g. "Decorative photograph of the town common".
    */
   alt: string;
   /**

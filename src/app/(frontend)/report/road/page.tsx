@@ -4,11 +4,11 @@ import Link from "next/link";
 import { Icon } from "@/components/ui/icon";
 import { Notice } from "@/components/ui/notice";
 import { RoadReportForm } from "@/components/forms/road-report-form";
+import { town } from "@/town.config";
 
 export const metadata: Metadata = {
   title: "Report a problem with a road",
-  description:
-    "Tell the Town of Hope about a pothole, washout, fallen tree, drainage problem, or other issue on a town road.",
+  description: `Tell the ${town.legalName} about a pothole, washout, fallen tree, drainage problem, or other issue on a town road.`,
 };
 
 export default function ReportRoadPage() {
@@ -16,7 +16,7 @@ export default function ReportRoadPage() {
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-12">
       <p>
         <Link
-          href="/how-do-i#community-services"
+          href="/how-do-i"
           className="inline-flex min-h-[var(--tap-min)] items-center gap-2 body-sm font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px]"
         >
           <Icon name="chevron-right" size="xs" className="rotate-180" />
@@ -26,7 +26,7 @@ export default function ReportRoadPage() {
 
       <div className="mt-2">
         <Notice variant="warning" title="For emergencies, call instead">
-          If a road is blocked or unsafe right now, call the Town Office on (207) 763-4199 during
+          If a road is blocked or unsafe right now, call the Town Office on {town.contact.phone} during
           office hours, or dial 911 in an emergency. This form is not monitored outside office
           hours.
         </Notice>

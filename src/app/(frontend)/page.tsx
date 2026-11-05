@@ -5,8 +5,10 @@ import { OnlineServicesGrid } from "@/components/OnlineServicesGrid";
 import { Section } from "@/components/Section";
 import { TaskGrid, TaskList, type Task } from "@/components/TaskList";
 import { getMeetingsView } from "@/lib/meetings";
+import { faqEntries } from "@/lib/faqs";
 import { getNewsItems } from "@/lib/news";
 import { townInfo } from "@/lib/nav";
+import { town } from "@/town.config";
 import { faqHref } from "@/lib/utils";
 
 // Task-first routing: the page opens with what residents actually come
@@ -58,6 +60,15 @@ export default async function HomePage() {
   // on /meetings rather than being guessed at here.
   const scheduledBoards = boards.filter((board) => board.schedule);
 
+  // Drop any task that points at a "How Do I" answer the town has not
+  // published, so the home page never links to a page that 404s. On a fully
+  // populated site this keeps every task; on a blank template it hides the
+  // ones whose answer does not exist yet.
+  const validFaqHrefs = new Set(faqEntries.map((entry) => faqHref(entry.question)));
+  const visibleTasks = popularTasks.filter(
+    (task) => !task.href.startsWith("/how-do-i/") || validFaqHrefs.has(task.href),
+  );
+
   return (
     <>
       <HomeHero />
@@ -70,7 +81,7 @@ export default async function HomePage() {
         level={1}
         description="The services residents ask about most often. Each one opens a page with the whole answer on it."
       >
-        <TaskList tasks={popularTasks} />
+        <TaskList tasks={visibleTasks} />
         {/* Six tasks is not the whole town. Without this, anyone whose
             errand is not listed has nowhere obvious to go next. */}
         <p className="mt-5">
@@ -150,14 +161,14 @@ export default async function HomePage() {
             columns={2}
             tasks={[
               {
-                label: "About Hope",
+                label: `About ${town.name}`,
                 href: "/about",
                 detail: "Population, area, valuation, and tax rate",
               },
               {
                 label: "Schools",
                 href: "/schools",
-                detail: "School Union 69 and the Five Town CSD",
+                detail: "Local school districts serving the town",
               },
             ]}
           />

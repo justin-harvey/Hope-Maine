@@ -2,6 +2,7 @@ import { meetingSchedules } from "@/data/meetings";
 import { siteRelative } from "@/lib/documents";
 import { getPayloadClient } from "@/lib/payload";
 import type { Board, Document as PayloadDocument, Meeting } from "@/payload/payload-types";
+import { town } from "@/town.config";
 
 export type MeetingStatus = "scheduled" | "cancelled" | "rescheduled";
 
@@ -32,7 +33,7 @@ export type BoardItem = {
 // The town is in one timezone and the meetings are physical, so times are
 // formatted in it explicitly. Without this the server's UTC clock would
 // print a 5:30 PM meeting as 9:30 PM.
-const TOWN_TZ = "America/New_York";
+const TOWN_TZ = town.timezone;
 
 const whenFormat = new Intl.DateTimeFormat("en-US", {
   weekday: "short",

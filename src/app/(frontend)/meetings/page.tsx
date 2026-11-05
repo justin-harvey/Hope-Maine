@@ -8,11 +8,11 @@ import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { selectBoardRecords } from "@/data/meetings";
 import { getMeetingsView } from "@/lib/meetings";
+import { town, legacySiteHost } from "@/town.config";
 
 export const metadata: Metadata = {
   title: "Meetings & Agendas",
-  description:
-    "Meeting schedules, agendas, and minutes for Town of Hope boards and committees. All meetings are open to the public.",
+  description: `Meeting schedules, agendas, and minutes for ${town.legalName} boards and committees. All meetings are open to the public.`,
 };
 
 /**
@@ -55,15 +55,15 @@ export default async function MeetingsPage() {
         ) : (
           <Notice variant="info" title="No meetings are currently scheduled here">
             Meeting dates are posted as they are set. The usual schedule for each board is listed
-            below, and the Town Office can confirm the next date on (207) 763-4199.
+            below, and the Town Office can confirm the next date on {town.contact.phone}.
           </Notice>
         )}
 
         {anyLegacyAgenda && (
           <Notice variant="info" title="Some agendas open on the current town website" className="mt-8">
-            Agendas marked as opening on another website are still hosted on hopemaine.org. Older
+            Agendas marked as opening on another website are still hosted on {legacySiteHost}. Older
             agendas, minutes, and warrants are held in the town&apos;s document centre — call the
-            Town Office at (207) 763-4199 for any record not listed here.
+            Town Office at {town.contact.phone} for any record not listed here.
           </Notice>
         )}
 

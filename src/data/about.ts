@@ -1,17 +1,12 @@
-// Real content — from the hopemaine.org About Hope and home page exports
-// (2026-08-26).
+// Blank template. Replace with the town's own figures, or edit the About
+// page content through the admin once that content is managed there.
+// (Variable names are kept so the About page keeps compiling.)
 
 export const hopeIntro =
-  "Hope is a thriving community of 1,698, located seven miles from the shores of Penobscot Bay in Midcoast Maine.";
+  "Add a short description of the town here, in src/data/about.ts.";
 
-export const hopeProfile = [
-  { label: "Population (2020 census)", value: "1,698" },
-  { label: "Area", value: "15,232 acres · 23.88 square miles" },
-  { label: "Miles of town roads", value: "18.24" },
-  { label: "Miles of state aid roads", value: "14.31" },
-  { label: "Miles of state highway", value: "1.94" },
-  { label: "Registered voters (June 30, 2024)", value: "1,413" },
-  { label: "Property valuation base (April 1, 2025)", value: "$423,762,100" },
-  { label: "2025–2026 tax rate (mil rate)", value: "$11.43 per $1,000 of valuation" },
-  { label: "Certified assessment ratio", value: "100%" },
-];
+// A short note about content from the old site not yet migrated. Empty
+// string hides the notice (a town with no prior site has nothing pending).
+export const aboutStillToCome = "";
+
+export const hopeProfile: { label: string; value: string }[] = [];

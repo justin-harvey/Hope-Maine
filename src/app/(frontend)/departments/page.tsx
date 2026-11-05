@@ -7,10 +7,11 @@ import { OnlineServicesGrid } from "@/components/OnlineServicesGrid";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { departments } from "@/data/departments";
+import { townDisplayName } from "@/town.config";
 
 export const metadata: Metadata = {
   title: "Departments & Services",
-  description: "Town departments, contacts, and services for the Town of Hope, Maine.",
+  description: `Town departments, contacts, and services for the ${townDisplayName}.`,
 };
 
 // A missing value is stated plainly rather than left blank, so residents

@@ -1,3 +1,5 @@
+import { town } from "@/town.config";
+
 // Where the town's PDFs currently live.
 //
 // The document paths throughout src/data/ were recovered from the live
@@ -14,16 +16,23 @@
 // from the build environment, which has no outbound access to hopemaine.org.
 // Spot-check a few before launch.
 //
-// When the PDFs are rehosted, change this one constant.
-export const LEGACY_DOC_BASE = "https://www.hopemaine.org";
+// When the PDFs are rehosted, change this one value in src/town.config.ts.
+// Null when there is no prior site to link to (a brand-new town).
+export const LEGACY_DOC_BASE = town.legacySiteBaseUrl;
 
-/** Build an absolute URL for a document path taken from the site export. */
+/**
+ * Build an absolute URL for a document path taken from the site export.
+ *
+ * With no legacy site configured there is nothing to point at, so the raw
+ * path is returned; in practice a town without a prior site also has no
+ * legacy document entries in src/data/, so this branch is not reached.
+ */
 export function doc(path: string): string {
   const encoded = path
     .split("/")
     .map((segment) => encodeURIComponent(segment))
     .join("/");
-  return `${LEGACY_DOC_BASE}/${encoded}`;
+  return LEGACY_DOC_BASE ? `${LEGACY_DOC_BASE}/${encoded}` : `/${encoded}`;
 }
 
 /**

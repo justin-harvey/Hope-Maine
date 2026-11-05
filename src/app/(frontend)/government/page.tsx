@@ -7,11 +7,11 @@ import { Tag } from "@/components/ui/tag";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { selectBoard, townOfficials, boardsAndCommittees } from "@/data/government";
+import { town, townDisplayName } from "@/town.config";
 
 export const metadata: Metadata = {
   title: "Town Government",
-  description:
-    "Select Board members, town officials, and boards and committees for the Town of Hope, Maine.",
+  description: `Select Board members, town officials, and boards and committees for the ${townDisplayName}.`,
 };
 
 export default function GovernmentPage() {
@@ -20,7 +20,7 @@ export default function GovernmentPage() {
       <PageHero
         eyebrow="Town Government"
         title="Town Government"
-        description="Hope is governed by an elected Select Board, supported by town officials and volunteer boards and committees."
+        description={`${town.name} is governed by an elected Select Board, supported by town officials and volunteer boards and committees.`}
       />
 
       <Section title="Select Board" headingId="select-board">
@@ -56,16 +56,18 @@ export default function GovernmentPage() {
           ))}
         </ul>
 
-        <p className="mt-5 body-sm text-ink">
-          Contact the whole board at{" "}
-          <a
-            href={`mailto:${selectBoard.boardEmail}`}
-            className="prose-link font-semibold"
-          >
-            {selectBoard.boardEmail}
-          </a>
-          .
-        </p>
+        {selectBoard.boardEmail && (
+          <p className="mt-5 body-sm text-ink">
+            Contact the whole board at{" "}
+            <a
+              href={`mailto:${selectBoard.boardEmail}`}
+              className="prose-link font-semibold"
+            >
+              {selectBoard.boardEmail}
+            </a>
+            .
+          </p>
+        )}
       </Section>
 
       <div className="band">

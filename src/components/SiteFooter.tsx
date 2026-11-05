@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Icon } from "@/components/ui/icon";
 import { primaryNav, secondaryNav, townInfo } from "@/lib/nav";
+import { legacySiteHost } from "@/town.config";
 
 export function SiteFooter() {
   return (
@@ -79,7 +80,9 @@ export function SiteFooter() {
           <p>
             © {new Date().getFullYear()} {townInfo.name}
           </p>
-          <p>Some information on this site is still being migrated from hopemaine.org.</p>
+          {legacySiteHost && (
+            <p>Some information on this site is still being migrated from {legacySiteHost}.</p>
+          )}
         </div>
       </div>
     </footer>

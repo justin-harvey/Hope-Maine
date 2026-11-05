@@ -7,11 +7,11 @@ import { ContactForm } from "@/components/ContactForm";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { townInfo } from "@/lib/nav";
+import { town, townDisplayName } from "@/town.config";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description:
-    "Contact information, hours, and location for the Town of Hope, Maine town office.",
+  description: `Contact information, hours, and location for the ${townDisplayName} town office.`,
 };
 
 export default function ContactPage() {
@@ -27,7 +27,7 @@ export default function ContactPage() {
         <div className="grid gap-10 lg:grid-cols-[24rem_1fr]">
           <div className="grid gap-6">
             <Panel strong>
-              <h2 className="heading-md text-ink">Hope Town Office</h2>
+              <h2 className="heading-md text-ink">{town.contact.officeName}</h2>
               <address className="mt-3 grid gap-0.5 body not-italic text-ink">
                 <span>{townInfo.addressLine1}</span>
                 <span>{townInfo.addressLine2}</span>
@@ -73,9 +73,8 @@ export default function ContactPage() {
             </Panel>
 
             <Notice variant="danger" title="Emergencies">
-              For any emergency, dial <span className="font-bold">911</span>. If you need General
-              Assistance outside office hours, contact the Knox County Regional Communications
-              Center at (207) 594-0429.
+              For any emergency, dial <span className="font-bold">911</span>. For urgent town
+              matters outside office hours, use the after-hours contact your town publishes.
             </Notice>
           </div>
 

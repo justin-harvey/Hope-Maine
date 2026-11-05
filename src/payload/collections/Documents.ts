@@ -2,6 +2,7 @@ import type { CollectionConfig } from "payload";
 
 import { revalidateFrontend } from "../hooks/revalidateFrontend";
 import { isStaff } from "../access";
+import { town } from "@/town.config";
 
 /**
  * The town's PDFs — ordinances, minutes, budgets, tax maps, permit forms.
@@ -12,22 +13,14 @@ import { isStaff } from "../access";
  * the same heading residents already know.
  *
  * Until a category has uploads here, `/documents` keeps showing the legacy
- * links to the files still hosted on hopemaine.org. An upload supersedes the
- * legacy entry with the same title, so the migration can happen one document
- * at a time instead of as a single flag day.
+ * links to the files still hosted on the town's old site. An upload supersedes
+ * the legacy entry with the same title, so the migration can happen one
+ * document at a time instead of as a single flag day.
+ *
+ * The categories come from src/town.config.ts so each town can file its
+ * documents under the headings its residents already know.
  */
-export const DOCUMENT_CATEGORIES = [
-  "Annual Town Reports",
-  "Ordinances",
-  "Policies",
-  "Audited Financial Statements",
-  "Budget Summary & Comparison",
-  "Hope Elementary School Audit",
-  "Tax Maps",
-  "Street & Zoning Maps",
-  "Permits, Forms & Applications",
-  "Agendas & Minutes",
-] as const;
+export const DOCUMENT_CATEGORIES = town.documentCategories;
 
 export const Documents: CollectionConfig = {
   slug: "documents",

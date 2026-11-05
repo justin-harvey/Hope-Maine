@@ -3,6 +3,8 @@ import path from "node:path";
 
 import Image from "next/image";
 
+import { town } from "@/town.config";
+
 // The hero photograph is opt-in by file, not by code: drop any image into
 // public/hero/ and it is picked up on the next build. Nothing to edit, and
 // no broken <img> while the folder is empty.
@@ -15,13 +17,12 @@ function findHeroImage(): string | null {
   return file ? `/hero/${file}` : null;
 }
 
-// Describes the scene without asserting a location — this is a stock
-// photograph, so claiming it shows Hope would be a false statement to
-// anyone relying on the alt text.
-const HERO_ALT =
-  "A small wooden rowboat moored in the shallows of a calm, forest-ringed lake under a partly cloudy sky.";
+// Describes the scene without asserting a location — when the hero is a stock
+// photograph, claiming it shows the town would be a false statement to anyone
+// relying on the alt text. Both the alt text and the intro come from config.
+const HERO_ALT = town.hero.alt;
 
-const HERO_CREDIT = { photographer: "Michael Delchamp", source: "Unsplash" };
+const HERO_CREDIT = town.hero.credit;
 
 // Deliberately carries no seal, town name, or founding date — the masthead
 // above already states all three, and repeating them pushed the first real
@@ -30,7 +31,7 @@ export function HomeHero() {
   const heroImage = findHeroImage();
 
   return (
-    <section aria-label="About Hope" className="border-b border-line">
+    <section aria-label={`About ${town.name}`} className="border-b border-line">
       {heroImage && (
         <div className="relative h-56 w-full sm:h-72 lg:h-96">
           <Image
@@ -48,14 +49,11 @@ export function HomeHero() {
           it keeps its AAA contrast regardless of the image behind it. */}
       <div className="bg-surface-2">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
-          <p className="measure body-lg text-ink">
-            Hope is a thriving community of 1,698, located seven miles from the shores of
-            Penobscot Bay in Midcoast Maine.
-          </p>
-          {heroImage && (
+          <p className="measure body-lg text-ink">{town.hero.intro}</p>
+          {heroImage && HERO_CREDIT && (
             <p className="mt-4 body-xs text-ink-muted">
               Photograph by {HERO_CREDIT.photographer} on {HERO_CREDIT.source}. Not a photograph
-              of Hope.
+              of {town.name}.
             </p>
           )}
         </div>

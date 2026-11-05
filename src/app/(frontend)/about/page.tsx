@@ -3,19 +3,21 @@ import type { Metadata } from "next";
 import { Notice } from "@/components/ui/notice";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
-import { hopeIntro, hopeProfile } from "@/data/about";
+import { aboutStillToCome, hopeIntro, hopeProfile } from "@/data/about";
 import { townInfo } from "@/lib/nav";
+import { town, townDisplayName } from "@/town.config";
 
 export const metadata: Metadata = {
-  title: "About Hope",
-  description:
-    "Population, area, roads, valuation, and tax rate for the Town of Hope, Maine — a Midcoast community incorporated in 1804.",
+  title: `About ${town.name}`,
+  description: `Population, area, roads, valuation, and tax rate for the ${townDisplayName}${
+    town.incorporatedYear ? `, incorporated in ${town.incorporatedYear}` : ""
+  }.`,
 };
 
 export default function AboutPage() {
   return (
     <>
-      <PageHero eyebrow="About" title="About Hope" description={hopeIntro} />
+      <PageHero eyebrow="About" title={`About ${town.name}`} description={hopeIntro} />
 
       <Section title="Town profile" headingId="profile">
         <dl className="border-t border-line">
@@ -52,12 +54,11 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="mt-8">
-            <Notice title="Still to come">
-              The Hope History and Town Office Location pages from the current town site have not
-              been brought over yet.
-            </Notice>
-          </div>
+          {aboutStillToCome && (
+            <div className="mt-8">
+              <Notice title="Still to come">{aboutStillToCome}</Notice>
+            </div>
+          )}
         </Section>
       </div>
     </>
