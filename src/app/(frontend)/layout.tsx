@@ -3,6 +3,7 @@ import { Public_Sans } from "next/font/google";
 import "../globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { town, townDisplayName } from "@/town.config";
 
 // One family for the whole site. Public Sans is the USWDS face: neutral
 // grotesque, high x-height, open apertures — built for legibility at small
@@ -15,11 +16,10 @@ const publicSans = Public_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "Town of Hope, Maine",
-    template: "%s | Town of Hope, Maine",
+    default: townDisplayName,
+    template: `%s | ${townDisplayName}`,
   },
-  description:
-    "Town services, government, meetings, news, and resources for residents of Hope, Maine.",
+  description: `Town services, government, meetings, news, and resources for residents of ${town.name}, ${town.state}.`,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

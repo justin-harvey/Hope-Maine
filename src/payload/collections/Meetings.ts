@@ -2,6 +2,7 @@ import type { CollectionConfig } from "payload";
 
 import { isStaff } from "../access";
 import { revalidateFrontend } from "../hooks/revalidateFrontend";
+import { town } from "@/town.config";
 
 const REVALIDATE = ["/", "/meetings"];
 
@@ -61,7 +62,7 @@ export const Meetings: CollectionConfig = {
               day: "numeric",
               month: "long",
               year: "numeric",
-              timeZone: "America/New_York",
+              timeZone: town.timezone,
             });
             return `${board.name} — ${when}`;
           },

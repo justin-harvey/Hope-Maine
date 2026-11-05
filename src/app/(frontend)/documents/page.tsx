@@ -5,11 +5,11 @@ import { Notice } from "@/components/ui/notice";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { getDocumentCategories, hostingProgress } from "@/lib/town-documents";
+import { town, townDisplayName, legacySiteHost } from "@/town.config";
 
 export const metadata: Metadata = {
   title: "Documents & Forms",
-  description:
-    "Town reports, ordinances, policies, audits, tax maps, permits, and forms for the Town of Hope, Maine.",
+  description: `Town reports, ordinances, policies, audits, tax maps, permits, and forms for the ${townDisplayName}.`,
 };
 
 function slugify(value: string) {
@@ -32,9 +32,9 @@ export default async function DocumentsPage() {
       <Section>
         {!allHosted && (
           <Notice variant="info" title="Some documents open on the current town website">
-            {total - hosted} of {total} files are still hosted on hopemaine.org and will open
+            {total - hosted} of {total} files are still hosted on {legacySiteHost} and will open
             there. They move to this site as staff upload them. If a document does not open,
-            call the Town Office at (207) 763-4199 for a copy.
+            call the Town Office at {town.contact.phone} for a copy.
           </Notice>
         )}
 

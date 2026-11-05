@@ -7,6 +7,7 @@ import { useState } from "react";
 
 import { Icon } from "@/components/ui/icon";
 import { primaryNav, townInfo } from "@/lib/nav";
+import { town } from "@/town.config";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
@@ -20,7 +21,7 @@ export function SiteHeader() {
         {/* The seal is the route home, per the GOV.UK masthead pattern. */}
         <Link
           href="/"
-          aria-label="Town of Hope, Maine — home"
+          aria-label={`${townInfo.name} — home`}
           className="flex items-center gap-3 no-underline"
           onClick={() => setMenuOpen(false)}
         >
@@ -34,7 +35,9 @@ export function SiteHeader() {
           />
           <span>
             <span className="block heading-md text-ink">{townInfo.name}</span>
-            <span className="block body-sm text-ink-muted">Incorporated 1804</span>
+            {town.incorporatedYear && (
+              <span className="block body-sm text-ink-muted">Incorporated {town.incorporatedYear}</span>
+            )}
           </span>
         </Link>
 

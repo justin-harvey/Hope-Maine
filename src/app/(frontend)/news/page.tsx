@@ -6,11 +6,11 @@ import { NewsBody } from "@/components/NewsBody";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { getNewsItems } from "@/lib/news";
+import { townDisplayName } from "@/town.config";
 
 export const metadata: Metadata = {
   title: "News",
-  description:
-    "Town announcements, public notices, election information, and meeting warrants for the Town of Hope, Maine.",
+  description: `Town announcements, public notices, election information, and meeting warrants for the ${townDisplayName}.`,
 };
 
 // Rendered at build time and rebuilt by the CMS's afterChange hook when a

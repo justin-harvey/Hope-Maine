@@ -2,6 +2,7 @@ import type { CollectionConfig } from "payload";
 
 import { isStaff } from "../access";
 import { revalidateFrontend } from "../hooks/revalidateFrontend";
+import { town } from "@/town.config";
 
 /**
  * The town's standing boards and committees.
@@ -53,7 +54,7 @@ export const Boards: CollectionConfig = {
     {
       name: "location",
       type: "text",
-      defaultValue: "Hope Town Office",
+      defaultValue: town.contact.officeName,
       admin: { description: "Where it normally meets. An individual meeting can override this." },
     },
     {

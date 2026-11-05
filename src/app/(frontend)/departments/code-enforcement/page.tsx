@@ -12,15 +12,46 @@ import {
   codeEnforcementDocuments,
   issuedBuildingPermits,
 } from "@/data/code-enforcement";
+import { town } from "@/town.config";
 
 export const metadata: Metadata = {
   title: "Code Enforcement Officer & Plumbing Inspector",
-  description:
-    "Contact information, office hours, and permit forms for the Town of Hope Code Enforcement Officer and Local Plumbing Inspector.",
+  description: `Contact information, office hours, and permit forms for the ${town.legalName} Code Enforcement Officer and Local Plumbing Inspector.`,
 };
 
 export default function CodeEnforcementPage() {
   const officer = codeEnforcementOfficer;
+
+  const backLink = (
+    <Link
+      href="/departments"
+      className="inline-flex min-h-[var(--tap-min)] items-center gap-2 body-sm font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+    >
+      <Icon name="chevron-right" size="xs" className="rotate-180" />
+      Back to Departments &amp; Services
+    </Link>
+  );
+
+  // Nothing published yet: show the page honestly rather than a broken card.
+  if (!officer) {
+    return (
+      <>
+        <PageHero
+          eyebrow="Departments & Services"
+          title="Code Enforcement & Plumbing Inspection"
+          description="Building permits, plumbing permits, land use ordinance questions, and code compliance."
+        />
+        <Section>
+          {backLink}
+          <div className="mt-6">
+            <Notice title="Not published yet">
+              Code Enforcement contact details and permit forms have not been published yet.
+            </Notice>
+          </div>
+        </Section>
+      </>
+    );
+  }
 
   return (
     <>
@@ -31,13 +62,7 @@ export default function CodeEnforcementPage() {
       />
 
       <Section>
-        <Link
-          href="/departments"
-          className="inline-flex min-h-[var(--tap-min)] items-center gap-2 body-sm font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px]"
-        >
-          <Icon name="chevron-right" size="xs" className="rotate-180" />
-          Back to Departments &amp; Services
-        </Link>
+        {backLink}
 
         <div className="mt-6 grid gap-8 lg:grid-cols-[20rem_1fr]">
           <Panel strong>
@@ -102,17 +127,19 @@ export default function CodeEnforcementPage() {
               </ul>
             </div>
 
-            <Panel>
-              <h2 className="heading-md text-ink">Issued building permits</h2>
-              <p className="mt-2 measure body-sm text-ink">{issuedBuildingPermits.note}</p>
-              <a
-                href={issuedBuildingPermits.href}
-                className="mt-3 inline-flex min-h-[var(--tap-min)] items-center gap-2 body-sm font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px]"
-              >
-                View issued permits ({issuedBuildingPermits.count})
-                <Icon name="chevron-right" size="xs" />
-              </a>
-            </Panel>
+            {issuedBuildingPermits && (
+              <Panel>
+                <h2 className="heading-md text-ink">Issued building permits</h2>
+                <p className="mt-2 measure body-sm text-ink">{issuedBuildingPermits.note}</p>
+                <a
+                  href={issuedBuildingPermits.href}
+                  className="mt-3 inline-flex min-h-[var(--tap-min)] items-center gap-2 body-sm font-semibold text-blue-link underline underline-offset-2 hover:decoration-[3px]"
+                >
+                  View issued permits ({issuedBuildingPermits.count})
+                  <Icon name="chevron-right" size="xs" />
+                </a>
+              </Panel>
+            )}
           </div>
         </div>
       </Section>

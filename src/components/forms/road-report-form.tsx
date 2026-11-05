@@ -11,6 +11,7 @@ import { CharacterCount } from "@/components/forms/CharacterCount";
 import { ErrorSummary, type FieldError } from "@/components/forms/ErrorSummary";
 import { FormField } from "@/components/forms/FormField";
 import { RadioGroup } from "@/components/forms/RadioGroup";
+import { town } from "@/town.config";
 
 const NETLIFY_FORM_NAME = "road-report";
 const DESCRIPTION_MAX = 800;
@@ -210,8 +211,8 @@ export function RoadReportForm() {
         </p>
         <p className="mt-3 measure body text-ink">
           If the road is dangerous right now and you have not heard back, call the Town Office on{" "}
-          <a href="tel:(207) 763-4199" className="prose-link font-semibold">
-            (207) 763-4199
+          <a href={`tel:${town.contact.phone}`} className="prose-link font-semibold">
+            {town.contact.phone}
           </a>
           . In an emergency, dial 911.
         </p>
@@ -241,7 +242,7 @@ export function RoadReportForm() {
         <div className="mt-4">
           <Notice variant="danger" title="Your report was not sent">
             Something went wrong sending your report, so nothing has been filed. Please try again,
-            or call the Town Office on (207) 763-4199.
+            or call the Town Office on {town.contact.phone}.
           </Notice>
         </div>
       )}

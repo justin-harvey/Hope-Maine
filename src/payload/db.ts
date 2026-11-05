@@ -12,7 +12,9 @@ import { sqliteAdapter } from "@payloadcms/db-sqlite";
  * (Neon and Supabase both have free tiers that comfortably fit this site).
  */
 export function buildDatabaseAdapter() {
-  const uri = process.env.DATABASE_URI ?? "file:./hope-cms.db";
+  // `||`, not `??`: an empty DATABASE_URI (e.g. a blank line in .env) should
+  // fall back to the local SQLite file, not try to connect to "".
+  const uri = process.env.DATABASE_URI || "file:./hope-cms.db";
 
   if (uri.startsWith("postgres://") || uri.startsWith("postgresql://")) {
     return postgresAdapter({ pool: { connectionString: uri } });

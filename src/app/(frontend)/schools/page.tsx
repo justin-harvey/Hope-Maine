@@ -5,11 +5,11 @@ import { Panel } from "@/components/ui/panel";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { schoolsIntro, schoolDistricts } from "@/data/schools";
+import { townDisplayName } from "@/town.config";
 
 export const metadata: Metadata = {
   title: "Schools",
-  description:
-    "School Union 69 and the Five Town Community School District serving the Town of Hope, Maine.",
+  description: `School districts and administrative units serving the ${townDisplayName}.`,
 };
 
 export default function SchoolsPage() {

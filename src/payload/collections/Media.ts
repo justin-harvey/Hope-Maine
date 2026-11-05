@@ -8,9 +8,9 @@ import { isStaff } from "../access";
  * `alt` is required at the schema level, not merely encouraged in a style
  * guide. A rich-text editor is a machine for undoing accessibility work, and
  * an image with no alternative text is the single most common way a
- * compliant page stops being compliant. With ADA Title II putting Hope under
- * WCAG 2.1 AA by 26 April 2027, this needs to be enforced by the software
- * rather than remembered by whoever is covering the front desk.
+ * compliant page stops being compliant. With ADA Title II putting small
+ * towns under WCAG 2.1 AA by 26 April 2027, this needs to be enforced by the
+ * software rather than remembered by whoever is covering the front desk.
  */
 export const Media: CollectionConfig = {
   slug: "media",
@@ -40,7 +40,7 @@ export const Media: CollectionConfig = {
       required: true,
       admin: {
         description:
-          "Describe the image for someone who cannot see it. If it is decorative and adds nothing, say so — e.g. \"Decorative photograph of Hope Corner\".",
+          "Describe the image for someone who cannot see it. If it is decorative and adds nothing, say so — e.g. \"Decorative photograph of the town common\".",
       },
     },
     {

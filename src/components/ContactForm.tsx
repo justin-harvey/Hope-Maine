@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldHint, FieldLabel } from "@/components/ui/field";
 import { Input, Textarea } from "@/components/ui/input";
 import { Notice } from "@/components/ui/notice";
+import { town } from "@/town.config";
 
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -20,8 +21,8 @@ export function ContactForm() {
     >
       {submitted && (
         <Notice variant="warning" title="Not sent">
-          This form is not connected yet. To reach the Town Office today, call (207) 763-4199 or
-          e-mail admin@hopemaine.org.
+          This form is not connected yet. To reach the Town Office today, call {town.contact.phone} or
+          e-mail {town.contact.email}.
         </Notice>
       )}
 

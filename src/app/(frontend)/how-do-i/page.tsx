@@ -5,11 +5,11 @@ import { Icon } from "@/components/ui/icon";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { categoryAnchors, faqsByCategory } from "@/lib/faqs";
+import { townDisplayName } from "@/town.config";
 
 export const metadata: Metadata = {
   title: "How Do I...?",
-  description:
-    "Answers to common questions for Town of Hope, Maine residents — vehicle registration, licenses, vital records, permits, property taxes, voting, and town services.",
+  description: `Answers to common questions for ${townDisplayName} residents — vehicle registration, licenses, vital records, permits, property taxes, voting, and town services.`,
 };
 
 /**

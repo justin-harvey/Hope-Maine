@@ -1,8 +1,35 @@
-# Town of Hope, Maine — Website
-Live: https://hope-maine.netlify.app/
+# A free, accessible municipal website — starter template
 
-A rebuild of the Town of Hope, Maine municipal website, built with Next.js
-(App Router), TypeScript, and Tailwind CSS.
+A complete town website — the public site, meetings and agendas, a document
+library, and a small admin for non-technical staff — built with Next.js
+(App Router), Payload CMS, TypeScript, and Tailwind CSS. It runs on free
+hosting tiers, is accessible by construction, and is configured for a new town
+with a single command.
+
+**This branch is the blank starter template** (a fictional "Anytown, Maine").
+It was built for the Town of Hope, Maine (live at https://hope-maine.netlify.app/)
+and de-branded so any town can adopt it. Every town-specific value lives in one
+file, `src/town.config.ts`; the pages, components, and collections read from it.
+
+## Quick start
+
+```bash
+nvm use 22        # Node 22 is required
+npm install
+npm run setup     # prompts: town name, contact details, timezone, old-site URL (optional)
+npm run dev       # http://localhost:3000, admin at /admin
+```
+
+`npm run setup` writes `src/town.config.ts` and `.env`, generates a
+`PAYLOAD_SECRET`, seeds the first administrator, and prints exactly what still
+needs provisioning (database, file storage, email) before the site can go live.
+
+- **Standing a new town up (developer or volunteer):** [SETUP.md](./SETUP.md) —
+  the start-to-finish checklist for the database, file storage, email, deploy,
+  and DNS.
+- **Running the site day to day (town staff, non-technical):**
+  [EDITOR-GUIDE.md](./EDITOR-GUIDE.md) — post a meeting, add a document, write a
+  notice, cancel a meeting, reset a password, in plain language.
 
 ## For other Maine towns, and why it is free
 
@@ -43,15 +70,14 @@ working for one, is free to take it, host it, and adapt it, at no cost and with 
 strings. It is offered as a contribution in kind to Maine's municipalities: public
 infrastructure, given back to the public.
 
-What it is not yet is a turnkey product a town clerk can stand up alone. Today it
-is Hope's site specifically, and setting up a new town means a developer rebranding
-it, loading the town's own content (the migration toolkit in `tools/` does most of
-that automatically), and setting a handful of environment variables. Closing that
-gap, a blank de-branded template, a guided one-click setup, and a plain-language
-editor guide, is the work that turns "Hope's website" into "any town's website,"
-and it is the work that grant support would fund. The software stays free; the
-funding builds the on-ramp so a town office of five people can adopt it without a
-developer on call.
+The on-ramp that turns "Hope's website" into "any town's website" now exists:
+this de-branded template, the `npm run setup` wizard, and the SETUP and EDITOR
+guides above. A technically-comfortable helper still does the one-time external
+provisioning (a database, file storage, email, and DNS — see SETUP.md), and the
+migration toolkit in `tools/` pulls an existing site's content across largely
+automatically. After that, day-to-day editing needs no developer: it is the
+plain-language work in EDITOR-GUIDE.md. The software stays free; what remains is
+to pilot it with real towns and keep it maintained.
 
 A town interested in using it is welcome to open an issue on this repository.
 
